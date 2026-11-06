@@ -2363,27 +2363,30 @@
     const FIREBASE_DEFAULT_URL = 'https://medicine-reminder-app-7abd9-default-rtdb.asia-southeast1.firebasedatabase.app';
     let cloudSyncUrl = localStorage.getItem('forHer_cloudDbUrl') || (window.CLOUD_SYNC_CONFIG && window.CLOUD_SYNC_CONFIG.databaseUrl) || FIREBASE_DEFAULT_URL;
 
+    function isValidLettersArray(arr) {
+      return Array.isArray(arr) && arr.length > 0 && typeof arr[0] === 'object' && arr[0] !== null && typeof arr[0].letter === 'string' && typeof arr[0].title === 'string';
+    }
+
     function initLoveLetters() {
-      // Load saved letters
       const localDraft = localStorage.getItem('forHer_loveLetters');
+      let loadedValidDraft = false;
       if (localDraft) {
         try {
           const parsed = JSON.parse(localDraft);
-          // Check if local draft is the obsolete generic template
-          const isGenericTemplate = Array.isArray(parsed) && parsed.length > 0 && parsed[0].letter && parsed[0].letter.includes("From the very beginning, having you in my life has made everything brighter");
-          if (!isGenericTemplate && Array.isArray(parsed) && parsed.length > 0) {
-            activeLoveLetters = parsed;
-          } else {
-            // Replace obsolete generic template with the restored personal love letters
-            activeLoveLetters = JSON.parse(JSON.stringify(DEFAULT_LOVE_LETTERS));
-            localStorage.setItem('forHer_loveLetters', JSON.stringify(activeLoveLetters));
+          if (isValidLettersArray(parsed)) {
+            const isGenericTemplate = parsed[0].letter.includes("From the very beginning, having you in my life has made everything brighter");
+            if (!isGenericTemplate) {
+              activeLoveLetters = parsed;
+              loadedValidDraft = true;
+            }
           }
         } catch(e) {
           console.error('Error reading localStorage draft:', e);
-          activeLoveLetters = JSON.parse(JSON.stringify(DEFAULT_LOVE_LETTERS));
         }
-      } else {
-        activeLoveLetters = JSON.parse(JSON.stringify(DEFAULT_LOVE_LETTERS));
+      }
+
+      if (!loadedValidDraft) {
+        activeLoveLetters = JSON.parse(JSON.stringify(window.LOVE_LETTERS_DATA || DEFAULT_LOVE_LETTERS));
         localStorage.setItem('forHer_loveLetters', JSON.stringify(activeLoveLetters));
       }
 
@@ -2436,7 +2439,7 @@
       fetch(cleanUrl + '/letters.json?t=' + Date.now())
         .then(res => res.json())
         .then(data => {
-          if (data && Array.isArray(data) && data.length > 0) {
+          if (isValidLettersArray(data)) {
             activeLoveLetters = data;
             localStorage.setItem('forHer_loveLetters', JSON.stringify(data));
             renderLoveLetters();
@@ -2451,9 +2454,10 @@
         sse.addEventListener('put', function(e) {
           try {
             const parsed = JSON.parse(e.data);
-            if (parsed && parsed.data && Array.isArray(parsed.data)) {
-              activeLoveLetters = parsed.data;
-              localStorage.setItem('forHer_loveLetters', JSON.stringify(parsed.data));
+            const incoming = (parsed && Array.isArray(parsed.data)) ? parsed.data : (Array.isArray(parsed) ? parsed : null);
+            if (isValidLettersArray(incoming)) {
+              activeLoveLetters = incoming;
+              localStorage.setItem('forHer_loveLetters', JSON.stringify(incoming));
               renderLoveLetters();
               showLiveUpdateToast();
             }
