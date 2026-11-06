@@ -1,0 +1,3187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>A Special Delivery For You 💌 | Forever & Always</title>
+  
+  <!-- Google Fonts: Fredoka & Quicksand for cute bubbly headers, Nunito for clean reading, Caveat for handwritten notes -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Fredoka:wght@400;500;600;700&family=Nunito:wght@400;600;700;800&family=Quicksand:wght@500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="love_letters.js?v=1793957788906"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            'milk-bg-start': '#FFF0F5',
+            'milk-bg-end': '#FFE4E1',
+            'cinnamoroll-blue': '#D6F0FF',
+            'cinnamoroll-blue-dark': '#8BCBF5',
+            'bubblegum-pink': '#FF69B4',
+            'pastel-pink': '#FFB6C1',
+            'soft-pink': '#FFD1DC',
+            'deep-rose': '#C71585',
+            'creamy-white': '#FFFDFB',
+            'pastel-lavender': '#E8D7FF',
+            'pastel-yellow': '#FFF5C2',
+          },
+          fontFamily: {
+            bubbly: ['Fredoka', 'Quicksand', 'sans-serif'],
+            heading: ['Quicksand', 'sans-serif'],
+            body: ['Nunito', 'sans-serif'],
+            handwritten: ['Caveat', 'cursive'],
+          },
+          boxShadow: {
+            'kawaii': '0 8px 24px rgba(255, 182, 193, 0.35)',
+            'kawaii-lg': '0 12px 32px rgba(255, 105, 180, 0.28)',
+            'kawaii-glow': '0 0 20px rgba(255, 182, 193, 0.6)',
+            'inner-soft': 'inset 0 2px 6px rgba(255, 255, 255, 0.8)',
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    /* Global Smooth Scrolling & Touch Optimizations */
+    * {
+      -webkit-tap-highlight-color: transparent;
+      user-select: none;
+      box-sizing: border-box;
+    }
+
+    input, textarea {
+      user-select: text;
+    }
+
+    body {
+      background: linear-gradient(180deg, #FFF0F5 0%, #FFE4E1 50%, #FFF0F5 100%);
+      color: #C71585;
+      font-family: 'Nunito', sans-serif;
+      overflow-x: hidden;
+      min-height: 100vh;
+      touch-action: manipulation;
+    }
+
+    /* Custom Scrollbar for Carousel */
+    .hide-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+    .hide-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+
+    /* Frosted Glassmorphism Card Style */
+    .glass-card {
+      background: rgba(255, 255, 255, 0.78);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border: 2px dashed #FFB6C1;
+      border-radius: 28px;
+      box-shadow: 0 8px 24px rgba(255, 182, 193, 0.35);
+    }
+
+    .glass-card-solid {
+      background: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border: 2px solid #FFB6C1;
+      border-radius: 28px;
+      box-shadow: 0 8px 24px rgba(255, 182, 193, 0.35);
+    }
+
+    /* Mascot Animations */
+    @keyframes bobGentle {
+      0%, 100% { transform: translateY(0) rotate(0deg); }
+      50% { transform: translateY(-8px) rotate(2deg); }
+    }
+
+    @keyframes waggleEars {
+      0%, 100% { transform: rotate(0deg); }
+      25% { transform: rotate(-6deg); }
+      75% { transform: rotate(6deg); }
+    }
+
+    @keyframes heartBeat {
+      0%, 100% { transform: scale(1); }
+      14% { transform: scale(1.15); }
+      28% { transform: scale(1); }
+      42% { transform: scale(1.12); }
+      70% { transform: scale(1); }
+    }
+
+    @keyframes waveHand {
+      0%, 100% { transform: rotate(0deg); }
+      50% { transform: rotate(18deg); }
+    }
+
+    @keyframes floatParticle {
+      0% { transform: translateY(0) scale(0.8) rotate(0deg); opacity: 0; }
+      15% { opacity: 0.8; }
+      85% { opacity: 0.8; }
+      100% { transform: translateY(-120px) scale(1.1) rotate(20deg); opacity: 0; }
+    }
+
+    @keyframes pulseGlow {
+      0%, 100% { box-shadow: 0 0 15px rgba(255, 105, 180, 0.4); }
+      50% { box-shadow: 0 0 30px rgba(255, 105, 180, 0.7); }
+    }
+
+    @keyframes stampSlam {
+      0% { transform: scale(2.5) rotate(-25deg); opacity: 0; }
+      50% { transform: scale(0.9) rotate(-12deg); opacity: 0.9; }
+      75% { transform: scale(1.05) rotate(-15deg); opacity: 1; }
+      100% { transform: scale(1) rotate(-12deg); opacity: 1; }
+    }
+
+    @keyframes gachaShake {
+      0%, 100% { transform: rotate(0deg); }
+      20% { transform: rotate(-4deg) translateX(-3px); }
+      40% { transform: rotate(4deg) translateX(3px); }
+      60% { transform: rotate(-3deg) translateX(-2px); }
+      80% { transform: rotate(3deg) translateX(2px); }
+    }
+
+    @keyframes capsuleDrop {
+      0% { transform: translateY(-30px) scale(0.4) rotate(0deg); opacity: 0; }
+      60% { transform: translateY(20px) scale(1.1) rotate(180deg); opacity: 1; }
+      80% { transform: translateY(12px) scale(0.95) rotate(200deg); }
+      100% { transform: translateY(16px) scale(1) rotate(190deg); opacity: 1; }
+    }
+
+    .animate-bob { animation: bobGentle 3.5s ease-in-out infinite; }
+    .animate-bob-fast { animation: bobGentle 2.2s ease-in-out infinite; }
+    .animate-waggle { animation: waggleEars 2s ease-in-out infinite; }
+    .animate-heartbeat { animation: heartBeat 1.8s ease-in-out infinite; }
+    .animate-wave { animation: waveHand 1.6s ease-in-out infinite; transform-origin: bottom center; }
+    .animate-pulse-glow { animation: pulseGlow 2s ease-in-out infinite; }
+
+    /* Perforated Coupon Edge (Scalloped notches on left and right) */
+    .coupon-ticket {
+      position: relative;
+      background: #FFFFFF;
+      border: 2px dashed #FFB6C1;
+      border-radius: 20px;
+      overflow: hidden;
+    }
+    .coupon-ticket::before, .coupon-ticket::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      width: 22px;
+      height: 22px;
+      background: #FFE4E1;
+      border: 2px dashed #FFB6C1;
+      border-radius: 50%;
+      transform: translateY(-50%);
+      z-index: 10;
+    }
+    .coupon-ticket::before {
+      left: -13px;
+    }
+    .coupon-ticket::after {
+      right: -13px;
+    }
+
+    /* Washi Tape Graphic */
+    .washi-tape {
+      position: absolute;
+      top: -12px;
+      left: 50%;
+      transform: translateX(-50%) rotate(-1deg);
+      width: 90px;
+      height: 24px;
+      background: rgba(255, 182, 193, 0.65);
+      backdrop-filter: blur(2px);
+      box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+      clip-path: polygon(4% 0%, 96% 0%, 100% 100%, 0% 100%);
+      z-index: 20;
+    }
+
+    /* Rubber Stamp */
+    .stamp-badge {
+      animation: stampSlam 0.45s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+      border: 3px solid #FF1493;
+      color: #FF1493;
+      text-transform: uppercase;
+      font-weight: 800;
+      letter-spacing: 2px;
+      border-radius: 12px;
+      padding: 4px 12px;
+      display: inline-block;
+      background: rgba(255, 255, 255, 0.95);
+      box-shadow: 0 4px 12px rgba(255, 20, 147, 0.3);
+      transform: rotate(-12deg);
+    }
+
+    /* 3D Envelope Styles */
+    .envelope-perspective {
+      perspective: 1000px;
+    }
+    .envelope-flap {
+      transform-origin: top center;
+      transition: transform 0.85s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .envelope-open .envelope-flap {
+      transform: rotateX(180deg);
+      z-index: 5;
+    }
+    .envelope-letter {
+      transition: transform 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) 0.3s, opacity 0.5s ease 0.3s;
+    }
+    .envelope-open .envelope-letter {
+      transform: translateY(-110px) scale(1.05);
+      opacity: 1;
+      z-index: 25;
+    }
+
+    /* Canvas full screen backgrounds */
+    #sparkleCanvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      pointer-events: none;
+      z-index: 1;
+    }
+    #celebrationCanvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      pointer-events: none;
+      z-index: 9999;
+    }
+  </style>
+</head>
+<body class="relative flex flex-col items-center justify-start min-h-screen">
+
+  <!-- Gentle Ambient Background Floating Sparkles and Hearts Canvas -->
+  <canvas id="sparkleCanvas"></canvas>
+  <!-- Fast 60fps Celebration Confetti (Activated on Finale YES) -->
+  <canvas id="celebrationCanvas"></canvas>
+
+  <!-- ========================================== -->
+  <!-- FLOATING AUDIO & CONTROL BAR (TOP BAR)     -->
+  <!-- ========================================== -->
+  <header class="fixed top-3 left-1/2 -translate-x-1/2 z-40 w-full max-w-[430px] px-4 flex items-center justify-between pointer-events-none">
+    <!-- Sweet Status Badge -->
+    <div class="pointer-events-auto flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/85 backdrop-blur-md border border-pastel-pink shadow-kawaii text-xs font-bold text-bubblegum-pink animate-pulse">
+      <span class="inline-block w-2 h-2 rounded-full bg-pink-500 animate-ping"></span>
+      <span id="headerRecipientBadge">For My Princess 👑</span>
+    </div>
+
+    <!-- Actions (Audio Toggle & Settings Modal) -->
+    <div class="pointer-events-auto flex items-center gap-2">
+      <!-- Music Toggle Button (Web Audio API Synthesizer + Optional MP3) -->
+      <button id="musicToggleBtn" 
+              class="w-10 h-10 rounded-full bg-white/90 backdrop-blur-md border border-pastel-pink shadow-kawaii flex items-center justify-center text-bubblegum-pink transition-all active:scale-90 hover:scale-105"
+              title="Toggle Music Box Melody" aria-label="Toggle Music">
+        <span id="musicIcon" class="text-lg">🎵</span>
+      </button>
+
+      <!-- Personalize / Edit Button -->
+      <button id="customizeBtn" 
+              class="w-10 h-10 rounded-full bg-white/90 backdrop-blur-md border border-pastel-pink shadow-kawaii flex items-center justify-center text-bubblegum-pink transition-all active:scale-90 hover:scale-105"
+              title="Personalize Names & Anniversary Date" aria-label="Settings">
+        <span class="text-lg">⚙️</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- ======================================================= -->
+  <!-- SECTION 1: FULLSCREEN ENVELOPE SPLASH SCREEN (ENTRY GATE)-->
+  <!-- ======================================================= -->
+  <div id="envelopeOverlay" class="fixed inset-0 z-50 flex flex-col items-center justify-center px-4 bg-gradient-to-b from-[#FFF0F5] via-[#FFE4E1] to-[#FFD1DC] transition-all duration-1000">
+    <!-- Floating Mascots Around Envelope -->
+    <div class="absolute top-12 left-6 animate-bob">
+      <!-- Hello Kitty Small Sticker -->
+      <div class="w-16 h-16 drop-shadow-md">
+        <svg viewBox="0 0 100 90" class="w-full h-full">
+          <!-- Ears -->
+          <polygon points="20,38 12,12 36,22" fill="#FFFFFF" stroke="#FFB6C1" stroke-width="3"/>
+          <polygon points="80,38 88,12 64,22" fill="#FFFFFF" stroke="#FFB6C1" stroke-width="3"/>
+          <!-- Head -->
+          <ellipse cx="50" cy="50" rx="42" ry="34" fill="#FFFFFF" stroke="#FFB6C1" stroke-width="3"/>
+          <!-- Eyes -->
+          <ellipse cx="34" cy="52" rx="3.5" ry="5" fill="#333333"/>
+          <ellipse cx="66" cy="52" rx="3.5" ry="5" fill="#333333"/>
+          <!-- Yellow Nose -->
+          <ellipse cx="50" cy="58" rx="4.5" ry="3.5" fill="#FFD700"/>
+          <!-- Whiskers -->
+          <line x1="10" y1="48" x2="24" y2="50" stroke="#333333" stroke-width="2.5" stroke-linecap="round"/>
+          <line x1="8" y1="56" x2="23" y2="56" stroke="#333333" stroke-width="2.5" stroke-linecap="round"/>
+          <line x1="76" y1="50" x2="90" y2="48" stroke="#333333" stroke-width="2.5" stroke-linecap="round"/>
+          <line x1="77" y1="56" x2="92" y2="56" stroke="#333333" stroke-width="2.5" stroke-linecap="round"/>
+          <!-- Hello Kitty Iconic Bow -->
+          <g transform="translate(68, 20) rotate(15)">
+            <ellipse cx="0" cy="0" rx="7" ry="7" fill="#FF1493"/>
+            <path d="M-5 -2 C -18 -16 -20 16 -5 4 Z" fill="#FF69B4" stroke="#FF1493" stroke-width="2"/>
+            <path d="M5 -2 C 18 -16 20 16 5 4 Z" fill="#FF69B4" stroke="#FF1493" stroke-width="2"/>
+            <circle cx="0" cy="0" r="5" fill="#FF1493"/>
+          </g>
+        </svg>
+      </div>
+    </div>
+
+    <div class="absolute top-14 right-6 animate-bob-fast">
+      <!-- Cinnamoroll Small Sticker -->
+      <div class="w-20 h-14 drop-shadow-md">
+        <svg viewBox="0 0 120 80" class="w-full h-full">
+          <!-- Floppy Ears -->
+          <path d="M 35 45 C 10 35 2 55 12 65 C 22 75 32 55 38 48" fill="#FFFFFF" stroke="#D6F0FF" stroke-width="3"/>
+          <path d="M 85 45 C 110 35 118 55 108 65 C 98 75 88 55 82 48" fill="#FFFFFF" stroke="#D6F0FF" stroke-width="3"/>
+          <!-- Head -->
+          <ellipse cx="60" cy="46" rx="36" ry="24" fill="#FFFFFF" stroke="#D6F0FF" stroke-width="3"/>
+          <!-- Blue Eyes -->
+          <ellipse cx="48" cy="45" rx="3.5" ry="4.5" fill="#4AA3E0"/>
+          <ellipse cx="72" cy="45" rx="3.5" ry="4.5" fill="#4AA3E0"/>
+          <circle cx="47" cy="43" r="1.5" fill="#FFFFFF"/>
+          <circle cx="71" cy="43" r="1.5" fill="#FFFFFF"/>
+          <!-- Pink Cheeks -->
+          <ellipse cx="40" cy="52" rx="5" ry="3" fill="#FFAAA6" opacity="0.8"/>
+          <ellipse cx="80" cy="52" rx="5" ry="3" fill="#FFAAA6" opacity="0.8"/>
+          <!-- Smile -->
+          <path d="M 57 51 Q 60 54 63 51" stroke="#4AA3E0" stroke-width="2" fill="none" stroke-linecap="round"/>
+        </svg>
+      </div>
+    </div>
+
+    <!-- Top Romantic Prompt -->
+    <div class="text-center mb-6">
+      <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/80 border border-pastel-pink shadow-kawaii text-xs font-bold text-deep-rose mb-3">
+        <span>✨ Priority Airmail From My Heart ✨</span>
+      </div>
+      <h1 class="text-2xl sm:text-3xl font-bubbly font-bold text-deep-rose tracking-wide">
+        Special Delivery for
+      </h1>
+      <h2 id="envelopeRecipientName" class="text-3xl sm:text-4xl font-bubbly font-bold text-bubblegum-pink drop-shadow-sm mt-1">
+        My Sweetheart 💌
+      </h2>
+      <p class="text-xs text-rose-400 mt-1 font-semibold">Contains 100% pure unconditional love & cuddles</p>
+    </div>
+
+    <!-- Interactive Envelope Container -->
+    <div id="envelopeCard" class="envelope-perspective relative w-[310px] h-[220px] sm:w-[340px] sm:h-[235px] cursor-pointer group">
+      
+      <!-- Hidden Letter Inside (Slides out on click) -->
+      <div id="envelopeLetter" class="envelope-letter absolute inset-x-3 top-3 bottom-3 bg-white rounded-2xl p-4 shadow-xl border-2 border-dashed border-pastel-pink flex flex-col items-center justify-center text-center opacity-0 pointer-events-none">
+        <span class="text-3xl animate-bounce">💖</span>
+        <h3 class="font-bubbly font-bold text-bubblegum-pink text-lg mt-1">Dearest Sweetheart,</h3>
+        <p class="font-handwritten text-xl text-deep-rose mt-1 leading-snug">
+          "You are my sweetest dream come true. Let's make today unforgettable!"
+        </p>
+        <span class="text-xs text-pink-400 font-bold mt-2">Opening your romantic surprise... ✨</span>
+      </div>
+
+      <!-- Envelope Body (Back & Pockets) -->
+      <div class="relative w-full h-full rounded-2xl bg-[#FFC0CB] shadow-kawaii-lg border-2 border-[#FFB6C1] overflow-hidden flex flex-col justify-end">
+        
+        <!-- Back Inner Lining (Pastel Heart Pattern) -->
+        <div class="absolute inset-0 bg-[#FFE4E1] opacity-75">
+          <div class="w-full h-full opacity-30" style="background-image: radial-gradient(#FF69B4 1.5px, transparent 1.5px); background-size: 14px 14px;"></div>
+        </div>
+
+        <!-- Envelope Side Folds (Left & Right triangles) -->
+        <div class="absolute inset-0 z-10 pointer-events-none">
+          <svg viewBox="0 0 340 235" class="w-full h-full preserve-3d" preserveAspectRatio="none">
+            <!-- Left Fold -->
+            <polygon points="0,0 170,135 0,235" fill="#FFB6C1" opacity="0.95"/>
+            <!-- Right Fold -->
+            <polygon points="340,0 170,135 340,235" fill="#FFAEC9" opacity="0.95"/>
+            <!-- Bottom Fold -->
+            <polygon points="0,235 170,115 340,235" fill="#FF9EBE" stroke="#FF85AA" stroke-width="1.5"/>
+          </svg>
+        </div>
+
+        <!-- Cinnamoroll Postage Stamp on Envelope (Top Right) -->
+        <div class="absolute top-4 right-4 z-20 w-14 h-16 bg-white border-2 border-dashed border-bubblegum-pink rounded-md p-1 shadow-sm flex flex-col items-center justify-between rotate-3">
+          <div class="text-[9px] font-bold text-bubblegum-pink tracking-tighter">LOVE POST</div>
+          <div class="w-8 h-6">
+            <!-- Mini Cinnamoroll Head -->
+            <svg viewBox="0 0 100 60" class="w-full h-full">
+              <path d="M 28 35 C 5 25 0 45 10 52 C 18 58 25 45 30 40" fill="#FFFFFF" stroke="#8BCBF5" stroke-width="2"/>
+              <path d="M 72 35 C 95 25 100 45 90 52 C 82 58 75 45 70 40" fill="#FFFFFF" stroke="#8BCBF5" stroke-width="2"/>
+              <ellipse cx="50" cy="38" rx="26" ry="18" fill="#FFFFFF" stroke="#8BCBF5" stroke-width="2"/>
+              <circle cx="42" cy="38" r="2.5" fill="#4AA3E0"/>
+              <circle cx="58" cy="38" r="2.5" fill="#4AA3E0"/>
+              <ellipse cx="36" cy="44" rx="4" ry="2" fill="#FFAAA6"/>
+              <ellipse cx="64" cy="44" rx="4" ry="2" fill="#FFAAA6"/>
+            </svg>
+          </div>
+          <div class="text-[8px] font-bold text-pink-400">FOREVER ¢</div>
+        </div>
+
+        <!-- Postmark Cancellation Heart Stamp -->
+        <div class="absolute top-6 right-16 z-20 pointer-events-none opacity-60 -rotate-12">
+          <div class="w-12 h-12 rounded-full border-2 border-bubblegum-pink flex flex-col items-center justify-center text-[7px] font-bold text-bubblegum-pink">
+            <span>OFFICIAL</span>
+            <span>💖 CUDDLES 💖</span>
+            <span>DATE STAMP</span>
+          </div>
+        </div>
+
+        <!-- Triangular Envelope Flap (Top, rotates up in 3D) -->
+        <div class="envelope-flap absolute inset-x-0 top-0 h-[135px] z-20">
+          <svg viewBox="0 0 340 135" class="w-full h-full drop-shadow-md" preserveAspectRatio="none">
+            <polygon points="0,0 340,0 170,135" fill="#FFB1CA" stroke="#FF8EA8" stroke-width="1.5"/>
+          </svg>
+
+          <!-- Hello Kitty Bow Wax Seal Button (Click Target) -->
+          <div class="absolute left-1/2 bottom-0 -translate-x-1/2 translate-y-1/2 z-30 transition-transform duration-300 group-hover:scale-110 active:scale-95">
+            <div class="w-14 h-14 rounded-full bg-gradient-to-tr from-bubblegum-pink to-rose-400 p-1 shadow-kawaii-lg border-2 border-white flex items-center justify-center animate-pulse">
+              <!-- SVG Ribbon Bow -->
+              <svg viewBox="0 0 100 80" class="w-9 h-9">
+                <ellipse cx="50" cy="40" rx="14" ry="14" fill="#FFFFFF"/>
+                <path d="M 38 40 C 5 15 5 65 38 45 Z" fill="#FFFFFF"/>
+                <path d="M 62 40 C 95 15 95 65 62 45 Z" fill="#FFFFFF"/>
+                <circle cx="50" cy="40" r="8" fill="#FF1493"/>
+                <circle cx="50" cy="40" r="5" fill="#FFFFFF"/>
+              </svg>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Tap to Open Hint -->
+    <div class="mt-8 flex flex-col items-center">
+      <button id="openEnvelopeBtn" class="flex items-center gap-2 px-6 py-3 rounded-full bg-white/90 backdrop-blur-md border-2 border-pastel-pink shadow-kawaii-lg text-deep-rose font-bubbly font-bold text-sm tracking-wide transition-all active:scale-95 hover:bg-white animate-bounce">
+        <span>Tap The Bow Seal To Open</span>
+        <span class="text-base">🎀</span>
+      </button>
+      <span class="text-xs text-rose-400 mt-2 font-medium">Sound will play upon opening 🎶</span>
+    </div>
+  </div>
+
+  <!-- ======================================================= -->
+  <!-- DESKTOP DECORATIVE WINGS (VISIBLE ONLY ON LARGE SCREENS)  -->
+  <!-- ======================================================= -->
+  <aside class="hidden xl:flex fixed left-8 top-24 z-30 w-72 flex-col gap-4 pointer-events-none select-none">
+    <div class="glass-card-solid p-5 pointer-events-auto flex flex-col items-center text-center shadow-kawaii transform -rotate-1 hover:rotate-0 transition-all duration-300">
+      <div class="w-16 h-12 mb-2 animate-bob">
+        <svg viewBox="0 0 120 80" class="w-full h-full">
+          <path d="M 35 45 C 10 35 2 55 12 65 C 22 75 32 55 38 48" fill="#FFFFFF" stroke="#D6F0FF" stroke-width="3"/>
+          <path d="M 85 45 C 110 35 118 55 108 65 C 98 75 88 55 82 48" fill="#FFFFFF" stroke="#D6F0FF" stroke-width="3"/>
+          <ellipse cx="60" cy="46" rx="36" ry="24" fill="#FFFFFF" stroke="#D6F0FF" stroke-width="3"/>
+          <ellipse cx="48" cy="45" rx="3.5" ry="4.5" fill="#4AA3E0"/>
+          <ellipse cx="72" cy="45" rx="3.5" ry="4.5" fill="#4AA3E0"/>
+          <circle cx="47" cy="43" r="1.5" fill="#FFFFFF"/>
+          <circle cx="71" cy="43" r="1.5" fill="#FFFFFF"/>
+          <ellipse cx="40" cy="52" rx="5" ry="3" fill="#FFAAA6"/>
+          <ellipse cx="80" cy="52" rx="5" ry="3" fill="#FFAAA6"/>
+          <path d="M 57 51 Q 60 54 63 51" stroke="#4AA3E0" stroke-width="2" fill="none" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <h3 class="font-bubbly font-bold text-deep-rose text-base">Cinnamoroll Dispatch ☁️</h3>
+      <p class="text-xs text-rose-500 font-medium mt-1">
+        "You are my favorite thought every morning and my sweetest dream every night."
+      </p>
+      <div class="mt-3 px-3 py-1 rounded-full bg-cinnamoroll-blue/60 text-[10px] font-bold text-blue-800">
+        100% Pure Love Guaranteed 🍓
+      </div>
+    </div>
+
+    <div class="glass-card p-4 pointer-events-auto flex items-center gap-3 shadow-sm text-left">
+      <span class="text-2xl animate-pulse">🎵</span>
+      <div>
+        <h4 class="font-bubbly font-bold text-deep-rose text-xs">Kawaii Music Box</h4>
+        <p class="text-[10px] text-rose-400">Click the 🎵 top button to hear our dreamy lullaby</p>
+      </div>
+    </div>
+  </aside>
+
+  <aside class="hidden xl:flex fixed right-8 top-24 z-30 w-72 flex-col gap-4 pointer-events-none select-none">
+    <div class="glass-card-solid p-5 pointer-events-auto flex flex-col items-center text-center shadow-kawaii transform rotate-1 hover:rotate-0 transition-all duration-300">
+      <div class="w-14 h-14 mb-2 animate-bob-fast">
+        <svg viewBox="0 0 100 90" class="w-full h-full">
+          <polygon points="20,38 12,12 36,22" fill="#FFFFFF" stroke="#FFB6C1" stroke-width="3"/>
+          <polygon points="80,38 88,12 64,22" fill="#FFFFFF" stroke="#FFB6C1" stroke-width="3"/>
+          <ellipse cx="50" cy="50" rx="42" ry="34" fill="#FFFFFF" stroke="#FFB6C1" stroke-width="3"/>
+          <ellipse cx="34" cy="52" rx="3.5" ry="5" fill="#333333"/>
+          <ellipse cx="66" cy="52" rx="3.5" ry="5" fill="#333333"/>
+          <ellipse cx="50" cy="58" rx="4.5" ry="3.5" fill="#FFD700"/>
+          <g transform="translate(68, 20) rotate(15)">
+            <ellipse cx="0" cy="0" rx="7" ry="7" fill="#FF1493"/>
+            <path d="M-5 -2 C -18 -16 -20 16 -5 4 Z" fill="#FF69B4"/>
+            <path d="M5 -2 C 18 -16 20 16 5 4 Z" fill="#FF69B4"/>
+            <circle cx="0" cy="0" r="5" fill="#FF1493"/>
+          </g>
+        </svg>
+      </div>
+      <h3 class="font-bubbly font-bold text-deep-rose text-base">Hello Kitty Guide 🎀</h3>
+      <ul class="text-left text-xs text-rose-500 font-medium space-y-1.5 mt-2">
+        <li class="flex items-center gap-1.5">
+          <span>✨</span>
+          <span>Tap anywhere on screen for sparkles</span>
+        </li>
+        <li class="flex items-center gap-1.5">
+          <span>📸</span>
+          <span>Swipe memories & tap to inspect</span>
+        </li>
+        <li class="flex items-center gap-1.5">
+          <span>🎰</span>
+          <span>Dispense love capsules from the jar</span>
+        </li>
+        <li class="flex items-center gap-1.5">
+          <span>🎟️</span>
+          <span>Read our romantic love letters</span>
+        </li>
+      </ul>
+      <div class="mt-3 px-3 py-1 rounded-full bg-pink-100 text-[10px] font-bold text-bubblegum-pink">
+        Click ⚙️ to personalize names & dates
+      </div>
+    </div>
+  </aside>
+
+  <!-- ======================================================= -->
+  <!-- MAIN APP CONTAINER (MOBILE FIRST: 375px - 430px)        -->
+  <!-- Centered with max-w-[430px] for crisp mobile viewports  -->
+  <!-- ======================================================= -->
+  <main id="mainApp" class="w-full max-w-[430px] px-4 pt-16 pb-24 flex flex-col gap-8 transition-opacity duration-700 opacity-0 relative z-10">
+
+    <!-- ======================================================= -->
+    <!-- SECTION 2: HERO BANNER & RELATIONSHIP COUNTER           -->
+    <!-- ======================================================= -->
+    <section class="w-full glass-card p-5 relative overflow-hidden flex flex-col items-center text-center">
+      <!-- Decorative Pastel Confetti Background inside Card -->
+      <div class="absolute -right-6 -top-6 w-24 h-24 rounded-full bg-pastel-yellow/30 blur-xl pointer-events-none"></div>
+      <div class="absolute -left-6 -bottom-6 w-24 h-24 rounded-full bg-cinnamoroll-blue/40 blur-xl pointer-events-none"></div>
+
+      <!-- Mascot Sticker: Bobbing Cinnamoroll Holding Heart -->
+      <div class="relative w-36 h-28 my-1">
+        <div class="w-full h-full animate-bob">
+          <svg viewBox="0 0 160 120" class="w-full h-full drop-shadow-sm">
+            <!-- Left Floppy Ear with waggle -->
+            <path d="M 45 60 C 15 45 0 70 12 85 C 24 100 40 75 48 65" fill="#FFFFFF" stroke="#BCE3FA" stroke-width="3" stroke-linecap="round"/>
+            <!-- Right Floppy Ear -->
+            <path d="M 115 60 C 145 45 160 70 148 85 C 136 100 120 75 112 65" fill="#FFFFFF" stroke="#BCE3FA" stroke-width="3" stroke-linecap="round"/>
+            
+            <!-- Chubby Body -->
+            <ellipse cx="80" cy="78" rx="28" ry="22" fill="#FFFFFF" stroke="#BCE3FA" stroke-width="3"/>
+            
+            <!-- Curly Tail Peeking Left -->
+            <path d="M 52 85 C 44 85 42 93 48 95 C 54 97 56 88 52 85" fill="#FFFFFF" stroke="#BCE3FA" stroke-width="2.5"/>
+
+            <!-- Cute Paws Holding Heart -->
+            <circle cx="68" cy="78" r="6" fill="#FFFFFF" stroke="#BCE3FA" stroke-width="2"/>
+            <circle cx="92" cy="78" r="6" fill="#FFFFFF" stroke="#BCE3FA" stroke-width="2"/>
+
+            <!-- Head -->
+            <ellipse cx="80" cy="52" rx="42" ry="28" fill="#FFFFFF" stroke="#BCE3FA" stroke-width="3"/>
+            
+            <!-- Big Innocent Blue Eyes -->
+            <ellipse cx="66" cy="52" rx="4.5" ry="6" fill="#3D9FE0"/>
+            <ellipse cx="94" cy="52" rx="4.5" ry="6" fill="#3D9FE0"/>
+            <circle cx="65" cy="49" r="2" fill="#FFFFFF"/>
+            <circle cx="93" cy="49" r="2" fill="#FFFFFF"/>
+
+            <!-- Rosy Kawaii Cheeks -->
+            <ellipse cx="56" cy="60" rx="7" ry="4" fill="#FFAAA6" opacity="0.85"/>
+            <ellipse cx="104" cy="60" rx="7" ry="4" fill="#FFAAA6" opacity="0.85"/>
+
+            <!-- Smile -->
+            <path d="M 76 58 Q 80 62 84 58" stroke="#3D9FE0" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+
+            <!-- Pulsing Beating Heart Held in Hands -->
+            <g transform="translate(80, 82) scale(0.95)" class="animate-heartbeat">
+              <path d="M 0 -8 C -14 -24 -24 0 0 20 C 24 0 14 -24 0 -8 Z" fill="#FF1493"/>
+              <!-- Heart Sheen / Highlight -->
+              <ellipse cx="-4" cy="-5" rx="3" ry="6" transform="rotate(-30, -4, -5)" fill="#FFFFFF" opacity="0.6"/>
+            </g>
+          </svg>
+        </div>
+      </div>
+
+      <!-- Hero Title -->
+      <div class="mt-1">
+        <span class="inline-block px-3 py-1 rounded-full bg-cinnamoroll-blue/70 text-blue-800 text-xs font-bold tracking-wider uppercase mb-1">
+          Forever & Always With You
+        </span>
+        <h2 class="text-2xl font-bubbly font-bold text-deep-rose leading-tight">
+          Every Second With You Is Pure Magic ✨
+        </h2>
+        <p class="text-xs text-rose-500 font-medium mt-1">
+          Counting every sweet heartbeat since the day you stole my heart 💕
+        </p>
+      </div>
+
+      <!-- Live Relationship Counter -->
+      <div class="w-full mt-5 pt-4 border-t-2 border-dashed border-pastel-pink/60">
+        <div class="flex items-center justify-between text-xs font-bold text-rose-400 mb-3 px-1">
+          <span>💖 OUR LOVE TIMELINE</span>
+          <span id="anniversaryLabel" class="text-bubblegum-pink font-semibold">Since Feb 14, 2024</span>
+        </div>
+
+        <!-- Counter Grid (Days, Hours, Minutes, Seconds) -->
+        <div class="grid grid-cols-4 gap-2 w-full">
+          <!-- Days Pill -->
+          <div class="flex flex-col items-center justify-center p-2 rounded-2xl bg-gradient-to-b from-white to-pink-50 border border-pastel-pink shadow-sm">
+            <span id="daysCount" class="font-bubbly text-2xl font-bold text-deep-rose tracking-tight">000</span>
+            <span class="text-[10px] uppercase font-bold text-rose-400 mt-0.5">Days</span>
+          </div>
+
+          <!-- Hours Pill -->
+          <div class="flex flex-col items-center justify-center p-2 rounded-2xl bg-gradient-to-b from-white to-sky-50 border border-cinnamoroll-blue-dark/50 shadow-sm">
+            <span id="hoursCount" class="font-bubbly text-2xl font-bold text-blue-600 tracking-tight">00</span>
+            <span class="text-[10px] uppercase font-bold text-blue-400 mt-0.5">Hours</span>
+          </div>
+
+          <!-- Minutes Pill -->
+          <div class="flex flex-col items-center justify-center p-2 rounded-2xl bg-gradient-to-b from-white to-yellow-50 border border-amber-200 shadow-sm">
+            <span id="minutesCount" class="font-bubbly text-2xl font-bold text-amber-600 tracking-tight">00</span>
+            <span class="text-[10px] uppercase font-bold text-amber-400 mt-0.5">Mins</span>
+          </div>
+
+          <!-- Seconds Pill -->
+          <div class="flex flex-col items-center justify-center p-2 rounded-2xl bg-gradient-to-b from-white to-pink-50 border border-bubblegum-pink shadow-sm animate-pulse">
+            <span id="secondsCount" class="font-bubbly text-2xl font-bold text-bubblegum-pink tracking-tight">00</span>
+            <span class="text-[10px] uppercase font-bold text-pink-400 mt-0.5">Secs</span>
+          </div>
+        </div>
+
+        <!-- Sweet Milestone Banner -->
+        <div class="mt-3.5 py-1.5 px-3 rounded-full bg-rose-50 border border-rose-200/60 flex items-center justify-center gap-1.5 text-xs text-deep-rose font-semibold">
+          <span>🍓</span>
+          <span id="loveMilestoneText">...and falling more in love every single day!</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- CUTE BOW DIVIDER 1                         -->
+    <!-- ========================================== -->
+    <div class="w-full flex items-center justify-center gap-2 py-1">
+      <div class="h-[2px] flex-1 bg-gradient-to-r from-transparent via-pastel-pink to-transparent"></div>
+      <div class="w-8 h-8 flex items-center justify-center text-bubblegum-pink animate-bounce">
+        <!-- SVG Mini Ribbon Bow -->
+        <svg viewBox="0 0 100 80" class="w-6 h-6">
+          <ellipse cx="50" cy="40" rx="14" ry="14" fill="#FF69B4"/>
+          <path d="M 38 40 C 5 15 5 65 38 45 Z" fill="#FFB6C1" stroke="#FF69B4" stroke-width="2"/>
+          <path d="M 62 40 C 95 15 95 65 62 45 Z" fill="#FFB6C1" stroke="#FF69B4" stroke-width="2"/>
+          <circle cx="50" cy="40" r="7" fill="#FF1493"/>
+        </svg>
+      </div>
+      <div class="h-[2px] flex-1 bg-gradient-to-r from-transparent via-pastel-pink to-transparent"></div>
+    </div>
+
+    <!-- ======================================================= -->
+    <!-- SECTION 3: POLAROID MEMORY CAROUSEL (SWIPEABLE)         -->
+    <!-- ======================================================= -->
+    <section class="w-full flex flex-col">
+      <!-- Section Header with My Melody Mascot -->
+      <div class="flex items-center justify-between mb-3 px-1">
+        <div class="flex items-center gap-2">
+          <!-- My Melody SVG Icon -->
+          <div class="w-8 h-8 animate-bob">
+            <svg viewBox="0 0 100 100" class="w-full h-full">
+              <!-- Hood Ears -->
+              <ellipse cx="32" cy="22" rx="10" ry="20" fill="#FF69B4" transform="rotate(-10, 32, 22)"/>
+              <ellipse cx="68" cy="22" rx="10" ry="20" fill="#FF69B4" transform="rotate(10, 68, 22)"/>
+              <!-- Hood Head -->
+              <ellipse cx="50" cy="55" rx="36" ry="32" fill="#FF69B4"/>
+              <!-- Face Hole -->
+              <ellipse cx="50" cy="58" rx="25" ry="22" fill="#FFFFFF"/>
+              <!-- Eyes -->
+              <ellipse cx="40" cy="58" rx="2.5" ry="3.5" fill="#333333"/>
+              <ellipse cx="60" cy="58" rx="2.5" ry="3.5" fill="#333333"/>
+              <!-- Nose -->
+              <ellipse cx="50" cy="63" rx="3" ry="2" fill="#FFD700"/>
+              <!-- Daisy Flower on Ear -->
+              <g transform="translate(68, 38)">
+                <circle cx="-5" cy="0" r="3" fill="#FFFFFF"/>
+                <circle cx="5" cy="0" r="3" fill="#FFFFFF"/>
+                <circle cx="0" cy="-5" r="3" fill="#FFFFFF"/>
+                <circle cx="0" cy="5" r="3" fill="#FFFFFF"/>
+                <circle cx="0" cy="0" r="3" fill="#FFD700"/>
+              </g>
+            </svg>
+          </div>
+          <div>
+            <h3 class="text-xl font-bubbly font-bold text-deep-rose">Our Sweet Memories</h3>
+            <p class="text-[11px] text-rose-400 font-semibold">Swipe left to look through our photos 📷</p>
+          </div>
+        </div>
+
+        <!-- Swipe Indicator Pill -->
+        <div class="flex items-center gap-2">
+          <button onclick="openAddMemoryModal()" class="px-3 py-1.5 rounded-full bg-gradient-to-r from-pink-500 to-rose-400 text-white border border-pastel-pink text-xs font-bubbly font-bold shadow-sm transition active:scale-95 flex items-center gap-1 hover:shadow-md">
+            <span>➕</span>
+            <span>Add Memory</span>
+          </button>
+          <span class="px-2.5 py-1 rounded-full bg-pink-100 border border-pastel-pink text-[10px] font-bold text-bubblegum-pink hidden sm:inline-block">
+            Swipe ➔
+          </span>
+        </div>
+      </div>
+
+      <!-- Horizontal Polaroid Carousel -->
+      <div id="polaroidTrack" class="flex gap-4 overflow-x-auto pb-4 pt-4 px-2 snap-x snap-mandatory hide-scrollbar">
+        <!-- Dynamically rendered 17 memories -->
+      </div>
+
+      <!-- Quick carousel scroll buttons & status indicator -->
+      <div class="flex items-center justify-center gap-3 mt-2">
+        <button onclick="scrollPolaroid(-1)" class="w-9 h-9 rounded-full bg-white/90 border border-pastel-pink shadow-sm flex items-center justify-center text-bubblegum-pink active:scale-90 font-bold hover:bg-pink-50" aria-label="Previous memory">
+          ‹
+        </button>
+        <div class="px-3.5 py-1 rounded-full bg-white/90 border border-pastel-pink shadow-sm text-xs font-bold text-bubblegum-pink">
+          Memory <span id="currentMemoryNum">1</span> of <span id="totalMemoryNum">17</span> 💕
+        </div>
+        <button onclick="scrollPolaroid(1)" class="w-9 h-9 rounded-full bg-white/90 border border-pastel-pink shadow-sm flex items-center justify-center text-bubblegum-pink active:scale-90 font-bold hover:bg-pink-50" aria-label="Next memory">
+          ›
+        </button>
+      </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- CUTE BOW DIVIDER 2                         -->
+    <!-- ========================================== -->
+    <div class="w-full flex items-center justify-center gap-2 py-1">
+      <div class="h-[2px] flex-1 bg-gradient-to-r from-transparent via-pastel-pink to-transparent"></div>
+      <div class="w-8 h-8 flex items-center justify-center text-bubblegum-pink animate-bounce">
+        <svg viewBox="0 0 100 80" class="w-6 h-6">
+          <ellipse cx="50" cy="40" rx="14" ry="14" fill="#FF69B4"/>
+          <path d="M 38 40 C 5 15 5 65 38 45 Z" fill="#FFB6C1" stroke="#FF69B4" stroke-width="2"/>
+          <path d="M 62 40 C 95 15 95 65 62 45 Z" fill="#FFB6C1" stroke="#FF69B4" stroke-width="2"/>
+          <circle cx="50" cy="40" r="7" fill="#FF1493"/>
+        </svg>
+      </div>
+      <div class="h-[2px] flex-1 bg-gradient-to-r from-transparent via-pastel-pink to-transparent"></div>
+    </div>
+
+    <!-- ======================================================= -->
+    <!-- SECTION 4: "REASONS WHY I LOVE YOU" GACHA / HEART JAR   -->
+    <!-- ======================================================= -->
+    <section class="w-full glass-card p-5 relative overflow-hidden flex flex-col items-center text-center">
+      <!-- Section Title -->
+      <div class="flex items-center gap-2 mb-1">
+        <span class="text-xl">🎰</span>
+        <h3 class="text-xl font-bubbly font-bold text-deep-rose">Love Capsule Gacha</h3>
+        <span class="text-xl">🎀</span>
+      </div>
+      <p class="text-xs text-rose-400 font-semibold mb-4">
+        Turn the crank to dispense a sweet reason why I adore you!
+      </p>
+
+      <!-- Pastel Gacha Machine Graphic -->
+      <div id="gachaContainer" class="relative w-[180px] h-[210px] flex flex-col items-center">
+        <!-- Glass Globe Filled with Colorful Heart Capsules -->
+        <div id="gachaGlobe" class="relative w-[150px] h-[135px] rounded-full bg-gradient-to-b from-white/90 via-pink-50/70 to-pink-100/90 border-4 border-pastel-pink shadow-inner-soft overflow-hidden flex items-center justify-center">
+          
+          <!-- Gloss Sheen on Globe -->
+          <div class="absolute top-2 left-4 w-12 h-6 rounded-full bg-white/70 rotate-[-25deg] blur-[1px]"></div>
+
+          <!-- Little Capsules / Heart Candies Inside Globe -->
+          <div class="relative w-full h-full flex flex-wrap items-center justify-center p-3 gap-1.5 opacity-90">
+            <span class="text-2xl animate-bob">💖</span>
+            <span class="text-xl animate-bob-fast" style="animation-delay: 0.3s">💙</span>
+            <span class="text-2xl animate-bob" style="animation-delay: 0.6s">💛</span>
+            <span class="text-xl animate-bob-fast" style="animation-delay: 0.9s">💜</span>
+            <span class="text-2xl animate-bob" style="animation-delay: 0.4s">🤍</span>
+            <span class="text-xl animate-bob-fast" style="animation-delay: 0.7s">🍓</span>
+            <span class="text-2xl animate-bob" style="animation-delay: 0.2s">🌸</span>
+          </div>
+        </div>
+
+        <!-- Gacha Machine Base & Dispenser Chute -->
+        <div class="relative w-[170px] h-[85px] bg-gradient-to-b from-[#FFAEC9] to-[#FF8DAF] rounded-b-3xl border-4 border-[#FF8DAF] shadow-kawaii flex flex-col items-center justify-between p-2">
+          
+          <!-- Cute Turning Knob / Heart Dial -->
+          <div class="w-10 h-10 rounded-full bg-white border-2 border-pastel-pink shadow-sm flex items-center justify-center text-bubblegum-pink font-bold -mt-3 animate-spin" style="animation-duration: 12s;">
+            <span>🌸</span>
+          </div>
+
+          <!-- Dispense Chute Hole -->
+          <div class="w-14 h-8 rounded-lg bg-pink-950/20 border-2 border-white/60 flex items-center justify-center relative overflow-hidden">
+            <span id="dispensedCapsuleGhost" class="text-lg opacity-0 transition-all duration-500">💌</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Dispense Button (Min Height 48px for Thumb Navigation) -->
+      <button id="dispenseLoveBtn" 
+              onclick="dispenseLoveNote()"
+              class="w-full mt-5 min-h-[50px] py-3.5 px-6 rounded-2xl bg-gradient-to-r from-bubblegum-pink via-pink-400 to-rose-400 text-white font-bubbly font-bold text-sm tracking-wide shadow-kawaii-lg flex items-center justify-center gap-2 transition-all active:scale-95 hover:shadow-kawaii-glow">
+        <span>Dispense Love Note 🎀</span>
+        <span class="text-base">✨</span>
+      </button>
+
+      <!-- Collection Progress Tracker -->
+      <div class="flex items-center justify-between w-full mt-3 px-2 text-[11px] font-bold text-rose-400">
+        <span id="gachaCounter">Collected: 0 / 10 Notes</span>
+        <span class="text-bubblegum-pink">💖 Collect them all!</span>
+      </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- CUTE BOW DIVIDER 3                         -->
+    <!-- ========================================== -->
+    <div class="w-full flex items-center justify-center gap-2 py-1">
+      <div class="h-[2px] flex-1 bg-gradient-to-r from-transparent via-pastel-pink to-transparent"></div>
+      <div class="w-8 h-8 flex items-center justify-center text-bubblegum-pink animate-bounce">
+        <svg viewBox="0 0 100 80" class="w-6 h-6">
+          <ellipse cx="50" cy="40" rx="14" ry="14" fill="#FF69B4"/>
+          <path d="M 38 40 C 5 15 5 65 38 45 Z" fill="#FFB6C1" stroke="#FF69B4" stroke-width="2"/>
+          <path d="M 62 40 C 95 15 95 65 62 45 Z" fill="#FFB6C1" stroke="#FF69B4" stroke-width="2"/>
+          <circle cx="50" cy="40" r="7" fill="#FF1493"/>
+        </svg>
+      </div>
+      <div class="h-[2px] flex-1 bg-gradient-to-r from-transparent via-pastel-pink to-transparent"></div>
+    </div>
+
+    <!-- ======================================================= -->
+    <!-- SECTION 5: ROMANTIC LOVE MESSAGES & PROMISES            -->
+    <!-- ======================================================= -->
+    <section class="w-full flex flex-col" id="loveLettersSection">
+      <!-- Section Header with Hello Kitty Mascot & Editor Mode Button -->
+      <div class="flex items-center justify-between mb-3 px-1">
+        <div class="flex items-center gap-2">
+          <!-- Mini Hello Kitty Mascot -->
+          <div class="w-8 h-8 animate-bob-fast">
+            <svg viewBox="0 0 100 90" class="w-full h-full">
+              <polygon points="20,38 12,12 36,22" fill="#FFFFFF" stroke="#FFB6C1" stroke-width="3"/>
+              <polygon points="80,38 88,12 64,22" fill="#FFFFFF" stroke="#FFB6C1" stroke-width="3"/>
+              <ellipse cx="50" cy="50" rx="42" ry="34" fill="#FFFFFF" stroke="#FFB6C1" stroke-width="3"/>
+              <ellipse cx="34" cy="52" rx="3.5" ry="5" fill="#333333"/>
+              <ellipse cx="66" cy="52" rx="3.5" ry="5" fill="#333333"/>
+              <ellipse cx="50" cy="58" rx="4.5" ry="3.5" fill="#FFD700"/>
+              <g transform="translate(68, 20) rotate(15)">
+                <ellipse cx="0" cy="0" rx="7" ry="7" fill="#FF1493"/>
+                <path d="M-5 -2 C -18 -16 -20 16 -5 4 Z" fill="#FF69B4" stroke="#FF1493" stroke-width="2"/>
+                <path d="M5 -2 C 18 -16 20 16 5 4 Z" fill="#FF69B4" stroke="#FF1493" stroke-width="2"/>
+                <circle cx="0" cy="0" r="4" fill="#FF1493"/>
+              </g>
+            </svg>
+          </div>
+          <div>
+            <h3 class="font-bubbly font-bold text-deep-rose text-lg leading-tight">Sweet Love Letters</h3>
+            <p class="font-body text-[11px] text-deep-rose/70">From our hearts to each other, forever 💌</p>
+          </div>
+        </div>
+
+        <!-- Boyfriend Writer Mode Button -->
+        <button id="toggleEditorBtn" onclick="toggleLetterEditor()" class="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/90 hover:bg-white text-bubblegum-pink border border-pastel-pink text-xs font-bubbly font-bold shadow-sm transition active:scale-95" title="Write & customize our love letters">
+          <span id="editorBtnIcon">✏️</span>
+          <span id="editorBtnText">Our Love Notes</span>
+        </button>
+      </div>
+
+      <!-- Editor Mode Notification / Action Toolbar (Shown in Boyfriend Mode) -->
+      <div id="editorToolbar" class="hidden mb-4 p-3.5 rounded-3xl bg-white/95 border-2 border-dashed border-bubblegum-pink shadow-lg animate-fade-in">
+        <div class="flex items-center justify-between mb-2">
+          <div class="flex items-center gap-2">
+            <span class="text-base animate-bounce">💖</span>
+            <span class="font-bubbly font-bold text-deep-rose text-xs">Our Love Letters Writer 💌</span>
+          </div>
+          <span id="serverStatusBadge" class="text-[10px] font-bold px-2.5 py-0.5 rounded-full bg-pink-100 text-bubblegum-pink border border-pastel-pink/70">Checking Server...</span>
+        </div>
+        <p class="font-body text-[11px] text-deep-rose/80 mb-3 leading-relaxed">
+          Write your sweet love letters under each picture below! Both of you can write, add, and save your personal notes here.
+        </p>
+        <div class="flex flex-wrap items-center gap-2">
+          <!-- ➕ Add New Letter Button -->
+          <button onclick="addNewLetterCard()" class="min-h-[46px] px-4 py-2 rounded-2xl bg-gradient-to-r from-pink-500 to-rose-400 text-white font-bubbly font-bold text-xs shadow-md hover:shadow-lg active:scale-95 flex items-center gap-1.5 transition">
+            <span>➕</span>
+            <span>Add New Letter</span>
+          </button>
+
+          <!-- 💾 Save All to Site Button -->
+          <button onclick="saveAllLoveLetters()" class="flex-1 min-h-[46px] px-4 py-2 rounded-2xl bg-gradient-to-r from-emerald-500 to-teal-500 text-white font-bubbly font-bold text-xs shadow-md hover:shadow-lg active:scale-95 flex items-center justify-center gap-1.5 transition">
+            <span>💾</span>
+            <span>Save All to Site</span>
+          </button>
+
+          <!-- ↺ Revert All Button -->
+          <button onclick="revertAllLetters()" class="min-h-[46px] px-3.5 py-2 rounded-2xl bg-amber-50 hover:bg-amber-100 text-amber-800 font-bubbly font-bold text-xs border border-amber-200 transition flex items-center gap-1 shadow-sm" title="Revert all letters to original defaults">
+            <span>↺</span>
+            <span>Revert All</span>
+          </button>
+
+          <!-- ☁️ Cloud Live Sync Button -->
+          <button onclick="openCloudSyncModal()" class="min-h-[46px] px-3.5 py-2 rounded-2xl bg-sky-50 hover:bg-sky-100 text-sky-700 font-bubbly font-bold text-xs border border-sky-200 transition flex items-center gap-1 shadow-sm">
+            <span>☁️</span>
+            <span>Live Sync</span>
+          </button>
+
+          <!-- 👁️ Girlfriend Preview Button -->
+          <button onclick="toggleLetterEditor(false)" class="min-h-[46px] px-3.5 py-2 rounded-2xl bg-pink-50 hover:bg-pink-100 text-deep-rose font-bubbly font-semibold text-xs border border-pastel-pink/70 transition">
+            <span>👁️ Reader View</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Container for Love Letter Cards (Dynamically populated) -->
+      <div id="loveLettersContainer" class="flex flex-col gap-4">
+        <!-- Rendered by renderLoveLetters() -->
+      </div>
+
+      <!-- Bottom Toolbar in Editor Mode -->
+      <div id="editorBottomToolbar" class="hidden mt-4 flex items-center justify-between gap-2 p-3 rounded-2xl bg-white/80 border border-pastel-pink">
+        <button onclick="saveAllLoveLetters()" class="flex-1 min-h-[44px] px-4 py-2 rounded-xl bg-bubblegum-pink text-white font-bubbly font-bold text-xs shadow-sm hover:bg-pink-500 active:scale-95 flex items-center justify-center gap-1.5">
+          <span>💾 Save Changes</span>
+        </button>
+        <button onclick="copyLettersCode()" class="px-3 min-h-[44px] rounded-xl bg-pink-100 text-deep-rose font-bubbly font-bold text-xs border border-pastel-pink hover:bg-pink-200">
+          <span>📋 Copy Code</span>
+        </button>
+      </div>
+    </section>
+
+    <!-- Cute Ribbon Divider -->
+    <div class="w-full flex items-center justify-center my-6">
+      <div class="h-[1px] w-1/4 bg-pastel-pink/60"></div>
+      <div class="mx-3 text-bubblegum-pink text-xs">୨୧ 🎀 ୨୧</div>
+      <div class="h-[1px] w-1/4 bg-pastel-pink/60"></div>
+    </div>
+<!-- ======================================================= -->
+    <!-- SECTION 6: THE CUTE QUESTION (INTERACTIVE FINALE)       -->
+    <!-- ======================================================= -->
+    <section id="questionSection" class="w-full glass-card-solid p-6 relative overflow-hidden flex flex-col items-center text-center">
+      
+      <!-- Pleading Cinnamoroll Mascot -->
+      <div class="relative w-40 h-32 my-1">
+        <div class="w-full h-full animate-bob">
+          <svg viewBox="0 0 160 120" class="w-full h-full drop-shadow-md">
+            <!-- Floppy Ears with pleading flutter -->
+            <path d="M 42 62 C 10 50 -2 75 10 90 C 22 105 38 80 46 68" fill="#FFFFFF" stroke="#BCE3FA" stroke-width="3"/>
+            <path d="M 118 62 C 150 50 162 75 150 90 C 138 105 122 80 114 68" fill="#FFFFFF" stroke="#BCE3FA" stroke-width="3"/>
+            
+            <ellipse cx="80" cy="80" rx="28" ry="22" fill="#FFFFFF" stroke="#BCE3FA" stroke-width="3"/>
+            
+            <!-- Paws Holding a Romantic Rose -->
+            <circle cx="68" cy="80" r="6" fill="#FFFFFF" stroke="#BCE3FA" stroke-width="2"/>
+            <circle cx="92" cy="80" r="6" fill="#FFFFFF" stroke="#BCE3FA" stroke-width="2"/>
+
+            <!-- Rose SVG -->
+            <g transform="translate(80, 80) scale(0.9)">
+              <path d="M 0 5 Q 0 16 -3 20" stroke="#48B365" stroke-width="3" fill="none"/>
+              <circle cx="0" cy="4" r="8" fill="#FF1493"/>
+              <circle cx="-2" cy="2" r="5" fill="#FF69B4"/>
+              <path d="M -6 12 Q -12 10 -10 16 Q -4 14 -6 12" fill="#48B365"/>
+            </g>
+
+            <!-- Head -->
+            <ellipse cx="80" cy="52" rx="42" ry="28" fill="#FFFFFF" stroke="#BCE3FA" stroke-width="3"/>
+            
+            <!-- Huge Pleading Sparkle Eyes -->
+            <ellipse cx="65" cy="50" rx="6" ry="8" fill="#3D9FE0"/>
+            <ellipse cx="95" cy="50" rx="6" ry="8" fill="#3D9FE0"/>
+            <!-- Big Sparkle Highlights -->
+            <circle cx="63" cy="47" r="3" fill="#FFFFFF"/>
+            <circle cx="67" cy="53" r="1.5" fill="#FFFFFF"/>
+            <circle cx="93" cy="47" r="3" fill="#FFFFFF"/>
+            <circle cx="97" cy="53" r="1.5" fill="#FFFFFF"/>
+
+            <!-- Blushing Cheeks -->
+            <ellipse cx="54" cy="58" rx="8" ry="5" fill="#FFAAA6" opacity="0.9"/>
+            <ellipse cx="106" cy="58" rx="8" ry="5" fill="#FFAAA6" opacity="0.9"/>
+
+            <!-- Shy Pleading Smile -->
+            <path d="M 75 58 Q 80 64 85 58" stroke="#3D9FE0" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+          </svg>
+        </div>
+      </div>
+
+      <!-- Question Text -->
+      <div class="mt-2 mb-6">
+        <span class="inline-block px-3 py-1 rounded-full bg-pink-100 text-deep-rose text-xs font-bold tracking-wide mb-2">
+          🥺 One Very Important Question...
+        </span>
+        <h2 class="text-2xl sm:text-3xl font-bubbly font-bold text-deep-rose leading-snug">
+          Will you be my forever Valentine & Date tonight? 💍💖
+        </h2>
+        <p class="text-xs text-rose-400 font-semibold mt-1.5" id="dodgeFeedbackText">
+          (There is only one correct answer, my love!)
+        </p>
+      </div>
+
+      <!-- Interactive Button Arena (Supports dodging button) -->
+      <div id="buttonArena" class="relative w-full min-h-[90px] flex items-center justify-center gap-4 py-2">
+        
+        <!-- Big Yes Button (Grows bigger on dodge) -->
+        <button id="yesBtn" 
+                onclick="handleYesClick()"
+                class="min-h-[52px] px-8 py-3.5 rounded-full bg-gradient-to-r from-bubblegum-pink via-rose-400 to-pink-500 text-white font-bubbly font-bold text-base shadow-kawaii-lg animate-pulse-glow transition-all duration-300 active:scale-95 flex items-center justify-center gap-2 z-20">
+          <span>YES! 💖</span>
+          <span class="text-lg">✨</span>
+        </button>
+
+        <!-- Playful Dodge "No" Button -->
+        <button id="noBtn" 
+                class="min-h-[48px] px-6 py-2.5 rounded-full bg-rose-100/90 border border-pastel-pink text-rose-500 font-bubbly font-bold text-sm shadow-sm transition-all duration-200 z-10 flex items-center justify-center gap-1 active:scale-90">
+          <span>No 😢</span>
+        </button>
+
+      </div>
+    </section>
+
+    <!-- Footer Copyright & Sweet Note -->
+    <footer class="w-full text-center text-xs text-rose-400/80 font-medium pb-8 flex flex-col items-center gap-1">
+      <div class="flex items-center gap-1">
+        <span>Handcrafted with all my love</span>
+        <span class="text-bubblegum-pink animate-pulse">💖</span>
+        <span>Just for you</span>
+      </div>
+      <p class="text-[10px] text-pink-300">Sanrio-inspired Kawaii Gift App • Forever & Ever</p>
+    </footer>
+
+  </main>
+
+  <!-- ======================================================= -->
+  <!-- MODAL: GACHA LOVE NOTE POPUP CARD                      -->
+  <!-- ======================================================= -->
+  <div id="loveNoteModal" class="fixed inset-0 z-50 flex items-center justify-center px-4 bg-black/40 backdrop-blur-sm opacity-0 pointer-events-none transition-opacity duration-300">
+    <div class="relative w-full max-w-[340px] bg-white rounded-3xl p-6 shadow-2xl border-4 border-pastel-pink text-center transform scale-90 transition-transform duration-300 flex flex-col items-center">
+      
+      <!-- Washi Tape Header -->
+      <div class="washi-tape" style="top: -14px; background: rgba(255, 105, 180, 0.75);"></div>
+
+      <!-- Mascot Badge -->
+      <div class="w-16 h-16 -mt-3 mb-2 animate-bounce">
+        <svg viewBox="0 0 100 100" class="w-full h-full">
+          <circle cx="50" cy="50" r="42" fill="#FFE4E1" stroke="#FF69B4" stroke-width="3"/>
+          <text x="50" y="58" font-size="34" text-anchor="middle">💌</text>
+        </svg>
+      </div>
+
+      <span class="text-xs uppercase font-bold text-bubblegum-pink tracking-widest">Love Note Capsule</span>
+      <h3 id="noteModalNumber" class="text-lg font-bubbly font-bold text-deep-rose mt-0.5">Reason #1</h3>
+      
+      <!-- Heart Note Message -->
+      <div class="w-full my-4 p-4 rounded-2xl bg-gradient-to-b from-pink-50/70 to-rose-50 border border-pastel-pink/60">
+        <p id="noteModalContent" class="font-handwritten text-2xl text-deep-rose leading-relaxed">
+          "The way your eyes crinkle when you laugh at my silly jokes."
+        </p>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="w-full flex gap-2">
+        <button onclick="closeLoveNoteModal()" class="flex-1 min-h-[48px] py-2.5 rounded-2xl bg-pink-100 text-deep-rose font-bubbly font-bold text-xs hover:bg-pink-200 active:scale-95 transition-all">
+          Keep In Heart 🌸
+        </button>
+        <button onclick="dispenseLoveNote()" class="flex-1 min-h-[48px] py-2.5 rounded-2xl bg-gradient-to-r from-bubblegum-pink to-rose-400 text-white font-bubbly font-bold text-xs shadow-md active:scale-95 transition-all">
+          Another One 🎀
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======================================================= -->
+  <!-- MODAL: PHOTO ENLARGED PREVIEW                          -->
+  <!-- ======================================================= -->
+  <div id="photoModal" class="fixed inset-0 z-50 flex items-center justify-center px-4 bg-black/60 backdrop-blur-sm opacity-0 pointer-events-none transition-opacity duration-300" onclick="closePhotoModal()">
+    <div class="relative w-full max-w-[360px] bg-white rounded-3xl p-5 shadow-2xl border-4 border-pastel-pink text-center transform scale-90 transition-transform duration-300 max-h-[92vh] overflow-y-auto" onclick="event.stopPropagation()">
+      <div id="modalPhotoContainer" class="w-full flex flex-col items-center justify-center">
+        <!-- Injected dynamically in openPhotoModal() -->
+      </div>
+
+      <div class="mt-4 flex items-center justify-between px-1 pt-2 border-t border-dashed border-pink-100">
+        <span class="text-xs text-rose-400 font-semibold">💖 Tap outside to close</span>
+        <button onclick="closePhotoModal()" class="px-4 py-2 rounded-xl bg-pink-100 text-deep-rose text-xs font-bold hover:bg-pink-200 active:scale-95">
+          Close ✕
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======================================================= -->
+  <!-- MODAL: CELEBRATION FINAL LOVE LETTER POPUP             -->
+  <!-- ======================================================= -->
+  
+  <!-- ======================================================= -->
+  <!-- MODAL: LOVE MESSAGE FULL LETTER POPUP                  -->
+  <!-- ======================================================= -->
+  <div id="loveMessageModal" class="fixed inset-0 z-50 flex items-center justify-center px-4 bg-black/60 backdrop-blur-sm opacity-0 pointer-events-none transition-opacity duration-300" onclick="closeLoveLetterModal()">
+    <div class="relative w-full max-w-[360px] bg-white rounded-3xl p-5 shadow-2xl border-4 border-pastel-pink text-center transform scale-90 transition-transform duration-300 max-h-[92vh] overflow-y-auto" onclick="event.stopPropagation()">
+      <!-- Sticky Top-Right Quick Close Button (Always visible without scrolling) -->
+      <div class="sticky top-0 z-30 flex justify-end -mt-1 -mr-1 mb-2">
+        <button onclick="closeLoveLetterModal()" class="w-8 h-8 rounded-full bg-pink-100/90 hover:bg-pink-200 text-deep-rose font-bold text-sm shadow-sm border border-pastel-pink flex items-center justify-center active:scale-90 transition" title="Close">
+          ✕
+        </button>
+      </div>
+
+      <div id="loveMessageModalContainer" class="w-full flex flex-col items-center justify-center">
+        <!-- Dynamically injected in openLoveLetterModal() -->
+      </div>
+
+      <div class="mt-4 flex items-center justify-between px-1 pt-2 border-t border-dashed border-pink-100">
+        <span class="text-xs text-rose-400 font-semibold">💖 Tap outside to close</span>
+        <button onclick="closeLoveLetterModal()" class="px-4 py-2 rounded-xl bg-pink-100 text-deep-rose text-xs font-bold hover:bg-pink-200 active:scale-95 transition">
+          Close ✕
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div id="celebrationModal" class="fixed inset-0 z-50 flex items-center justify-center px-4 bg-black/60 backdrop-blur-md opacity-0 pointer-events-none transition-all duration-500">
+    <div class="relative w-full max-w-[360px] bg-white rounded-3xl p-6 shadow-2xl border-4 border-bubblegum-pink text-center transform scale-90 transition-transform duration-500 flex flex-col items-center max-h-[90vh] overflow-y-auto">
+      
+      <!-- Top Ribbon Badge -->
+      <div class="washi-tape" style="top: -14px; background: rgba(255, 20, 147, 0.85); width: 120px;"></div>
+
+      <span class="text-4xl animate-bounce mt-2">💍🎉💖</span>
+      <h2 class="text-2xl font-bubbly font-bold text-deep-rose mt-2">
+        SHE SAID YES!
+      </h2>
+      <p class="text-xs text-bubblegum-pink font-bold">Official Certified Date of a Lifetime</p>
+
+      <!-- Romantic Love Letter Content -->
+      <div class="w-full my-4 p-4 rounded-2xl bg-gradient-to-b from-pink-50 via-rose-50 to-pink-100 border-2 border-dashed border-pastel-pink text-left">
+        <p class="font-bubbly text-xs font-bold text-rose-400">To My Dearest Girlfriend,</p>
+        <p class="font-handwritten text-2xl text-deep-rose leading-relaxed mt-2">
+          "Thank you for choosing me every single day. Being by your side is my greatest blessing, my sweetest joy, and my favorite adventure. I promise to always protect your smile, hold your hand through every season, and love you more and more forever."
+        </p>
+        <div class="mt-4 pt-3 border-t border-dashed border-pink-200 flex items-center justify-between">
+          <div class="flex flex-col">
+            <span class="text-[10px] text-rose-400 font-bold uppercase">Forever Yours,</span>
+            <span id="finalSignatureName" class="font-bubbly text-sm font-bold text-bubblegum-pink">Your Loving Boyfriend 💕</span>
+          </div>
+          <!-- Wax Seal Graphic -->
+          <div class="w-10 h-10 rounded-full bg-rose-500 border-2 border-white shadow flex items-center justify-center text-white text-xs font-bold">
+            🎀
+          </div>
+        </div>
+      </div>
+
+      <!-- Action Buttons -->
+      <button onclick="triggerCelebrationConfetti(); playFanfareSound();" 
+              class="w-full min-h-[48px] py-3 rounded-2xl bg-gradient-to-r from-bubblegum-pink to-rose-400 text-white font-bubbly font-bold text-sm shadow-kawaii active:scale-95 transition-all flex items-center justify-center gap-2 mb-2">
+        <span>More Confetti! 🎉</span>
+      </button>
+
+      <button onclick="closeCelebrationModal()" 
+              class="w-full min-h-[44px] py-2 rounded-2xl bg-pink-100 text-deep-rose font-bubbly font-bold text-xs hover:bg-pink-200 active:scale-95 transition-all">
+        Back to Our Love App 🌸
+      </button>
+    </div>
+  </div>
+
+  <!-- ======================================================= -->
+  <!-- MODAL: PERSONALIZATION SETTINGS (NAMES & ANNIVERSARY)   -->
+  <!-- ======================================================= -->
+  <div id="customizeModal" class="fixed inset-0 z-50 flex items-center justify-center px-4 bg-black/40 backdrop-blur-sm opacity-0 pointer-events-none transition-opacity duration-300">
+    <div class="relative w-full max-w-[340px] bg-white rounded-3xl p-6 shadow-2xl border-4 border-pastel-pink text-left transform scale-90 transition-transform duration-300 flex flex-col gap-4" onclick="event.stopPropagation()">
+      <div class="flex items-center justify-between border-b pb-2 border-pink-100">
+        <h3 class="font-bubbly font-bold text-deep-rose text-lg">Personalize Your Gift 🎀</h3>
+        <button onclick="closeCustomizeModal()" class="text-rose-400 font-bold text-sm">✕</button>
+      </div>
+
+      <!-- Girlfriend Name -->
+      <div>
+        <label class="block text-xs font-bold text-deep-rose mb-1">Her Name / Nickname:</label>
+        <input id="inputGirlfriendName" type="text" placeholder="e.g. Princess, My Sweetheart, Sarah" 
+               class="w-full px-3 py-2 rounded-xl border border-pastel-pink bg-pink-50/50 text-deep-rose font-bubbly text-sm focus:outline-none focus:ring-2 focus:ring-bubblegum-pink">
+      </div>
+
+      <!-- Your Name -->
+      <div>
+        <label class="block text-xs font-bold text-deep-rose mb-1">Your Name / Signature:</label>
+        <input id="inputYourName" type="text" placeholder="e.g. Your Boyfriend" 
+               class="w-full px-3 py-2 rounded-xl border border-pastel-pink bg-pink-50/50 text-deep-rose font-bubbly text-sm focus:outline-none focus:ring-2 focus:ring-bubblegum-pink">
+      </div>
+
+      <!-- Anniversary Date -->
+      <div>
+        <label class="block text-xs font-bold text-deep-rose mb-1">Relationship Start Date:</label>
+        <input id="inputAnniversaryDate" type="date" 
+               class="w-full px-3 py-2 rounded-xl border border-pastel-pink bg-pink-50/50 text-deep-rose font-bubbly text-sm focus:outline-none focus:ring-2 focus:ring-bubblegum-pink">
+      </div>
+
+      <div class="flex gap-2 pt-2">
+        <button onclick="savePersonalization()" class="flex-1 min-h-[46px] py-2.5 rounded-2xl bg-gradient-to-r from-bubblegum-pink to-rose-400 text-white font-bubbly font-bold text-xs shadow-md active:scale-95 transition-all">
+          Save With Love 💖
+        </button>
+        <button onclick="closeCustomizeModal()" class="px-4 min-h-[46px] rounded-2xl bg-pink-100 text-deep-rose font-bubbly font-bold text-xs active:scale-95 transition-all">
+          Cancel
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Audio Element (Optional fallback or user mp3) -->
+  <audio id="bgmAudio" loop preload="none">
+    <!-- Replace the src with your own romantic MP3 URL if desired: -->
+    <!-- <source src="your-song.mp3" type="audio/mp3"> -->
+  </audio>
+
+  <!-- ======================================================= -->
+  <!-- JAVASCRIPT LOGIC & WEB AUDIO API SYNTHESIZER           -->
+  <!-- ======================================================= -->
+  <script>
+    /* =======================================================
+     * 1. CONFIGURATION & STATE
+     * ======================================================= */
+    const CONFIG = {
+      defaultGirlfriendName: "Aseh",
+      defaultYourName: "Manoj",
+      defaultAnniversaryDate: "2022-05-26", // YYYY-MM-DD
+    };
+
+    let userConfig = {
+      girlfriendName: localStorage.getItem('forHer_name') || CONFIG.defaultGirlfriendName,
+      yourName: localStorage.getItem('forHer_yourName') || CONFIG.defaultYourName,
+      anniversaryDate: localStorage.getItem('forHer_date') || CONFIG.defaultAnniversaryDate,
+    };
+
+    // 10 Romantic Reasons for Gacha Dispenser
+    const LOVE_REASONS = [
+      "The way your eyes sparkle and crinkle whenever you laugh uncontrollably at silly jokes.",
+      "How warm and safe my hand feels when it slips into yours during our quiet evening walks.",
+      "Your beautiful heart and the pure kindness you show to every animal and soul you meet.",
+      "The adorable little dances and humming songs you do when your favorite food arrives.",
+      "How you always know the exact right time to wrap me up in the warmest, tightest hug.",
+      "Your infectious smile that can instantly turn my worst, most exhausting day into pure sunshine.",
+      "How passionate and glowing you look whenever you talk about things you genuinely love.",
+      "The quiet moments when we look at each other across the room and know exactly what the other is thinking.",
+      "How you make even ordinary grocery trips and car rides feel like the best adventure.",
+      "Simply because you are my home, my peace, my greatest blessing, and my best friend in the entire universe."
+    ];
+
+    // Polaroid Memories Data (Loaded from our real memories)
+    const MEMORIES_DATA = [
+  {
+    "src": "images/NOV 11 2022 STORY START.jpeg",
+    "episode": "Episode I",
+    "subtitle": "The First Spark",
+    "caption": "the day everything changed",
+    "date": "Nov 11, 2022",
+    "rotate": -2.5,
+    "washi": "rgba(255, 182, 193, 0.85)"
+  },
+  {
+    "src": "images/relationship_status.jpg",
+    "episode": "Episode II",
+    "subtitle": "It's Official",
+    "caption": "in a relationship with Manoj D Aseh 💙",
+    "date": "It's Official",
+    "rotate": 2.2,
+    "washi": "rgba(214, 240, 255, 0.85)"
+  },
+  {
+    "src": "images/MAY 26 2022.jpeg",
+    "episode": "Episode III",
+    "subtitle": "Where It All Began",
+    "caption": "our story starts here, remember?",
+    "date": "May 26, 2022",
+    "rotate": -1.8,
+    "washi": "rgba(255, 245, 194, 0.85)"
+  },
+  {
+    "src": "images/WhatsApp Image 2026-07-31 at 10.46.35 AM.jpeg",
+    "episode": "Episode IV",
+    "subtitle": "Worlds Apart, Hearts Close",
+    "caption": "still smiling after all this time",
+    "date": "July 31, 2026",
+    "rotate": 2,
+    "washi": "rgba(232, 215, 255, 0.85)"
+  },
+  {
+    "src": "images/WhatsApp Image 2026-07-31 at 10.46.32 AM (2).jpeg",
+    "episode": "Episode V",
+    "subtitle": "Stolen Glances",
+    "caption": "you, always you",
+    "date": "Sweet Moments",
+    "rotate": -2.2,
+    "washi": "rgba(255, 182, 193, 0.85)"
+  },
+  {
+    "src": "images/WhatsApp Image 2026-07-31 at 10.46.32 AM.jpeg",
+    "episode": "Episode VI",
+    "subtitle": "Across the Distance",
+    "caption": "the longest days feel short with you",
+    "date": "Across the Miles",
+    "rotate": 2.3,
+    "washi": "rgba(214, 240, 255, 0.85)"
+  },
+  {
+    "src": "images/WhatsApp Image 2026-07-31 at 10.46.33 AM (1).jpeg",
+    "episode": "Episode VII",
+    "subtitle": "Hearts Aligned",
+    "caption": "two hearts, one signal",
+    "date": "Hearts Aligned",
+    "rotate": -1.5,
+    "washi": "rgba(255, 245, 194, 0.85)"
+  },
+  {
+    "src": "images/WhatsApp Image 2026-07-31 at 10.46.33 AM (2).jpeg",
+    "episode": "Episode VIII",
+    "subtitle": "Quiet Warmth",
+    "caption": "warmth in every pixel",
+    "date": "Quiet Warmth",
+    "rotate": 2,
+    "washi": "rgba(232, 215, 255, 0.85)"
+  },
+  {
+    "src": "images/WhatsApp Image 2026-07-31 at 10.46.33 AM.jpeg",
+    "episode": "Episode IX",
+    "subtitle": "Unspoken Words",
+    "caption": "what I never said but always meant",
+    "date": "Unspoken Words",
+    "rotate": -2.4,
+    "washi": "rgba(255, 182, 193, 0.85)"
+  },
+  {
+    "src": "images/WhatsApp Image 2026-07-31 at 10.46.34 AM (1).jpeg",
+    "episode": "Episode X",
+    "subtitle": "A Thousand Miles",
+    "caption": "miles mean nothing to us",
+    "date": "A Thousand Miles",
+    "rotate": 1.8,
+    "washi": "rgba(214, 240, 255, 0.85)"
+  },
+  {
+    "src": "images/WhatsApp Image 2026-07-31 at 10.46.34 AM.jpeg",
+    "episode": "Episode XI",
+    "subtitle": "The Promise",
+    "caption": "forever is just starting",
+    "date": "The Promise",
+    "rotate": -2,
+    "washi": "rgba(255, 245, 194, 0.85)"
+  },
+  {
+    "src": "images/WhatsApp Image 2026-07-31 at 10.46.35 AM (1).jpeg",
+    "episode": "Episode XII",
+    "subtitle": "Tender Gravity",
+    "caption": "gravity always brings me back to you",
+    "date": "Tender Gravity",
+    "rotate": 2.2,
+    "washi": "rgba(232, 215, 255, 0.85)"
+  },
+  {
+    "src": "images/WhatsApp Image 2026-07-31 at 10.46.35 AM (2).jpeg",
+    "episode": "Episode XIII",
+    "subtitle": "Still Here",
+    "caption": "still here, still yours",
+    "date": "Still Here",
+    "rotate": -1.7,
+    "washi": "rgba(255, 182, 193, 0.85)"
+  },
+  {
+    "src": "images/letter_dearest_bestie.jpg",
+    "episode": "Episode XIV",
+    "subtitle": "Written From The Heart",
+    "caption": "\"i'll love you till the last breath\" 🖊️",
+    "date": "Dearest Bestie",
+    "rotate": 2.1,
+    "washi": "rgba(214, 240, 255, 0.85)"
+  },
+  {
+    "src": "images/anime_drawing_love.jpg",
+    "episode": "Episode XV",
+    "subtitle": "You Were Always The One",
+    "caption": "she drew this. she meant every word 🎨",
+    "date": "Her Drawing",
+    "rotate": -2.2,
+    "washi": "rgba(255, 245, 194, 0.85)"
+  },
+  {
+    "src": "images/birthday_notebook.jpg",
+    "episode": "Episode XVI",
+    "subtitle": "Iniya Piranta Nal",
+    "caption": "how i always wanted to wish you 🎂",
+    "date": "Birthday Wish",
+    "rotate": 1.9,
+    "washi": "rgba(232, 215, 255, 0.85)"
+  },
+  {
+    "src": "images/MARCH 8 2026.jpeg",
+    "episode": "Episode XVII",
+    "subtitle": "Forever Counting",
+    "caption": "counting down to when there's no more counting",
+    "date": "March 8, 2026",
+    "rotate": -2.1,
+    "washi": "rgba(255, 182, 193, 0.85)"
+  }
+];
+
+    let gachaHistory = JSON.parse(localStorage.getItem('forHer_gachaNotes') || '[]');
+    // Love messages state
+    let likedMessages = JSON.parse(localStorage.getItem('forHer_likedMessages') || '{}');
+    let isMusicPlaying = false;
+    let dodgeCount = 0;
+
+    /* =======================================================
+     * 2. WEB AUDIO API SYNTHESIZER (No external audio files needed!)
+     * ======================================================= */
+    let audioCtx = null;
+    let bgmInterval = null;
+
+    function getAudioContext() {
+      if (!audioCtx) {
+        const AudioContext = window.AudioContext || window.webkitAudioContext;
+        audioCtx = new AudioContext();
+      }
+      if (audioCtx.state === 'suspended') {
+        audioCtx.resume();
+      }
+      return audioCtx;
+    }
+
+    // Cute Chime Sound (For Envelope Open)
+    function playChimeSound() {
+      try {
+        const ctx = getAudioContext();
+        const notes = [523.25, 659.25, 783.99, 1046.50, 1318.51]; // C5, E5, G5, C6, E6
+        notes.forEach((freq, idx) => {
+          const osc = ctx.createOscillator();
+          const gain = ctx.createGain();
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(freq, ctx.currentTime + idx * 0.08);
+          
+          gain.gain.setValueAtTime(0, ctx.currentTime + idx * 0.08);
+          gain.gain.linearRampToValueAtTime(0.2, ctx.currentTime + idx * 0.08 + 0.02);
+          gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + idx * 0.08 + 0.6);
+          
+          osc.connect(gain);
+          gain.connect(ctx.destination);
+          
+          osc.start(ctx.currentTime + idx * 0.08);
+          osc.stop(ctx.currentTime + idx * 0.08 + 0.7);
+        });
+      } catch(e) {}
+    }
+
+    // Cute Bubble Pop Sound (For Gacha Dispense & Buttons)
+    function playPopSound() {
+      try {
+        const ctx = getAudioContext();
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(800, ctx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(300, ctx.currentTime + 0.12);
+        
+        gain.gain.setValueAtTime(0.3, ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.12);
+        
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        
+        osc.start(ctx.currentTime);
+        osc.stop(ctx.currentTime + 0.13);
+      } catch(e) {}
+    }
+
+    // Heavy Stamp Thud Sound (For Coupon Redemption)
+    function playStampSound() {
+      try {
+        const ctx = getAudioContext();
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.type = 'triangle';
+        osc.frequency.setValueAtTime(140, ctx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(40, ctx.currentTime + 0.18);
+        
+        gain.gain.setValueAtTime(0.4, ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.18);
+        
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        
+        osc.start(ctx.currentTime);
+        osc.stop(ctx.currentTime + 0.19);
+      } catch(e) {}
+    }
+
+    // Joyful Celebration Fanfare (When Clicking YES!)
+    function playFanfareSound() {
+      try {
+        const ctx = getAudioContext();
+        const notes = [
+          { f: 523.25, t: 0.0, d: 0.15 },
+          { f: 659.25, t: 0.15, d: 0.15 },
+          { f: 783.99, t: 0.30, d: 0.15 },
+          { f: 1046.50, t: 0.45, d: 0.4 },
+          { f: 880.00, t: 0.75, d: 0.15 },
+          { f: 1046.50, t: 0.90, d: 0.6 }
+        ];
+        notes.forEach(n => {
+          const osc = ctx.createOscillator();
+          const gain = ctx.createGain();
+          osc.type = 'triangle';
+          osc.frequency.setValueAtTime(n.f, ctx.currentTime + n.t);
+          
+          gain.gain.setValueAtTime(0, ctx.currentTime + n.t);
+          gain.gain.linearRampToValueAtTime(0.25, ctx.currentTime + n.t + 0.02);
+          gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + n.t + n.d);
+          
+          osc.connect(gain);
+          gain.connect(ctx.destination);
+          
+          osc.start(ctx.currentTime + n.t);
+          osc.stop(ctx.currentTime + n.t + n.d + 0.1);
+        });
+      } catch(e) {}
+    }
+
+    // Dreamy Music Box Lullaby Background Melody (Synthesized Pentatonic Arpeggio)
+    const BGM_MELODY = [
+      523.25, 659.25, 783.99, 1046.50, 
+      880.00, 659.25, 783.99, 1046.50,
+      698.46, 880.00, 1046.50, 1318.51,
+      783.99, 659.25, 587.33, 523.25
+    ];
+    let bgmStep = 0;
+
+    function playBgmNote() {
+      if (!isMusicPlaying) return;
+      try {
+        const ctx = getAudioContext();
+        const freq = BGM_MELODY[bgmStep % BGM_MELODY.length];
+        bgmStep++;
+
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(freq, ctx.currentTime);
+
+        gain.gain.setValueAtTime(0, ctx.currentTime);
+        gain.gain.linearRampToValueAtTime(0.08, ctx.currentTime + 0.03);
+        gain.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + 0.55);
+
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+
+        osc.start(ctx.currentTime);
+        osc.stop(ctx.currentTime + 0.6);
+      } catch(e) {}
+    }
+
+    function toggleMusic() {
+      const musicBtn = document.getElementById('musicToggleBtn');
+      const musicIcon = document.getElementById('musicIcon');
+      const bgmAudio = document.getElementById('bgmAudio');
+
+      getAudioContext();
+
+      if (!isMusicPlaying) {
+        isMusicPlaying = true;
+        musicIcon.textContent = '🎶';
+        musicBtn.classList.add('animate-spin');
+        musicBtn.style.animationDuration = '8s';
+        
+        // If an audio source file is provided, try playing it, otherwise use synth
+        if (bgmAudio && bgmAudio.currentSrc) {
+          bgmAudio.play().catch(() => {});
+        } else {
+          if (bgmInterval) clearInterval(bgmInterval);
+          bgmInterval = setInterval(playBgmNote, 320);
+        }
+      } else {
+        isMusicPlaying = false;
+        musicIcon.textContent = '🎵';
+        musicBtn.classList.remove('animate-spin');
+        if (bgmInterval) clearInterval(bgmInterval);
+        if (bgmAudio) bgmAudio.pause();
+      }
+    }
+
+    /* =======================================================
+     * 3. BACKGROUND SPARKLES & HEARTS CANVAS (LIGHTWEIGHT 60FPS)
+     * ======================================================= */
+    const sparkleCanvas = document.getElementById('sparkleCanvas');
+    const sCtx = sparkleCanvas.getContext('2d');
+    let sparkles = [];
+
+    function resizeSparkleCanvas() {
+      sparkleCanvas.width = window.innerWidth;
+      sparkleCanvas.height = window.innerHeight;
+    }
+    window.addEventListener('resize', resizeSparkleCanvas);
+    resizeSparkleCanvas();
+
+    function initSparkles() {
+      sparkles = [];
+      // Cap at 20 gentle floating particles to keep rendering completely lag-free
+      const count = Math.min(22, Math.max(12, Math.floor(window.innerWidth / 45)));
+      for (let i = 0; i < count; i++) {
+        sparkles.push({
+          x: Math.random() * sparkleCanvas.width,
+          y: Math.random() * sparkleCanvas.height,
+          size: Math.random() * 6 + 5,
+          speedY: Math.random() * 0.4 + 0.2,
+          speedX: Math.sin(Math.random() * Math.PI) * 0.3,
+          opacity: Math.random() * 0.45 + 0.15,
+          type: Math.random() > 0.5 ? 'heart' : 'sparkle',
+          color: ['#FFB6C1', '#FFD1DC', '#D6F0FF', '#FFF5C2', '#E8D7FF'][Math.floor(Math.random() * 5)]
+        });
+      }
+    }
+    initSparkles();
+
+    function drawHeart(ctx, x, y, size, color, opacity) {
+      ctx.save();
+      ctx.globalAlpha = opacity;
+      ctx.fillStyle = color;
+      ctx.beginPath();
+      const topCurveHeight = size * 0.3;
+      ctx.moveTo(x, y + topCurveHeight);
+      ctx.bezierCurveTo(x, y, x - size / 2, y, x - size / 2, y + topCurveHeight);
+      ctx.bezierCurveTo(x - size / 2, y + (size + topCurveHeight) / 2, x, y + (size + topCurveHeight) / 1.4, x, y + size);
+      ctx.bezierCurveTo(x, y + (size + topCurveHeight) / 1.4, x + size / 2, y + (size + topCurveHeight) / 2, x + size / 2, y + topCurveHeight);
+      ctx.bezierCurveTo(x + size / 2, y, x, y, x, y + topCurveHeight);
+      ctx.closePath();
+      ctx.fill();
+      ctx.restore();
+    }
+
+    function drawSparkle(ctx, x, y, size, color, opacity) {
+      ctx.save();
+      ctx.globalAlpha = opacity;
+      ctx.fillStyle = color;
+      ctx.beginPath();
+      ctx.moveTo(x, y - size);
+      ctx.quadraticCurveTo(x, y, x + size, y);
+      ctx.quadraticCurveTo(x, y, x, y + size);
+      ctx.quadraticCurveTo(x, y, x - size, y);
+      ctx.quadraticCurveTo(x, y, x, y - size);
+      ctx.closePath();
+      ctx.fill();
+      ctx.restore();
+    }
+
+    function animateSparkles() {
+      sCtx.clearRect(0, 0, sparkleCanvas.width, sparkleCanvas.height);
+      sparkles.forEach(s => {
+        s.y -= s.speedY;
+        s.x += s.speedX;
+        if (s.y < -20) {
+          s.y = sparkleCanvas.height + 20;
+          s.x = Math.random() * sparkleCanvas.width;
+        }
+        if (s.type === 'heart') {
+          drawHeart(sCtx, s.x, s.y, s.size, s.color, s.opacity);
+        } else {
+          drawSparkle(sCtx, s.x, s.y, s.size * 0.8, s.color, s.opacity);
+        }
+      });
+      requestAnimationFrame(animateSparkles);
+    }
+    animateSparkles();
+
+    /* =======================================================
+     * 4. HIGH-PERFORMANCE CELEBRATION CONFETTI (NO LAG, NO STUCK EMOJIS)
+     * ======================================================= */
+    const celebrationCanvas = document.getElementById('celebrationCanvas');
+    const cCtx = celebrationCanvas ? celebrationCanvas.getContext('2d') : null;
+    let celebrationParticles = [];
+    let celebrationAnimId = null;
+
+    function resizeCelebrationCanvas() {
+      if (celebrationCanvas) {
+        celebrationCanvas.width = window.innerWidth;
+        celebrationCanvas.height = window.innerHeight;
+      }
+    }
+    window.addEventListener('resize', resizeCelebrationCanvas);
+    resizeCelebrationCanvas();
+
+    function triggerCelebrationConfetti() {
+      if (!cCtx) return;
+      resizeCelebrationCanvas();
+      celebrationParticles = [];
+      const colors = ['#FF69B4', '#FFB6C1', '#FF1493', '#D6F0FF', '#FFF5C2', '#E8D7FF'];
+      for (let i = 0; i < 75; i++) {
+        celebrationParticles.push({
+          x: Math.random() * celebrationCanvas.width,
+          y: -10 - Math.random() * 100,
+          w: Math.random() * 8 + 6,
+          h: Math.random() * 12 + 6,
+          color: colors[Math.floor(Math.random() * colors.length)],
+          vy: Math.random() * 3 + 2.5,
+          vx: (Math.random() - 0.5) * 2,
+          rot: Math.random() * 360,
+          rotSpeed: (Math.random() - 0.5) * 6,
+          opacity: 1
+        });
+      }
+      if (!celebrationAnimId) {
+        animateCelebration();
+      }
+    }
+
+    function animateCelebration() {
+      if (!cCtx) return;
+      cCtx.clearRect(0, 0, celebrationCanvas.width, celebrationCanvas.height);
+      if (celebrationParticles.length === 0) {
+        celebrationAnimId = null;
+        return;
+      }
+      for (let i = celebrationParticles.length - 1; i >= 0; i--) {
+        const p = celebrationParticles[i];
+        p.y += p.vy;
+        p.x += p.vx;
+        p.rot += p.rotSpeed;
+        if (p.y > celebrationCanvas.height - 120) {
+          p.opacity -= 0.025;
+        }
+        if (p.y > celebrationCanvas.height || p.opacity <= 0) {
+          celebrationParticles.splice(i, 1);
+          continue;
+        }
+        cCtx.save();
+        cCtx.globalAlpha = Math.max(0, p.opacity);
+        cCtx.translate(p.x, p.y);
+        cCtx.rotate((p.rot * Math.PI) / 180);
+        cCtx.fillStyle = p.color;
+        cCtx.fillRect(-p.w / 2, -p.h / 2, p.w, p.h);
+        cCtx.restore();
+      }
+      celebrationAnimId = requestAnimationFrame(animateCelebration);
+    }
+
+    /* =======================================================
+     * 5. SECTION 1: ENVELOPE OPENING ANIMATION (SMOOTH & CLEAN)
+     * ======================================================= */
+    const envelopeOverlay = document.getElementById('envelopeOverlay');
+    const envelopeCard = document.getElementById('envelopeCard');
+    const openEnvelopeBtn = document.getElementById('openEnvelopeBtn');
+    const mainApp = document.getElementById('mainApp');
+
+    function openEnvelope() {
+      // Audio Chime & Music Autoplay
+      playChimeSound();
+      if (!isMusicPlaying) {
+        toggleMusic();
+      }
+
+      // Envelope 3D fold animation
+      envelopeCard.classList.add('envelope-open');
+
+      // Fade out splash and reveal main website cleanly without lagging confetti
+      setTimeout(() => {
+        envelopeOverlay.style.opacity = '0';
+        mainApp.style.opacity = '1';
+        setTimeout(() => {
+          envelopeOverlay.style.display = 'none';
+        }, 700);
+      }, 1100);
+    }
+
+    envelopeCard.addEventListener('click', openEnvelope);
+    openEnvelopeBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      openEnvelope();
+    });
+
+    /* =======================================================
+     * 6. SECTION 2: LIVE RELATIONSHIP COUNTER
+     * ======================================================= */
+    function updateRelationshipCounter() {
+      const startDate = new Date(userConfig.anniversaryDate + "T00:00:00");
+      const now = new Date();
+      const diffMs = now - startDate;
+
+      if (isNaN(diffMs) || diffMs < 0) {
+        document.getElementById('daysCount').textContent = "0";
+        document.getElementById('hoursCount').textContent = "0";
+        document.getElementById('minutesCount').textContent = "0";
+        document.getElementById('secondsCount').textContent = "0";
+        return;
+      }
+
+      const totalSeconds = Math.floor(diffMs / 1000);
+      const days = Math.floor(totalSeconds / (3600 * 24));
+      const hours = Math.floor((totalSeconds % (3600 * 24)) / 3600);
+      const minutes = Math.floor((totalSeconds % 3600) / 60);
+      const seconds = totalSeconds % 60;
+
+      document.getElementById('daysCount').textContent = days;
+      document.getElementById('hoursCount').textContent = String(hours).padStart(2, '0');
+      document.getElementById('minutesCount').textContent = String(minutes).padStart(2, '0');
+      document.getElementById('secondsCount').textContent = String(seconds).padStart(2, '0');
+    }
+    setInterval(updateRelationshipCounter, 1000);
+
+    /* =======================================================
+     * 7. SECTION 3: POLAROID CAROUSEL ACTIONS
+     * ======================================================= */
+    const polaroidTrack = document.getElementById('polaroidTrack');
+    const photoModal = document.getElementById('photoModal');
+
+    function scrollPolaroid(direction) {
+      playPopSound();
+      polaroidTrack.scrollBy({ left: direction * 250, behavior: 'smooth' });
+    }
+
+    let activeMemories = [];
+
+    function initMemories() {
+      const localMems = localStorage.getItem('forHer_memories');
+      if (localMems) {
+        try {
+          const parsed = JSON.parse(localMems);
+          if (Array.isArray(parsed) && parsed.length > 0) {
+            activeMemories = parsed;
+          }
+        } catch(e) {}
+      }
+
+      if (!activeMemories || activeMemories.length === 0) {
+        activeMemories = JSON.parse(JSON.stringify(MEMORIES_DATA));
+      }
+
+      // If Cloud Sync is connected, sync memories from Firebase in real time
+      if (cloudSyncUrl) {
+        const cleanUrl = cloudSyncUrl.replace(/\/+$/, '');
+        fetch(cleanUrl + '/memories.json?t=' + Date.now())
+          .then(res => res.json())
+          .then(data => {
+            if (data && Array.isArray(data) && data.length > 0) {
+              activeMemories = data;
+              localStorage.setItem('forHer_memories', JSON.stringify(data));
+              initMemories();
+            }
+          })
+          .catch(() => {});
+      }
+
+      renderPolaroidMemories();
+    }
+
+    function renderPolaroidMemories() {
+      const track = document.getElementById('polaroidTrack');
+      if (!track) return;
+
+      if (!activeMemories || activeMemories.length === 0) {
+        activeMemories = JSON.parse(JSON.stringify(MEMORIES_DATA));
+      }
+
+      const memoriesCards = activeMemories.map((m, idx) => `
+        <div class="snap-center shrink-0 w-[240px] bg-white rounded-2xl p-3 pb-5 shadow-kawaii-lg border-2 border-pink-100 relative transform hover:rotate-0 transition-transform duration-300 cursor-pointer" 
+             style="transform: rotate(${m.rotate || 0}deg);" 
+             onclick="openPhotoModal(${idx})">
+          <!-- Washi Tape -->
+          <div class="washi-tape" style="background: ${m.washi || 'rgba(255, 182, 193, 0.85)'};"></div>
+          
+          <!-- Photo Frame with Real Photo -->
+          <div class="w-full h-[220px] rounded-xl bg-pink-50 overflow-hidden relative flex items-center justify-center border border-pink-100 shadow-inner">
+            <img src="${m.src}" alt="${m.subtitle || m.caption}" class="w-full h-full object-cover" loading="lazy">
+            <!-- Sanrio Bow in Corner -->
+            <div class="absolute bottom-2 right-2 w-7 h-7 drop-shadow-sm">
+              <svg viewBox="0 0 100 80" class="w-full h-full">
+                <ellipse cx="50" cy="40" rx="12" ry="12" fill="#FF1493"/>
+                <path d="M 38 40 C 5 15 5 65 38 45 Z" fill="#FF69B4"/>
+                <path d="M 62 40 C 95 15 95 65 62 45 Z" fill="#FF69B4"/>
+                <circle cx="50" cy="40" r="5" fill="#FFFFFF"/>
+              </svg>
+            </div>
+          </div>
+
+          <!-- Date & Episode Tag -->
+          <div class="mt-2.5 flex items-center justify-between px-1">
+            <span class="text-[9px] uppercase font-bold text-bubblegum-pink px-2.5 py-0.5 rounded-full bg-pink-100 border border-pastel-pink/60">
+              ${m.date || 'Sweet Memory'}
+            </span>
+            <span class="text-[9px] font-bold text-rose-300 tracking-wider">
+              ${m.episode || ('Memory #' + (idx + 1))}
+            </span>
+          </div>
+
+          <!-- Title & Handwritten Caption -->
+          <div class="mt-1 text-center">
+            <h4 class="font-bubbly font-bold text-deep-rose text-xs leading-tight">${m.subtitle || 'Sweet Moment'}</h4>
+            <p class="font-handwritten text-lg text-rose-500 font-bold leading-tight mt-0.5">"${m.caption || ''}"</p>
+            <span class="text-[9px] text-rose-300 font-semibold block mt-1">Memory #${idx + 1} of ${activeMemories.length} • Tap to view</span>
+          </div>
+        </div>
+      `).join('');
+
+      // Add a cute "+ Add New Memory" Polaroid card at the end of carousel
+      const addCardHtml = `
+        <div onclick="openAddMemoryModal()" class="snap-center shrink-0 w-[240px] bg-pink-50/70 rounded-2xl p-4 border-2 border-dashed border-bubblegum-pink flex flex-col items-center justify-center text-center cursor-pointer hover:bg-pink-100/70 transition shadow-sm h-[330px] my-auto">
+          <div class="w-14 h-14 rounded-full bg-white shadow-md flex items-center justify-center text-2xl text-bubblegum-pink mb-3 animate-bounce">
+            ➕
+          </div>
+          <h4 class="font-bubbly font-bold text-deep-rose text-sm mb-1">Add Another Memory</h4>
+          <p class="font-body text-xs text-rose-400">Click to add a photo, date, & sweet caption 📸</p>
+        </div>
+      `;
+
+      track.innerHTML = memoriesCards + addCardHtml;
+
+      const totalEl = document.getElementById('totalMemoryNum');
+      if (totalEl) totalEl.textContent = activeMemories.length;
+    }
+
+    function openAddMemoryModal() {
+      playPopSound();
+      const modal = document.getElementById('addMemoryModal');
+      if (!modal) return;
+      document.getElementById('newMemoryTitle').value = '';
+      document.getElementById('newMemoryDate').value = '';
+      document.getElementById('newMemoryCaption').value = '';
+      document.getElementById('newMemoryCustomPhoto').value = '';
+      document.getElementById('newMemoryPhotoSelect').selectedIndex = 0;
+      previewNewMemoryPhoto('images/letters/letter_img_1.jpeg');
+
+      modal.classList.remove('opacity-0', 'pointer-events-none');
+      modal.children[0].classList.remove('scale-90');
+      modal.children[0].classList.add('scale-100');
+    }
+
+    function closeAddMemoryModal() {
+      const modal = document.getElementById('addMemoryModal');
+      if (modal) {
+        modal.classList.add('opacity-0', 'pointer-events-none');
+        modal.children[0].classList.add('scale-90');
+        modal.children[0].classList.remove('scale-100');
+      }
+    }
+
+    function previewNewMemoryPhoto(src) {
+      const img = document.getElementById('newMemoryPreviewImg');
+      if (img && src) img.src = src;
+    }
+
+    function saveNewMemory() {
+      playChime();
+      const customPhoto = document.getElementById('newMemoryCustomPhoto').value.trim();
+      const selectPhoto = document.getElementById('newMemoryPhotoSelect').value;
+      const photoSrc = customPhoto || selectPhoto || 'images/letters/letter_img_1.jpeg';
+
+      const title = document.getElementById('newMemoryTitle').value.trim() || 'Sweet Memory';
+      const date = document.getElementById('newMemoryDate').value.trim() || 'Special Day';
+      const caption = document.getElementById('newMemoryCaption').value.trim() || 'Forever in my heart 💕';
+
+      const rotateVals = [-2.5, 2.2, -1.8, 1.5, -2, 2];
+      const rotate = rotateVals[activeMemories.length % rotateVals.length];
+
+      const newMem = {
+        src: photoSrc,
+        episode: "Memory #" + (activeMemories.length + 1),
+        subtitle: title,
+        caption: caption,
+        date: date,
+        rotate: rotate,
+        washi: "rgba(255, 182, 193, 0.85)"
+      };
+
+      activeMemories.push(newMem);
+      localStorage.setItem('forHer_memories', JSON.stringify(activeMemories));
+      
+      // Sync to Firebase if cloud connected
+      if (cloudSyncUrl) {
+        const cleanUrl = cloudSyncUrl.replace(/\/+$/, '');
+        fetch(cleanUrl + '/memories.json', {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(activeMemories)
+        }).catch(() => {});
+      }
+
+      renderPolaroidMemories();
+      closeAddMemoryModal();
+
+      // Scroll to end of carousel
+      setTimeout(() => {
+        const track = document.getElementById('polaroidTrack');
+        if (track) track.scrollTo({ left: track.scrollWidth, behavior: 'smooth' });
+      }, 200);
+
+      showCardActionToast("📸 New sweet memory added!");
+    }
+
+    function scrollPolaroid(direction) {
+      playPopSound();
+      polaroidTrack.scrollBy({ left: direction * 250, behavior: 'smooth' });
+    }
+
+    function renderPolaroidMemories() {
+      const track = document.getElementById('polaroidTrack');
+      if (!track) return;
+      track.innerHTML = MEMORIES_DATA.map((m, idx) => `
+        <div class="snap-center shrink-0 w-[240px] bg-white rounded-2xl p-3 pb-5 shadow-kawaii-lg border-2 border-pink-100 relative transform hover:rotate-0 transition-transform duration-300 cursor-pointer" 
+             style="transform: rotate(${m.rotate}deg);" 
+             onclick="openPhotoModal(${idx})">
+          <!-- Washi Tape -->
+          <div class="washi-tape" style="background: ${m.washi};"></div>
+          
+          <!-- Photo Frame with Real Photo -->
+          <div class="w-full h-[220px] rounded-xl bg-pink-50 overflow-hidden relative flex items-center justify-center border border-pink-100 shadow-inner">
+            <img src="${m.src}" alt="${m.subtitle}" class="w-full h-full object-cover" loading="lazy">
+            <!-- Sanrio Bow in Corner -->
+            <div class="absolute bottom-2 right-2 w-7 h-7 drop-shadow-sm">
+              <svg viewBox="0 0 100 80" class="w-full h-full">
+                <ellipse cx="50" cy="40" rx="12" ry="12" fill="#FF1493"/>
+                <path d="M 38 40 C 5 15 5 65 38 45 Z" fill="#FF69B4"/>
+                <path d="M 62 40 C 95 15 95 65 62 45 Z" fill="#FF69B4"/>
+                <circle cx="50" cy="40" r="5" fill="#FFFFFF"/>
+              </svg>
+            </div>
+          </div>
+
+          <!-- Date & Episode Tag -->
+          <div class="mt-2.5 flex items-center justify-between px-1">
+            <span class="text-[9px] uppercase font-bold text-bubblegum-pink px-2.5 py-0.5 rounded-full bg-pink-100 border border-pastel-pink/60">
+              ${m.date}
+            </span>
+            <span class="text-[9px] font-bold text-rose-300 tracking-wider">
+              ${m.episode}
+            </span>
+          </div>
+
+          <!-- Title & Handwritten Caption -->
+          <div class="mt-1 text-center">
+            <h4 class="font-bubbly font-bold text-deep-rose text-xs leading-tight">${m.subtitle}</h4>
+            <p class="font-handwritten text-lg text-rose-500 font-bold leading-tight mt-0.5">"${m.caption}"</p>
+            <span class="text-[9px] text-rose-300 font-semibold block mt-1">Memory #${idx + 1} of ${MEMORIES_DATA.length} • Tap to view</span>
+          </div>
+        </div>
+      `).join('');
+
+      const totalEl = document.getElementById('totalMemoryNum');
+      if (totalEl) totalEl.textContent = MEMORIES_DATA.length;
+    }
+
+    function scrollPolaroid(direction) {
+      playPopSound();
+      polaroidTrack.scrollBy({ left: direction * 256, behavior: 'smooth' });
+    }
+
+    function openPhotoModal(index) {
+      playPopSound();
+      const item = MEMORIES_DATA[index];
+      if (!item) return;
+
+      const modalContainer = document.getElementById('modalPhotoContainer');
+      modalContainer.innerHTML = `
+        <div class="relative w-full overflow-hidden rounded-2xl shadow-inner border border-pastel-pink bg-pink-50 max-h-[360px] flex items-center justify-center">
+          <img src="${item.src}" alt="${item.subtitle}" class="w-full h-auto max-h-[340px] object-contain rounded-xl">
+        </div>
+        <div class="mt-3 flex items-center justify-center gap-2">
+          <span class="text-[10px] uppercase font-bold text-bubblegum-pink px-2.5 py-0.5 rounded-full bg-pink-100 border border-pastel-pink/60">${item.date}</span>
+          <span class="text-[10px] font-bold text-rose-400">${item.episode}</span>
+        </div>
+        <h4 class="font-bubbly font-bold text-deep-rose text-lg mt-1">${item.subtitle}</h4>
+        <p class="font-handwritten text-2xl text-rose-500 mt-1 px-2 leading-relaxed">"${item.caption}"</p>
+      `;
+      
+      photoModal.classList.remove('opacity-0', 'pointer-events-none');
+      photoModal.children[0].classList.remove('scale-90');
+      photoModal.children[0].classList.add('scale-100');
+    }
+
+    function closePhotoModal() {
+      photoModal.classList.add('opacity-0', 'pointer-events-none');
+      photoModal.children[0].classList.add('scale-90');
+      photoModal.children[0].classList.remove('scale-100');
+    }
+
+    // Carousel indicator update
+    polaroidTrack.addEventListener('scroll', () => {
+      const scrollLeft = polaroidTrack.scrollLeft;
+      const index = Math.min(MEMORIES_DATA.length - 1, Math.max(0, Math.round(scrollLeft / 256)));
+      const numEl = document.getElementById('currentMemoryNum');
+      if (numEl) numEl.textContent = (index + 1);
+    }, { passive: true });
+
+    /* =======================================================
+     * 8. SECTION 4: GACHA LOVE NOTE DISPENSER
+     * ======================================================= */
+    const gachaGlobe = document.getElementById('gachaGlobe');
+    const loveNoteModal = document.getElementById('loveNoteModal');
+    let isDispensing = false;
+
+    function dispenseLoveNote() {
+      if (isDispensing) return;
+      isDispensing = true;
+      closeLoveNoteModal();
+      playPopSound();
+
+      // Shake animation on gacha machine
+      gachaGlobe.style.animation = 'gachaShake 0.6s ease-in-out';
+      
+      setTimeout(() => {
+        gachaGlobe.style.animation = '';
+        
+        // Pick an unread note or random note
+        let noteIdx;
+        if (gachaHistory.length < LOVE_REASONS.length) {
+          const remaining = LOVE_REASONS.map((_, i) => i).filter(i => !gachaHistory.includes(i));
+          noteIdx = remaining[Math.floor(Math.random() * remaining.length)];
+          gachaHistory.push(noteIdx);
+          localStorage.setItem('forHer_gachaNotes', JSON.stringify(gachaHistory));
+        } else {
+          noteIdx = Math.floor(Math.random() * LOVE_REASONS.length);
+        }
+
+        updateGachaCounter();
+        openLoveNoteModal(noteIdx);
+        isDispensing = false;
+      }, 650);
+    }
+
+    function openLoveNoteModal(index) {
+      playChimeSound();
+      document.getElementById('noteModalNumber').textContent = `Reason #${index + 1} of 10`;
+      document.getElementById('noteModalContent').textContent = `"${LOVE_REASONS[index]}"`;
+      
+      loveNoteModal.classList.remove('opacity-0', 'pointer-events-none');
+      loveNoteModal.children[0].classList.remove('scale-90');
+      loveNoteModal.children[0].classList.add('scale-100');
+    }
+
+    function closeLoveNoteModal() {
+      loveNoteModal.classList.add('opacity-0', 'pointer-events-none');
+      loveNoteModal.children[0].classList.add('scale-90');
+      loveNoteModal.children[0].classList.remove('scale-100');
+    }
+
+    function updateGachaCounter() {
+      document.getElementById('gachaCounter').textContent = `Collected: ${gachaHistory.length} / 10 Notes`;
+    }
+
+    /* =======================================================
+     * 9. SECTION 5: SWEET LOVE LETTERS, BOYFRIEND CRUD & REVERT
+     * ======================================================= */
+    
+    // Available pictures in images/letters/ for easy selection
+    const AVAILABLE_LETTER_IMAGES = [
+      { path: 'images/letters/letter_img_1.jpeg', label: 'Photo 1 (Anime Couple Sunset - hori)' },
+      { path: 'images/letters/letter_img_2.jpeg', label: 'Photo 2 (Tea & Cozy Warmth)' },
+      { path: 'images/letters/letter_img_3.jpeg', label: 'Photo 3 (Blanket & Deep Care)' },
+      { path: 'images/letters/letter_img_4.jpeg', label: 'Photo 4 (Sweet Smile & Sunshine)' },
+      { path: 'images/letters/letter_img_5.jpeg', label: 'Photo 5 (Growing Old Together)' },
+      { path: 'images/letters/letter_img_6.jpeg', label: 'Photo 6 (My Beautiful Princess)' },
+      { path: 'images/letters/letter_img_7.jpeg', label: 'Photo 7 (Safe In My Arms)' },
+      { path: 'images/letters/letter_img_8.jpeg', label: 'Photo 8 (Finding Our Way Back)' },
+      { path: 'images/letters/letter_img_9.jpeg', label: 'Photo 9 (A Lifetime Promise)' },
+      { path: 'images/letters/letter_img_10.jpeg', label: 'Photo 10 (Heart Board Memory)' },
+      { path: 'images/letters/letter_img_11.jpeg', label: 'Photo 11 (Sweet Girl Portrait)' },
+      { path: 'images/letters/letter_img_12.jpeg', label: 'Photo 12 (Gentle Hair & Care)' },
+      { path: 'images/letters/letter_img_13.jpg', label: 'Photo 13 (Endless Gratitude Art)' },
+      { path: 'images/letters/letter_img_14.jpg', label: 'Photo 14 (Yellow Rose Couple)' },
+      { path: 'images/letters/letter_img_15.jpg', label: 'Photo 15 (Traditional Princess)' },
+      { path: 'images/letters/letter_img_16.jpg', label: 'Photo 16 (Coffee Date Reassurance)' },
+      { path: 'images/letters/letter_img_17.jpg', label: 'Photo 17 (Yellow Flower Field Destiny)' }
+    ];
+
+    // Default fallback letters (used for initial load and revert)
+    const DEFAULT_LOVE_LETTERS = [
+      {
+        id: 1,
+        image: "images/letters/letter_img_1.jpeg",
+        tag: "🌸 Forever Yours",
+        title: "My Favorite Person in the World",
+        quote: "Every day with you is my new favorite day.",
+        letter: "My dearest Aseh,\n\nFrom the very beginning, having you in my life has made everything brighter and calmer. You are my safe haven, my biggest joy, and the person I want to share every sunset with. Thank you for simply being you."
+      },
+      {
+        id: 2,
+        image: "images/letters/letter_img_2.jpeg",
+        tag: "☕ Cozy Warmth",
+        title: "Tea & Quiet Comfort",
+        quote: "In a world of noise, you are my peaceful silence.",
+        letter: "Biwi Bestie,\n\nI love our simple, cozy moments the most. Just sitting together, talking about everything or nothing at all, laughing at our silly jokes. You make the ordinary feel like pure magic."
+      },
+      {
+        id: 3,
+        image: "images/letters/letter_img_3.jpeg",
+        tag: "💫 Endless Care",
+        title: "The Love You Give Me",
+        quote: "Thank you for the love and care you pour into my life every single day.",
+        letter: "To my sweet girl,\n\nYour gentle heart and the way you care for me touches my soul in ways words can never describe. You give me strength on my hardest days and double my happiness on my best days. I appreciate you with all my heart."
+      },
+      {
+        id: 4,
+        image: "images/letters/letter_img_4.jpeg",
+        tag: "✨ Pure Sunshine",
+        title: "Your Smile Lights Up My Universe",
+        quote: "Whenever you smile, my whole world stops and stares.",
+        letter: "My sweetest Aseh,\n\nSeeing you smile is the most beautiful sight in this entire universe. No matter how tough life gets, seeing that radiant smile melts away all my worries. Keep smiling my darling, you are breathtaking."
+      },
+      {
+        id: 5,
+        image: "images/letters/letter_img_5.jpeg",
+        tag: "🎀 Growing Together",
+        title: "Growing Old & Never Getting Bored",
+        quote: "Will you ever get bored of me? — Never, not in a million lifetimes.",
+        letter: "My forever girl,\n\nTime means nothing when I am with you, yet every second is precious. I look forward to growing old with you, holding your hand through every chapter of our lives, and falling deeper in love with you each day."
+      },
+      {
+        id: 6,
+        image: "images/letters/letter_img_6.jpeg",
+        tag: "👑 My Beautiful Princess",
+        title: "You Outshine The Entire World",
+        quote: "Out of billions of stars in the sky, my eyes will forever search only for you.",
+        letter: "To my queen,\n\nThere is no one in this world as beautiful, graceful, and sweet as you. You carry yourself with such elegance and kindness. I am the luckiest guy to have you by my side."
+      },
+      {
+        id: 7,
+        image: "images/letters/letter_img_7.jpeg",
+        tag: "🌙 Safe In My Arms",
+        title: "I Am Never Letting You Go",
+        quote: "Don't think I will ever leave you — I am just as afraid of losing you.",
+        letter: "My darling,\n\nYou are my home. Wherever you are, that's where I belong. Even when things get tough, remember that I am holding on to you with both hands. I'm never leaving."
+      },
+      {
+        id: 8,
+        image: "images/letters/letter_img_8.jpeg",
+        tag: "🌻 Finding Our Way Back",
+        title: "Destined For Each Other",
+        quote: "If two souls belong together, no matter how far they drift, they will always find their way back.",
+        letter: "My soulmate,\n\nOur bond isn't just luck — it is destiny. Through every distance, every test, and every passing season, my heart always beats your name. We will always find our way back to each other, always and forever."
+      },
+      {
+        id: 9,
+        image: "images/letters/letter_img_9.jpeg",
+        tag: "💍 A Lifetime Promise",
+        title: "My Promise To You",
+        quote: "I loved you yesterday, I love you still, I always have, I always will.",
+        letter: "Dearest Aseh,\n\nThis is my forever promise to you: I promise to love you unconditionally, to listen to you, to cherish you, to hold you tight, and to choose you every single day of my life. You are my forever love."
+      }
+    ];
+
+    // Active working state
+    let activeLoveLetters = [];
+    let isLetterEditorActive = false;
+    let isServerConnected = false;
+    const FIREBASE_DEFAULT_URL = 'https://medicine-reminder-app-7abd9-default-rtdb.asia-southeast1.firebasedatabase.app';
+    let cloudSyncUrl = localStorage.getItem('forHer_cloudDbUrl') || (window.CLOUD_SYNC_CONFIG && window.CLOUD_SYNC_CONFIG.databaseUrl) || FIREBASE_DEFAULT_URL;
+
+    function initLoveLetters() {
+      // PRIORITY 1 (CRITICAL FOR REFRESH): Check localStorage first so user edits NEVER disappear on refresh!
+      const localDraft = localStorage.getItem('forHer_loveLetters');
+      if (localDraft) {
+        try {
+          const parsed = JSON.parse(localDraft);
+          if (Array.isArray(parsed) && parsed.length > 0) {
+            activeLoveLetters = parsed;
+          }
+        } catch(e) {
+          console.error('Error reading localStorage draft:', e);
+        }
+      }
+
+      // PRIORITY 2: If no localStorage edits yet, load from window.LOVE_LETTERS_DATA (love_letters.js)
+      if (!activeLoveLetters || activeLoveLetters.length === 0) {
+        if (window.LOVE_LETTERS_DATA && Array.isArray(window.LOVE_LETTERS_DATA) && window.LOVE_LETTERS_DATA.length > 0) {
+          activeLoveLetters = JSON.parse(JSON.stringify(window.LOVE_LETTERS_DATA));
+        } else {
+          activeLoveLetters = JSON.parse(JSON.stringify(DEFAULT_LOVE_LETTERS));
+        }
+      }
+
+      // Check if URL has ?edit=true or #edit
+      if (window.location.search.includes('edit=true') || window.location.hash === '#edit') {
+        isLetterEditorActive = true;
+      }
+
+      checkServerConnection();
+      initCloudSync();
+      renderLoveLetters();
+    }
+
+    function checkServerConnection() {
+      const badge = document.getElementById('serverStatusBadge');
+      fetch('/api/status?t=' + Date.now())
+        .then(res => res.json())
+        .then(data => {
+          if (data && data.serverRunning) {
+            isServerConnected = true;
+            if (badge) {
+              badge.textContent = '🟢 Server Online • 1-Click Auto Save';
+              badge.className = 'text-[10px] font-bold px-2.5 py-0.5 rounded-full bg-emerald-100 text-emerald-700 border border-emerald-300';
+            }
+          }
+        })
+        .catch(() => {
+          isServerConnected = false;
+          if (badge) {
+            if (cloudSyncUrl) {
+              badge.textContent = '☁️ Cloud Sync Active';
+              badge.className = 'text-[10px] font-bold px-2.5 py-0.5 rounded-full bg-sky-100 text-sky-700 border border-sky-300';
+            } else {
+              badge.textContent = '📁 File Mode (Downloads love_letters.js)';
+              badge.className = 'text-[10px] font-bold px-2.5 py-0.5 rounded-full bg-pink-100 text-bubblegum-pink border border-pastel-pink/70';
+            }
+          }
+        });
+    }
+
+    // =========================================================
+    // CLOUD REAL-TIME SYNC
+    // =========================================================
+    function initCloudSync() {
+      if (!cloudSyncUrl) return;
+
+      const cleanUrl = cloudSyncUrl.replace(/\/+$/, '');
+
+      // Fetch latest letters from cloud on load
+      fetch(cleanUrl + '/letters.json?t=' + Date.now())
+        .then(res => res.json())
+        .then(data => {
+          if (data && Array.isArray(data) && data.length > 0) {
+            activeLoveLetters = data;
+            localStorage.setItem('forHer_loveLetters', JSON.stringify(data));
+            renderLoveLetters();
+            console.log('Successfully synced ' + data.length + ' letters from Cloud Database!');
+          }
+        })
+        .catch(err => console.log('Cloud sync fetch note:', err));
+
+      // Real-time EventSource listener
+      try {
+        const sse = new EventSource(cleanUrl + '/letters.json');
+        sse.addEventListener('put', function(e) {
+          try {
+            const parsed = JSON.parse(e.data);
+            if (parsed && parsed.data && Array.isArray(parsed.data)) {
+              activeLoveLetters = parsed.data;
+              localStorage.setItem('forHer_loveLetters', JSON.stringify(parsed.data));
+              renderLoveLetters();
+              showLiveUpdateToast();
+            }
+          } catch(err) {}
+        });
+      } catch(e) {}
+    }
+
+    function showLiveUpdateToast() {
+      const toast = document.createElement('div');
+      toast.className = 'fixed bottom-6 left-1/2 -translate-x-1/2 z-50 px-4 py-2 rounded-full bg-gradient-to-r from-pink-500 to-rose-500 text-white font-bubbly font-bold text-xs shadow-2xl animate-bounce flex items-center gap-2';
+      toast.innerHTML = '<span>💌</span><span>New love letter received from Manoj!</span>';
+      document.body.appendChild(toast);
+      playChime();
+      setTimeout(() => toast.remove(), 4000);
+    }
+
+    function openCloudSyncModal() {
+      const modal = document.getElementById('cloudSyncModal');
+      const input = document.getElementById('cloudSyncUrlInput');
+      if (input) input.value = cloudSyncUrl || '';
+      if (modal) {
+        modal.classList.remove('opacity-0', 'pointer-events-none');
+        modal.children[0].classList.remove('scale-90');
+        modal.children[0].classList.add('scale-100');
+      }
+    }
+
+    function closeCloudSyncModal() {
+      const modal = document.getElementById('cloudSyncModal');
+      if (modal) {
+        modal.classList.add('opacity-0', 'pointer-events-none');
+        modal.children[0].classList.add('scale-90');
+        modal.children[0].classList.remove('scale-100');
+      }
+    }
+
+    function saveCloudSyncConfig() {
+      const input = document.getElementById('cloudSyncUrlInput');
+      if (!input) return;
+      cloudSyncUrl = input.value.trim().replace(/\/+$/, '');
+      localStorage.setItem('forHer_cloudDbUrl', cloudSyncUrl);
+      closeCloudSyncModal();
+      playPopSound();
+      if (cloudSyncUrl) {
+        alert('☁️ Cloud Sync Connected! Now when you click "Save All to Site", it will instantly update on Aseh\'s phone in real time!');
+        initCloudSync();
+        saveAllLoveLetters();
+      } else {
+        alert('Cloud sync disabled. Letters will use local server and file storage.');
+      }
+      checkServerConnection();
+    }
+
+    function toggleLetterEditor(forceState) {
+      if (typeof forceState === 'boolean') {
+        isLetterEditorActive = forceState;
+      } else {
+        isLetterEditorActive = !isLetterEditorActive;
+      }
+
+      playPopSound();
+      const toolbar = document.getElementById('editorToolbar');
+      const bottomToolbar = document.getElementById('editorBottomToolbar');
+      const btnIcon = document.getElementById('editorBtnIcon');
+      const btnText = document.getElementById('editorBtnText');
+      const toggleBtn = document.getElementById('toggleEditorBtn');
+
+      if (isLetterEditorActive) {
+        if (toolbar) toolbar.classList.remove('hidden');
+        if (bottomToolbar) bottomToolbar.classList.remove('hidden');
+        if (btnIcon) btnIcon.textContent = '👁️';
+        if (btnText) btnText.textContent = 'Reader View';
+        if (toggleBtn) {
+          toggleBtn.classList.remove('bg-white/90', 'text-bubblegum-pink');
+          toggleBtn.classList.add('bg-bubblegum-pink', 'text-white');
+        }
+      } else {
+        if (toolbar) toolbar.classList.add('hidden');
+        if (bottomToolbar) bottomToolbar.classList.add('hidden');
+        if (btnIcon) btnIcon.textContent = '✏️';
+        if (btnText) btnText.textContent = 'Our Love Notes';
+        if (toggleBtn) {
+          toggleBtn.classList.add('bg-white/90', 'text-bubblegum-pink');
+          toggleBtn.classList.remove('bg-bubblegum-pink', 'text-white');
+        }
+      }
+
+      renderLoveLetters();
+    }
+
+    // =========================================================
+    // CRUD OPERATIONS: ADD, DELETE, REVERT
+    // =========================================================
+
+    // 1. ADD NEW LETTER CARD
+    function addNewLetterCard() {
+      playChime();
+      const nextIndex = activeLoveLetters.length;
+      const imgObj = AVAILABLE_LETTER_IMAGES[nextIndex % AVAILABLE_LETTER_IMAGES.length] || AVAILABLE_LETTER_IMAGES[0];
+      
+      const newCard = {
+        id: Date.now(),
+        image: imgObj.path,
+        tag: "🌸 Love Letter #" + (nextIndex + 1),
+        title: "A Sweet Reason Why I Love You",
+        quote: "Every single moment with you is my greatest gift.",
+        letter: "My dearest Aseh,\n\nI wanted to add another special letter for you because loving you has no limits. You make every day more beautiful..."
+      };
+
+      activeLoveLetters.push(newCard);
+      localStorage.setItem('forHer_loveLetters', JSON.stringify(activeLoveLetters));
+      renderLoveLetters();
+
+      // Auto-scroll to the new card
+      setTimeout(() => {
+        const container = document.getElementById('loveLettersContainer');
+        if (container && container.lastElementChild) {
+          container.lastElementChild.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          const titleInput = container.lastElementChild.querySelector('input[type="text"]');
+          if (titleInput) titleInput.focus();
+        }
+      }, 150);
+
+      showCardActionToast("✨ New love letter card added!");
+    }
+
+    // 2. DELETE SPECIFIC LETTER CARD
+    function deleteLetterCard(index) {
+      playPopSound();
+      const item = activeLoveLetters[index];
+      if (!item) return;
+
+      const title = item.title || 'Untitled Card';
+      const confirmed = confirm(`Are you sure you want to delete Card #${index + 1}: "${title}"?\n\nThis will remove this specific letter.`);
+      if (!confirmed) return;
+
+      activeLoveLetters.splice(index, 1);
+      localStorage.setItem('forHer_loveLetters', JSON.stringify(activeLoveLetters));
+      renderLoveLetters();
+      showCardActionToast(`🗑️ Deleted Card #${index + 1}`);
+    }
+
+    // 3. REVERT SPECIFIC LETTER CARD TO DEFAULT
+    function revertSingleCard(index) {
+      playPopSound();
+      const item = activeLoveLetters[index];
+      if (!item) return;
+
+      // Find original default card by index or ID
+      const original = (window.LOVE_LETTERS_DATA && window.LOVE_LETTERS_DATA[index]) || DEFAULT_LOVE_LETTERS[index];
+      if (!original) {
+        alert('No original template found for this specific card.');
+        return;
+      }
+
+      const confirmed = confirm(`Revert Card #${index + 1} back to its original default text?\n\nTitle: "${original.title}"`);
+      if (!confirmed) return;
+
+      activeLoveLetters[index] = JSON.parse(JSON.stringify(original));
+      localStorage.setItem('forHer_loveLetters', JSON.stringify(activeLoveLetters));
+      renderLoveLetters();
+      showCardActionToast(`↺ Reverted Card #${index + 1} to original text!`);
+    }
+
+    // 4. REVERT ALL LETTERS TO ORIGINAL DEFAULTS
+    function revertAllLetters() {
+      playPopSound();
+      const confirmed = confirm(
+        '⚠️ Are you sure you want to revert ALL love letters back to the original version?\n\n' +
+        'This will reset all your cards back to the default photos and messages.'
+      );
+      if (!confirmed) return;
+
+      localStorage.removeItem('forHer_loveLetters');
+      const baseSource = (window.LOVE_LETTERS_DATA && window.LOVE_LETTERS_DATA.length > 0) ? window.LOVE_LETTERS_DATA : DEFAULT_LOVE_LETTERS;
+      activeLoveLetters = JSON.parse(JSON.stringify(baseSource));
+      
+      localStorage.setItem('forHer_loveLetters', JSON.stringify(activeLoveLetters));
+      renderLoveLetters();
+      showCardActionToast('↺ All love letters reverted back to original defaults!');
+    }
+
+    function showCardActionToast(message) {
+      const existing = document.getElementById('cardActionToast');
+      if (existing) existing.remove();
+
+      const toast = document.createElement('div');
+      toast.id = 'cardActionToast';
+      toast.className = 'fixed bottom-6 left-1/2 -translate-x-1/2 z-50 px-4 py-2.5 rounded-full bg-slate-900/90 text-white font-bubbly font-bold text-xs shadow-2xl flex items-center gap-2 backdrop-blur-sm animate-fade-in border border-white/20';
+      toast.innerHTML = `<span>💖</span><span>${message}</span>`;
+      document.body.appendChild(toast);
+      setTimeout(() => { if (toast) toast.remove(); }, 3500);
+    }
+
+    function renderLoveLetters() {
+      const container = document.getElementById('loveLettersContainer');
+      if (!container) return;
+
+      if (!activeLoveLetters || activeLoveLetters.length === 0) {
+        activeLoveLetters = JSON.parse(JSON.stringify(DEFAULT_LOVE_LETTERS));
+      }
+
+      const likedMap = JSON.parse(localStorage.getItem('forHer_likedLetters') || '{}');
+
+      // Generate cards HTML
+      const cardsHtml = activeLoveLetters.map((item, index) => {
+        const isLiked = likedMap[item.id];
+        
+        if (isLetterEditorActive) {
+          // ================= BOYFRIEND EDITING VIEW =================
+          return `
+            <div class="frosted-glass rounded-3xl p-4 shadow-md border-2 border-dashed border-bubblegum-pink flex flex-col gap-3.5 bg-pink-50/40 animate-fade-in transition-all" id="letterCardEditor_${index}">
+              <!-- Picture Preview & Control Bar -->
+              <div class="relative w-full rounded-2xl overflow-hidden bg-pink-100/60 border border-pastel-pink max-h-[290px] flex items-center justify-center">
+                <img src="${item.image}" alt="${escapeHtml(item.title)}" class="w-full h-auto max-h-[270px] object-contain rounded-xl">
+                
+                <!-- Card Index Badge -->
+                <div class="absolute top-2.5 left-2.5 flex items-center gap-1.5">
+                  <span class="text-[10px] font-bold text-bubblegum-pink px-2.5 py-1 rounded-full bg-white/95 border border-pastel-pink shadow-sm">
+                    Card #${index + 1} of ${activeLoveLetters.length}
+                  </span>
+                </div>
+
+                <!-- Card Actions: Move, Revert, Delete -->
+                <div class="absolute top-2.5 right-2.5 flex items-center gap-1 bg-white/95 backdrop-blur-sm p-1 rounded-full border border-pastel-pink shadow-md">
+                  ${index > 0 ? `<button onclick="moveLetterCard(${index}, -1)" class="w-7 h-7 rounded-full hover:bg-pink-100 flex items-center justify-center text-xs active:scale-90" title="Move Up">⬆️</button>` : ''}
+                  ${index < activeLoveLetters.length - 1 ? `<button onclick="moveLetterCard(${index}, 1)" class="w-7 h-7 rounded-full hover:bg-pink-100 flex items-center justify-center text-xs active:scale-90" title="Move Down">⬇️</button>` : ''}
+                  <button onclick="revertSingleCard(${index})" class="w-7 h-7 rounded-full bg-amber-50 hover:bg-amber-100 text-amber-700 flex items-center justify-center text-xs border border-amber-200 active:scale-90" title="Revert this card to default">↺</button>
+                  <button onclick="deleteLetterCard(${index})" class="w-7 h-7 rounded-full bg-rose-50 hover:bg-rose-100 text-rose-600 flex items-center justify-center text-xs border border-rose-200 active:scale-90" title="Delete this card">🗑️</button>
+                </div>
+              </div>
+
+              <!-- Photo Selector Dropdown -->
+              <div class="p-2.5 rounded-2xl bg-white/80 border border-pastel-pink/60 flex items-center gap-2">
+                <span class="text-xs">🖼️</span>
+                <label class="text-[11px] font-bubbly font-bold text-deep-rose whitespace-nowrap">Choose Photo:</label>
+                <select onchange="updateLetterField(${index}, 'image', this.value); renderLoveLetters();" class="flex-1 px-2.5 py-1.5 rounded-xl bg-pink-50/60 border border-pastel-pink text-xs font-body text-deep-rose focus:outline-none focus:ring-2 focus:ring-bubblegum-pink/50">
+                  ${AVAILABLE_LETTER_IMAGES.map(img => `<option value="${img.path}" ${item.image === img.path ? 'selected' : ''}>${img.label}</option>`).join('')}
+                </select>
+              </div>
+
+              <!-- Input: Badge / Tag -->
+              <div>
+                <label class="block text-[11px] font-bubbly font-bold text-deep-rose mb-1">🏷️ Tag / Badge:</label>
+                <input type="text" value="${escapeHtml(item.tag || '')}" oninput="updateLetterField(${index}, 'tag', this.value)" class="w-full px-3 py-2 rounded-xl bg-white border border-pastel-pink text-xs font-body text-deep-rose focus:outline-none focus:ring-2 focus:ring-bubblegum-pink/50 shadow-inner" placeholder="e.g. 🌸 Forever Yours">
+              </div>
+
+              <!-- Input: Card Title -->
+              <div>
+                <label class="block text-[11px] font-bubbly font-bold text-deep-rose mb-1">🌸 Card Title:</label>
+                <input type="text" value="${escapeHtml(item.title || '')}" oninput="updateLetterField(${index}, 'title', this.value)" class="w-full px-3 py-2 rounded-xl bg-white border border-pastel-pink text-xs font-bubbly font-bold text-deep-rose focus:outline-none focus:ring-2 focus:ring-bubblegum-pink/50 shadow-inner" placeholder="e.g. My Favorite Person in the World">
+              </div>
+
+              <!-- Input: Short Romantic Quote -->
+              <div>
+                <label class="block text-[11px] font-bubbly font-bold text-deep-rose mb-1">💬 Short Romantic Quote:</label>
+                <input type="text" value="${escapeHtml(item.quote || '')}" oninput="updateLetterField(${index}, 'quote', this.value)" class="w-full px-3 py-2 rounded-xl bg-white border border-pastel-pink text-xs font-body text-deep-rose focus:outline-none focus:ring-2 focus:ring-bubblegum-pink/50 shadow-inner" placeholder="e.g. Every day with you is my new favorite day.">
+              </div>
+
+              <!-- Input: Full Love Letter -->
+              <div>
+                <label class="block text-[11px] font-bubbly font-bold text-deep-rose mb-1">💌 Your Love Letter Under This Picture:</label>
+                <textarea rows="4" oninput="updateLetterField(${index}, 'letter', this.value)" class="w-full p-3 rounded-xl bg-white border border-pastel-pink text-xs font-body text-deep-rose leading-relaxed focus:outline-none focus:ring-2 focus:ring-bubblegum-pink/50 placeholder:text-deep-rose/40 shadow-inner" placeholder="Pour your heart out here to Aseh...">${escapeHtml(item.letter || '')}</textarea>
+              </div>
+
+              <!-- Card Footer Actions: Delete, Revert, Preview -->
+              <div class="flex items-center justify-between pt-2.5 border-t border-pastel-pink/40">
+                <div class="flex items-center gap-2">
+                  <button onclick="revertSingleCard(${index})" class="px-2.5 py-1 rounded-lg bg-amber-50 hover:bg-amber-100 text-amber-800 font-bubbly font-bold text-[11px] border border-amber-200 transition flex items-center gap-1" title="Reset this card to default">
+                    <span>↺</span><span>Revert</span>
+                  </button>
+                  <button onclick="deleteLetterCard(${index})" class="px-2.5 py-1 rounded-lg bg-rose-50 hover:bg-rose-100 text-rose-700 font-bubbly font-bold text-[11px] border border-rose-200 transition flex items-center gap-1" title="Delete this card">
+                    <span>🗑️</span><span>Delete</span>
+                  </button>
+                </div>
+                <button onclick="openLoveLetterModal(${index})" class="px-3 py-1.5 rounded-xl bg-pink-100 hover:bg-pink-200 text-deep-rose font-bubbly font-bold text-[11px] transition shadow-sm">
+                  Preview Card 👁️
+                </button>
+              </div>
+            </div>
+          `;
+        } else {
+          // ================= GIRLFRIEND ROMANTIC CARD VIEW =================
+          return `
+            <div class="frosted-glass rounded-3xl p-4 shadow-sm border border-pastel-pink/70 flex flex-col gap-3 transition-all duration-300 hover:shadow-md">
+              <!-- Romantic Picture Container -->
+              <div class="relative w-full rounded-2xl overflow-hidden bg-pink-50/60 border border-pastel-pink/50 cursor-pointer group" onclick="openLoveLetterModal(${index})">
+                <img src="${item.image}" alt="${escapeHtml(item.title)}" class="w-full h-auto max-h-[380px] object-cover rounded-2xl transition duration-500 group-hover:scale-[1.02]">
+                <div class="absolute top-2.5 left-2.5">
+                  <span class="text-[10px] uppercase font-bold text-bubblegum-pink px-2.5 py-1 rounded-full bg-white/95 shadow-sm border border-pastel-pink/60">
+                    ${escapeHtml(item.tag || 'Forever Love')}
+                  </span>
+                </div>
+                <div class="absolute bottom-2.5 right-2.5 bg-black/45 backdrop-blur-sm px-2.5 py-1 rounded-full text-[10px] text-white flex items-center gap-1 opacity-80 group-hover:opacity-100 transition">
+                  <span>💌</span> Tap to read
+                </div>
+              </div>
+
+              <!-- Card Title & Handwritten Quote -->
+              <div class="flex flex-col gap-1 px-1">
+                <h4 class="font-bubbly font-bold text-deep-rose text-base leading-snug">${escapeHtml(item.title)}</h4>
+                ${item.quote ? `
+                  <div class="my-1 p-2.5 rounded-2xl bg-pink-50/80 border border-pastel-pink/40 text-center">
+                    <p class="font-handwritten text-xl text-deep-rose font-bold leading-snug">"${escapeHtml(item.quote)}"</p>
+                  </div>
+                ` : ''}
+              </div>
+
+              <!-- Love Letter Body Text -->
+              <div class="px-1">
+                <div class="p-3.5 rounded-2xl bg-white/75 border border-pastel-pink/50 text-left font-body text-xs text-rose-700/90 leading-relaxed whitespace-pre-line shadow-sm">
+                  ${escapeHtml(item.letter)}
+                </div>
+              </div>
+
+              <!-- Card Footer: Heart Reaction & Modal Reader -->
+              <div class="flex items-center justify-between pt-1 px-1 border-t border-pastel-pink/30">
+                <button onclick="openLoveLetterModal(${index})" class="text-[11px] font-bubbly font-semibold text-bubblegum-pink hover:underline flex items-center gap-1">
+                  <span>✨</span> Read in Lightbox
+                </button>
+                <button id="likeLetterBtn_${item.id}" onclick="likeLoveLetter(this, ${item.id})" class="min-h-[40px] px-3.5 py-1 rounded-full ${isLiked ? 'bg-pink-100 border-bubblegum-pink' : 'bg-white/80 border-pastel-pink'} border text-deep-rose font-bubbly text-xs flex items-center gap-1.5 transition active:scale-95 shadow-sm hover:bg-pink-50">
+                  <span class="text-sm">💖</span>
+                  <span class="like-label text-[11px] font-bold">${isLiked ? 'Held in Heart 💖' : 'Love this'}</span>
+                </button>
+              </div>
+            </div>
+          `;
+        }
+      }).join('');
+
+      // If in Boyfriend Mode, append the big "➕ Add Another Love Letter Card" button at the bottom!
+      const addCardButtonHtml = isLetterEditorActive ? `
+        <button onclick="addNewLetterCard()" class="w-full py-4 rounded-3xl border-2 border-dashed border-bubblegum-pink bg-white/80 hover:bg-white text-deep-rose font-bubbly font-bold text-sm flex items-center justify-center gap-2 shadow-sm transition active:scale-95 hover:border-deep-rose">
+          <span class="text-lg">➕</span>
+          <span>Add Another Sweet Love Letter Card</span>
+        </button>
+      ` : '';
+
+      container.innerHTML = cardsHtml + addCardButtonHtml;
+    }
+
+    function updateLetterField(index, field, value) {
+      if (!activeLoveLetters[index]) return;
+      activeLoveLetters[index][field] = value;
+      // Critical: Immediately store in localStorage so refresh never loses a character
+      localStorage.setItem('forHer_loveLetters', JSON.stringify(activeLoveLetters));
+    }
+
+    function moveLetterCard(index, direction) {
+      const targetIndex = index + direction;
+      if (targetIndex < 0 || targetIndex >= activeLoveLetters.length) return;
+      const temp = activeLoveLetters[index];
+      activeLoveLetters[index] = activeLoveLetters[targetIndex];
+      activeLoveLetters[targetIndex] = temp;
+      localStorage.setItem('forHer_loveLetters', JSON.stringify(activeLoveLetters));
+      renderLoveLetters();
+    }
+
+    function saveAllLoveLetters() {
+      playChime();
+      // 1. Immediately save to localStorage (guarantees persistence across refresh)
+      localStorage.setItem('forHer_loveLetters', JSON.stringify(activeLoveLetters));
+
+      // 2. If Cloud Live Sync is connected, save directly to Cloud (updates girlfriend in real time!)
+      if (cloudSyncUrl) {
+        const cleanUrl = cloudSyncUrl.replace(/\/+$/, '');
+        fetch(cleanUrl + '/letters.json', {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(activeLoveLetters)
+        })
+        .then(res => {
+          if (res.status === 401) {
+            console.warn('Firebase rules need to be published with .read: true, .write: true');
+            alert('⚠️ Note: Your Firebase Database rules are currently locked (Permission Denied).\n\nPlease go to the Rules tab in your Firebase Console, change the rules to:\n{\n  "rules": {\n    ".read": true,\n    ".write": true\n  }\n}\nand click "Publish" so your updates can sync to Aseh in real time!');
+          } else {
+            console.log('Successfully saved to Cloud Realtime Database!');
+          }
+        })
+        .catch(err => console.error('Cloud save error:', err));
+      }
+
+      // 3. Save to local server if running
+      fetch('/api/save-letters', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(activeLoveLetters)
+      })
+      .then(res => res.json())
+      .then(data => {
+        if (data && data.success) {
+          showSaveSuccessModal(true);
+        } else {
+          triggerFileDownloadSave();
+        }
+      })
+      .catch(() => {
+        // Fallback for file:/// mode without local server
+        triggerFileDownloadSave();
+      });
+    }
+
+    function triggerFileDownloadSave() {
+      const fileContent = `/**\n * ========================================================\n * 💌 SWEET LOVE LETTERS & PROMISES DATA\n * ========================================================\n * Last updated: ${new Date().toLocaleString()}\n * ========================================================\n */\n\nwindow.CLOUD_SYNC_CONFIG = {\n  enabled: true,\n  databaseUrl: "${cloudSyncUrl || FIREBASE_DEFAULT_URL}"\n};\n\nwindow.LOVE_LETTERS_DATA = ${JSON.stringify(activeLoveLetters, null, 2)};\n`;
+      
+      const blob = new Blob([fileContent], { type: 'application/javascript;charset=utf-8' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'love_letters.js';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+
+      showSaveSuccessModal(false);
+    }
+
+    function showSaveSuccessModal(isDirectSaved) {
+      const modal = document.getElementById('saveModal');
+      const container = document.getElementById('saveModalContainer');
+      if (!modal || !container) {
+        alert(isDirectSaved ? '🎉 Saved directly to love_letters.js!' : '📥 Downloaded love_letters.js! Place it in "d:\\for her\\" folder.');
+        return;
+      }
+
+      if (isDirectSaved) {
+        container.innerHTML = `
+          <div class="w-16 h-16 mx-auto mb-3 rounded-full bg-emerald-100 flex items-center justify-center text-3xl">
+            🎉
+          </div>
+          <h3 class="font-bubbly font-bold text-deep-rose text-xl mb-2">Saved Permanently!</h3>
+          <p class="font-body text-xs text-rose-700/90 leading-relaxed mb-3">
+            All <strong>${activeLoveLetters.length} love letters</strong> have been saved!
+          </p>
+          <div class="p-3 rounded-2xl bg-emerald-50 border border-emerald-200 text-left text-[11px] text-emerald-800 font-medium mb-4 space-y-1">
+            <p>✓ <strong>Refresh safe</strong>: Your edits stay permanently even if you reload.</p>
+            <p>✓ <strong>Project updated</strong>: <code>love_letters.js</code> is updated on your computer.</p>
+            ${cloudSyncUrl ? '<p>✓ <strong>Cloud synced</strong>: Updated on Aseh\'s screen in real time!</p>' : '<p>✨ Ready to host on Netlify or GitHub for Aseh to see!</p>'}
+          </div>
+          <button onclick="closeSaveModal()" class="w-full py-3 rounded-2xl bg-gradient-to-r from-pink-400 to-rose-400 text-white font-bubbly font-bold text-sm shadow-md active:scale-95">
+            Yay, Perfect! 💖
+          </button>
+        `;
+      } else {
+        container.innerHTML = `
+          <div class="w-16 h-16 mx-auto mb-3 rounded-full bg-pink-100 flex items-center justify-center text-3xl">
+            📥
+          </div>
+          <h3 class="font-bubbly font-bold text-deep-rose text-xl mb-2">Saved & Downloaded!</h3>
+          <p class="font-body text-xs text-rose-700/90 leading-relaxed mb-3">
+            Your changes are <strong>saved in your browser</strong> (they will NOT disappear on refresh!) and <code>love_letters.js</code> was downloaded.
+          </p>
+          <div class="p-3.5 rounded-2xl bg-pink-50 border border-pastel-pink text-left text-[11px] text-deep-rose font-medium mb-4 space-y-1.5">
+            <p><strong>To make it live for your girlfriend when hosted:</strong></p>
+            <p>1. Move the downloaded <code>love_letters.js</code> into your <code>d:\\for her\\</code> project folder.</p>
+            <p>2. Drag the folder to Netlify Drop (or push to GitHub) and send her the link!</p>
+          </div>
+          <div class="flex gap-2">
+            <button onclick="copyLettersCode()" class="flex-1 py-2.5 rounded-xl bg-pink-100 text-deep-rose font-bubbly font-bold text-xs border border-pastel-pink hover:bg-pink-200">
+              📋 Copy Code
+            </button>
+            <button onclick="closeSaveModal()" class="flex-1 py-2.5 rounded-xl bg-bubblegum-pink text-white font-bubbly font-bold text-xs shadow-md active:scale-95">
+              Got It! 💖
+            </button>
+          </div>
+        `;
+      }
+
+      modal.classList.remove('opacity-0', 'pointer-events-none');
+      modal.children[0].classList.remove('scale-90');
+      modal.children[0].classList.add('scale-100');
+    }
+
+    function closeSaveModal() {
+      const modal = document.getElementById('saveModal');
+      if (modal) {
+        modal.classList.add('opacity-0', 'pointer-events-none');
+        modal.children[0].classList.add('scale-90');
+        modal.children[0].classList.remove('scale-100');
+      }
+    }
+
+    function copyLettersCode() {
+      const fileContent = `window.LOVE_LETTERS_DATA = ${JSON.stringify(activeLoveLetters, null, 2)};`;
+      navigator.clipboard.writeText(fileContent).then(() => {
+        alert('📋 Love letters code copied to clipboard! You can paste it into love_letters.js anytime.');
+      }).catch(() => {
+        alert('Please select and copy the text manually from love_letters.js.');
+      });
+    }
+
+    function likeLoveLetter(btn, id) {
+      playPopSound();
+      btn.classList.add('bg-pink-100', 'border-bubblegum-pink');
+      const label = btn.querySelector('.like-label');
+      if (label) label.textContent = 'Held in Heart 💖';
+      let liked = JSON.parse(localStorage.getItem('forHer_likedLetters') || '{}');
+      liked[id] = true;
+      localStorage.setItem('forHer_likedLetters', JSON.stringify(liked));
+    }
+
+    function openLoveLetterModal(index) {
+      playPopSound();
+      const item = activeLoveLetters[index];
+      if (!item) return;
+
+      const modal = document.getElementById('loveMessageModal');
+      const container = document.getElementById('loveMessageModalContainer');
+      if (!modal || !container) return;
+
+      container.innerHTML = `
+        <div class="relative w-full overflow-hidden rounded-2xl shadow-inner border border-pastel-pink bg-pink-50 max-h-[380px] flex items-center justify-center">
+          <img src="${item.image}" alt="${escapeHtml(item.title)}" class="w-full h-auto max-h-[360px] object-contain rounded-xl">
+        </div>
+        <div class="mt-3 flex items-center justify-center">
+          <span class="text-[10px] uppercase font-bold text-bubblegum-pink px-3 py-1 rounded-full bg-pink-100 border border-pastel-pink/60">${escapeHtml(item.tag || 'Love Letter')}</span>
+        </div>
+        <h4 class="font-bubbly font-bold text-deep-rose text-xl mt-2 text-center">${escapeHtml(item.title)}</h4>
+        ${item.quote ? `
+          <div class="w-full my-3 p-3.5 rounded-2xl bg-pink-50/70 border border-pastel-pink/50 text-center">
+            <p class="font-handwritten text-2xl text-deep-rose font-bold leading-relaxed">"${escapeHtml(item.quote)}"</p>
+          </div>
+        ` : ''}
+        <div class="w-full font-body text-xs text-rose-700/90 leading-relaxed text-left p-3.5 rounded-2xl bg-rose-50/60 border border-rose-100 whitespace-pre-line shadow-inner">
+          ${escapeHtml(item.letter)}
+        </div>
+      `;
+
+      modal.classList.remove('opacity-0', 'pointer-events-none');
+      modal.children[0].classList.remove('scale-90');
+      modal.children[0].classList.add('scale-100');
+    }
+
+    function closeLoveLetterModal() {
+      playPopSound();
+      const modal = document.getElementById('loveMessageModal');
+      if (modal) {
+        modal.classList.add('opacity-0', 'pointer-events-none');
+        if (modal.children && modal.children[0]) {
+          modal.children[0].classList.add('scale-90');
+          modal.children[0].classList.remove('scale-100');
+        }
+      }
+    }
+
+    // Alias to guarantee close button and backdrop always work
+    function closeLoveMessageModal() {
+      closeLoveLetterModal();
+    }
+
+    function escapeHtml(str) {
+      if (!str) return '';
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+    }
+
+    /* =======================================================
+     * 10. SECTION 6:/* =======================================================
+     * 10. SECTION 6:/* =======================================================
+     * 10. SECTION 6:/* =======================================================
+     * 10. SECTION 6: THE CUTE QUESTION (PLAYFUL DODGE & YES!)
+     * ======================================================= */
+    const noBtn = document.getElementById('noBtn');
+    const yesBtn = document.getElementById('yesBtn');
+    const buttonArena = document.getElementById('buttonArena');
+    const dodgeFeedbackText = document.getElementById('dodgeFeedbackText');
+
+    const DODGE_RESPONSES = [
+      "Wait, are you sure? 🥺",
+      "Wrong button silly! 💕",
+      "Oops! Too fast for you! 💨",
+      "You can't escape my cuddles! 🎀",
+      "Nice try hehe! Only YES allowed! 💖",
+      "Look how sad Cinnamoroll looks! 😭",
+      "Come on, press the big shiny button! ✨"
+    ];
+
+    function dodgeNoButton() {
+      playPopSound();
+      dodgeCount++;
+
+      // Change text playfully
+      const randomText = DODGE_RESPONSES[dodgeCount % DODGE_RESPONSES.length];
+      dodgeFeedbackText.textContent = randomText;
+      dodgeFeedbackText.classList.add('text-bubblegum-pink', 'font-bold');
+
+      // Calculate arena boundaries
+      const arenaRect = buttonArena.getBoundingClientRect();
+      const btnRect = noBtn.getBoundingClientRect();
+
+      // Random position within safe mobile bounds (-100px to 100px X, -30px to 30px Y)
+      const maxDeltaX = Math.min(100, (arenaRect.width / 2) - 40);
+      const randomX = (Math.random() - 0.5) * maxDeltaX * 2;
+      const randomY = (Math.random() - 0.5) * 60;
+
+      noBtn.style.position = 'relative';
+      noBtn.style.transform = `translate(${randomX}px, ${randomY}px) scale(${Math.max(0.7, 1 - dodgeCount * 0.05)})`;
+
+      // Yes button grows bigger and pulses!
+      const yesScale = Math.min(1.4, 1 + dodgeCount * 0.08);
+      yesBtn.style.transform = `scale(${yesScale})`;
+    }
+
+    noBtn.addEventListener('pointerenter', dodgeNoButton);
+    noBtn.addEventListener('touchstart', (e) => {
+      e.preventDefault();
+      dodgeNoButton();
+    });
+    noBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      dodgeNoButton();
+    });
+
+    const celebrationModal = document.getElementById('celebrationModal');
+
+    function handleYesClick() {
+      playFanfareSound();
+      triggerCelebrationConfetti();
+      
+      celebrationModal.classList.remove('opacity-0', 'pointer-events-none');
+      celebrationModal.children[0].classList.remove('scale-90');
+      celebrationModal.children[0].classList.add('scale-100');
+    }
+
+    function closeCelebrationModal() {
+      celebrationModal.classList.add('opacity-0', 'pointer-events-none');
+      celebrationModal.children[0].classList.add('scale-90');
+      celebrationModal.children[0].classList.remove('scale-100');
+    }
+
+    /* =======================================================
+     * 11. PERSONALIZATION & SETTINGS MODAL
+     * ======================================================= */
+    const customizeBtn = document.getElementById('customizeBtn');
+    const customizeModal = document.getElementById('customizeModal');
+    const musicToggleBtn = document.getElementById('musicToggleBtn');
+
+    musicToggleBtn.addEventListener('click', toggleMusic);
+
+    customizeBtn.addEventListener('click', () => {
+      playPopSound();
+      document.getElementById('inputGirlfriendName').value = userConfig.girlfriendName;
+      document.getElementById('inputYourName').value = userConfig.yourName;
+      document.getElementById('inputAnniversaryDate').value = userConfig.anniversaryDate;
+
+      customizeModal.classList.remove('opacity-0', 'pointer-events-none');
+      customizeModal.children[0].classList.remove('scale-90');
+      customizeModal.children[0].classList.add('scale-100');
+    });
+
+    function closeCustomizeModal() {
+      customizeModal.classList.add('opacity-0', 'pointer-events-none');
+      customizeModal.children[0].classList.add('scale-90');
+      customizeModal.children[0].classList.remove('scale-100');
+    }
+
+    function savePersonalization() {
+      playStampSound();
+      const name = document.getElementById('inputGirlfriendName').value.trim();
+      const yourName = document.getElementById('inputYourName').value.trim();
+      const date = document.getElementById('inputAnniversaryDate').value;
+
+      if (name) userConfig.girlfriendName = name;
+      if (yourName) userConfig.yourName = yourName;
+      if (date) userConfig.anniversaryDate = date;
+
+      localStorage.setItem('forHer_name', userConfig.girlfriendName);
+      localStorage.setItem('forHer_yourName', userConfig.yourName);
+      localStorage.setItem('forHer_date', userConfig.anniversaryDate);
+
+      
+    // Close any open modal on Escape key press
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape' || e.key === 'Esc') {
+        closeLoveLetterModal();
+        closeLoveMessageModal();
+        if (typeof closePhotoModal === 'function') closePhotoModal();
+        if (typeof closeLoveNoteModal === 'function') closeLoveNoteModal();
+        if (typeof closeAddMemoryModal === 'function') closeAddMemoryModal();
+        if (typeof closeCloudSyncModal === 'function') closeCloudSyncModal();
+        if (typeof closeSaveModal === 'function') closeSaveModal();
+        if (typeof closeCustomizeModal === 'function') closeCustomizeModal();
+      }
+    });
+
+      applyConfigToUI();
+      closeCustomizeModal();
+    }
+
+    function applyConfigToUI() {
+      document.getElementById('envelopeRecipientName').textContent = `${userConfig.girlfriendName} 💌`;
+      document.getElementById('headerRecipientBadge').textContent = `For ${userConfig.girlfriendName} 👑`;
+      document.getElementById('finalSignatureName').textContent = `${userConfig.yourName} 💕`;
+
+      // Format date for label
+      try {
+        const d = new Date(userConfig.anniversaryDate + "T00:00:00");
+        const formatted = d.toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' });
+        document.getElementById('anniversaryLabel').textContent = `Since ${formatted}`;
+      } catch(e) {}
+
+      updateRelationshipCounter();
+    }
+
+    /* Initialize on DOM Ready */
+    document.addEventListener('DOMContentLoaded', () => {
+      applyConfigToUI();
+      initLoveLetters();
+      updateGachaCounter();
+      updateRelationshipCounter();
+      renderPolaroidMemories();
+    });
+  </script>
+
+  <!-- ======================================================= -->
+  <!-- SAVE CONFIRMATION MODAL                                 -->
+  <!-- ======================================================= -->
+  <div id="saveModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-sm opacity-0 pointer-events-none transition-all duration-300">
+    <div class="relative w-full max-w-sm rounded-3xl p-6 frosted-glass border-2 border-pastel-pink shadow-2xl transform scale-90 transition-transform duration-300 text-center">
+      <div id="saveModalContainer"></div>
+    </div>
+  </div>
+
+
+  <!-- ======================================================= -->
+  <!-- CLOUD REAL-TIME LIVE SYNC MODAL                         -->
+  <!-- ======================================================= -->
+  <div id="cloudSyncModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-sm opacity-0 pointer-events-none transition-all duration-300">
+    <div class="relative w-full max-w-sm rounded-3xl p-6 frosted-glass border-2 border-pastel-pink shadow-2xl transform scale-90 transition-transform duration-300 text-left">
+      <div class="flex items-center justify-between mb-3">
+        <div class="flex items-center gap-2">
+          <span class="text-2xl">☁️</span>
+          <h3 class="font-bubbly font-bold text-deep-rose text-lg">Cloud Live Sync</h3>
+        </div>
+        <button onclick="closeCloudSyncModal()" class="w-8 h-8 rounded-full bg-pink-100 text-deep-rose font-bold text-sm hover:bg-pink-200 flex items-center justify-center">✕</button>
+      </div>
+
+      <p class="font-body text-xs text-rose-700/90 leading-relaxed mb-3">
+        Connect to a free <strong>Firebase Realtime Database</strong> so that whenever you type a message on your computer, it <strong>updates on Aseh's phone in real time</strong> without refreshing!
+      </p>
+
+      <div class="mb-4">
+        <label class="block text-[11px] font-bubbly font-bold text-deep-rose mb-1">Firebase Realtime Database URL:</label>
+        <input type="url" id="cloudSyncUrlInput" placeholder="https://your-project.firebaseio.com" class="w-full px-3 py-2 rounded-xl bg-white border border-pastel-pink text-xs font-body text-deep-rose focus:outline-none focus:ring-2 focus:ring-bubblegum-pink/50 shadow-inner">
+      </div>
+
+      <div class="p-3 rounded-2xl bg-pink-50/80 border border-pastel-pink/60 text-[10px] text-deep-rose font-medium space-y-1 mb-4 leading-normal">
+        <p class="font-bold text-bubblegum-pink">How to get a free Firebase URL (Takes 1 min):</p>
+        <p>1. Open <a href="https://console.firebase.google.com" target="_blank" class="underline text-blue-600 font-bold">console.firebase.google.com</a></p>
+        <p>2. Click <strong>Add project</strong> → <strong>Build</strong> → <strong>Realtime Database</strong></p>
+        <p>3. Go to <strong>Rules</strong> tab and set <code>".read": true, ".write": true</code></p>
+        <p>4. Copy your Database URL (e.g. <code>https://...firebaseio.com</code>) and paste it above!</p>
+      </div>
+
+      <div class="flex gap-2">
+        <button onclick="saveCloudSyncConfig()" class="flex-1 py-2.5 rounded-xl bg-gradient-to-r from-pink-400 to-rose-400 text-white font-bubbly font-bold text-xs shadow-md active:scale-95">
+          💾 Connect Cloud Sync
+        </button>
+        <button onclick="closeCloudSyncModal()" class="px-4 py-2.5 rounded-xl bg-pink-100 text-deep-rose font-bubbly font-bold text-xs hover:bg-pink-200">
+          Cancel
+        </button>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ======================================================= -->
+  <!-- MODAL: ADD A NEW SWEET MEMORY                           -->
+  <!-- ======================================================= -->
+  <div id="addMemoryModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-sm opacity-0 pointer-events-none transition-all duration-300">
+    <div class="relative w-full max-w-sm rounded-3xl p-6 frosted-glass border-2 border-pastel-pink shadow-2xl transform scale-90 transition-transform duration-300 text-left flex flex-col gap-3.5" onclick="event.stopPropagation()">
+      <div class="flex items-center justify-between border-b pb-2 border-pink-100">
+        <div class="flex items-center gap-2">
+          <span class="text-2xl">📸</span>
+          <h3 class="font-bubbly font-bold text-deep-rose text-lg">Add Sweet Memory</h3>
+        </div>
+        <button onclick="closeAddMemoryModal()" class="w-8 h-8 rounded-full bg-pink-100 text-deep-rose font-bold text-sm hover:bg-pink-200 flex items-center justify-center">✕</button>
+      </div>
+
+      <!-- Photo Picker -->
+      <div>
+        <label class="block text-xs font-bold text-deep-rose mb-1">Choose Photo:</label>
+        <select id="newMemoryPhotoSelect" onchange="previewNewMemoryPhoto(this.value)" class="w-full px-3 py-2 rounded-xl border border-pastel-pink bg-pink-50/50 text-deep-rose font-body text-xs focus:outline-none focus:ring-2 focus:ring-bubblegum-pink mb-1.5">
+          <option value="images/letters/letter_img_1.jpeg">Photo 1 (Anime Sunset Romance)</option>
+          <option value="images/letters/letter_img_2.jpeg">Photo 2 (Tea & Quiet Comfort)</option>
+          <option value="images/letters/letter_img_3.jpeg">Photo 3 (Blanket & Deep Care)</option>
+          <option value="images/letters/letter_img_4.jpeg">Photo 4 (Sweet Smiles & Sunshine)</option>
+          <option value="images/letters/letter_img_5.jpeg">Photo 5 (Growing Old Together)</option>
+          <option value="images/letters/letter_img_6.jpeg">Photo 6 (My Beautiful Princess)</option>
+          <option value="images/letters/letter_img_7.jpeg">Photo 7 (Safe In My Arms)</option>
+          <option value="images/letters/letter_img_8.jpeg">Photo 8 (Finding Our Way Back)</option>
+          <option value="images/letters/letter_img_9.jpeg">Photo 9 (A Lifetime Promise)</option>
+          <option value="images/letters/letter_img_10.jpeg">Photo 10 (Heart Board Memory)</option>
+          <option value="images/letters/letter_img_11.jpeg">Photo 11 (Sweet Girl Portrait)</option>
+          <option value="images/letters/letter_img_12.jpeg">Photo 12 (Gentle Hair & Care)</option>
+          <option value="images/letters/letter_img_13.jpg">Photo 13 (Endless Gratitude)</option>
+          <option value="images/letters/letter_img_14.jpg">Photo 14 (Yellow Rose Couple)</option>
+          <option value="images/letters/letter_img_15.jpg">Photo 15 (Traditional Princess)</option>
+          <option value="images/letters/letter_img_16.jpg">Photo 16 (Coffee Date Reassurance)</option>
+          <option value="images/letters/letter_img_17.jpg">Photo 17 (Yellow Flower Field)</option>
+        </select>
+        <input type="text" id="newMemoryCustomPhoto" placeholder="Or paste custom image path / URL" oninput="previewNewMemoryPhoto(this.value)" class="w-full px-3 py-1.5 rounded-xl border border-pastel-pink/70 bg-white text-deep-rose font-body text-[11px] focus:outline-none focus:ring-2 focus:ring-bubblegum-pink">
+      </div>
+
+      <!-- Preview Thumbnail -->
+      <div class="w-full h-32 rounded-xl bg-pink-100/50 border border-pastel-pink overflow-hidden flex items-center justify-center">
+        <img id="newMemoryPreviewImg" src="images/letters/letter_img_1.jpeg" class="w-full h-full object-cover">
+      </div>
+
+      <!-- Memory Title -->
+      <div>
+        <label class="block text-xs font-bold text-deep-rose mb-1">Memory Title:</label>
+        <input id="newMemoryTitle" type="text" placeholder="e.g. Our Midnight Ice Cream Date" class="w-full px-3 py-2 rounded-xl border border-pastel-pink bg-pink-50/50 text-deep-rose font-bubbly text-xs focus:outline-none focus:ring-2 focus:ring-bubblegum-pink">
+      </div>
+
+      <!-- Memory Date -->
+      <div>
+        <label class="block text-xs font-bold text-deep-rose mb-1">Date:</label>
+        <input id="newMemoryDate" type="text" placeholder="e.g. Today, Nov 11, 2024, May 26" class="w-full px-3 py-2 rounded-xl border border-pastel-pink bg-pink-50/50 text-deep-rose font-body text-xs focus:outline-none focus:ring-2 focus:ring-bubblegum-pink">
+      </div>
+
+      <!-- Handwritten Caption -->
+      <div>
+        <label class="block text-xs font-bold text-deep-rose mb-1">Sweet Caption / Quote:</label>
+        <input id="newMemoryCaption" type="text" placeholder="e.g. I never wanted this night to end 💕" class="w-full px-3 py-2 rounded-xl border border-pastel-pink bg-pink-50/50 text-deep-rose font-body text-xs focus:outline-none focus:ring-2 focus:ring-bubblegum-pink">
+      </div>
+
+      <div class="flex gap-2 pt-2">
+        <button onclick="saveNewMemory()" class="flex-1 min-h-[44px] rounded-2xl bg-gradient-to-r from-pink-500 to-rose-400 text-white font-bubbly font-bold text-xs shadow-md active:scale-95 transition-all">
+          Save Memory 💖
+        </button>
+        <button onclick="closeAddMemoryModal()" class="px-4 min-h-[44px] rounded-2xl bg-pink-100 text-deep-rose font-bubbly font-bold text-xs active:scale-95 transition-all">
+          Cancel
+        </button>
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>
