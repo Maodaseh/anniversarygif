@@ -1813,7 +1813,53 @@
       polaroidTrack.scrollBy({ left: direction * 250, behavior: 'smooth' });
     }
 
+    /* =======================================================
+     * 7. IMAGE COMPRESSION & DEVICE UPLOAD HELPER
+     * ======================================================= */
+    function compressImageFile(file, maxWidth = 1200, maxHeight = 1200, quality = 0.82) {
+      return new Promise((resolve, reject) => {
+        if (!file) return reject(new Error('No file selected'));
+        if (!file.type || !file.type.startsWith('image/')) {
+          return reject(new Error('Selected file is not an image'));
+        }
+
+        const reader = new FileReader();
+        reader.onerror = () => reject(new Error('Failed to read image file'));
+        reader.onload = (e) => {
+          const img = new Image();
+          img.onerror = () => reject(new Error('Failed to load image element'));
+          img.onload = () => {
+            let width = img.width;
+            let height = img.height;
+
+            if (width > maxWidth || height > maxHeight) {
+              if (width / maxWidth > height / maxHeight) {
+                height = Math.round((height * maxWidth) / width);
+                width = maxWidth;
+              } else {
+                width = Math.round((width * maxHeight) / height);
+                height = maxHeight;
+              }
+            }
+
+            const canvas = document.createElement('canvas');
+            canvas.width = width;
+            canvas.height = height;
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(img, 0, 0, width, height);
+
+            const format = file.type === 'image/png' ? 'image/png' : 'image/jpeg';
+            const dataUrl = canvas.toDataURL(format, quality);
+            resolve(dataUrl);
+          };
+          img.src = e.target.result;
+        };
+        reader.readAsDataURL(file);
+      });
+    }
+
     let activeMemories = [];
+    let currentMemoryUploadedDataUrl = '';
 
     function initMemories() {
       const localMems = localStorage.getItem('forHer_memories');
@@ -1823,14 +1869,16 @@
           if (Array.isArray(parsed) && parsed.length > 0) {
             activeMemories = parsed;
           }
-        } catch(e) {}
+        } catch(e) {
+          console.error('Error reading local memories:', e);
+        }
       }
 
       if (!activeMemories || activeMemories.length === 0) {
         activeMemories = JSON.parse(JSON.stringify(MEMORIES_DATA));
       }
 
-      // If Cloud Sync is connected, sync memories from Firebase in real time
+      // Sync from Firebase if connected
       if (cloudSyncUrl) {
         const cleanUrl = cloudSyncUrl.replace(/\/+$/, '');
         fetch(cleanUrl + '/memories.json?t=' + Date.now())
@@ -1839,10 +1887,25 @@
             if (data && Array.isArray(data) && data.length > 0) {
               activeMemories = data;
               localStorage.setItem('forHer_memories', JSON.stringify(data));
-              initMemories();
+              renderPolaroidMemories();
+              console.log('Successfully synced ' + data.length + ' memories from Cloud Database!');
             }
           })
-          .catch(() => {});
+          .catch(err => console.log('Cloud memories fetch note:', err));
+
+        try {
+          const memSse = new EventSource(cleanUrl + '/memories.json');
+          memSse.addEventListener('put', (e) => {
+            try {
+              const payload = JSON.parse(e.data);
+              if (payload && payload.data && Array.isArray(payload.data) && payload.data.length > 0) {
+                activeMemories = payload.data;
+                localStorage.setItem('forHer_memories', JSON.stringify(activeMemories));
+                renderPolaroidMemories();
+              }
+            } catch(err) {}
+          });
+        } catch(e) {}
       }
 
       renderPolaroidMemories();
@@ -1865,7 +1928,7 @@
           
           <!-- Photo Frame with Real Photo -->
           <div class="w-full h-[220px] rounded-xl bg-pink-50 overflow-hidden relative flex items-center justify-center border border-pink-100 shadow-inner">
-            <img src="${m.src}" alt="${m.subtitle || m.caption}" class="w-full h-full object-cover" loading="lazy">
+            <img src="${m.src}" alt="${escapeHtml(m.subtitle || m.caption || 'Memory')}" class="w-full h-full object-cover" loading="lazy">
             <!-- Sanrio Bow in Corner -->
             <div class="absolute bottom-2 right-2 w-7 h-7 drop-shadow-sm">
               <svg viewBox="0 0 100 80" class="w-full h-full">
@@ -1879,18 +1942,18 @@
 
           <!-- Date & Episode Tag -->
           <div class="mt-2.5 flex items-center justify-between px-1">
-            <span class="text-[9px] uppercase font-bold text-bubblegum-pink px-2.5 py-0.5 rounded-full bg-pink-100 border border-pastel-pink/60">
-              ${m.date || 'Sweet Memory'}
+            <span class="text-[9px] uppercase font-bold text-bubblegum-pink px-2.5 py-0.5 rounded-full bg-pink-100 border border-pastel-pink/60 truncate max-w-[130px]">
+              ${escapeHtml(m.date || 'Sweet Memory')}
             </span>
             <span class="text-[9px] font-bold text-rose-300 tracking-wider">
-              ${m.episode || ('Memory #' + (idx + 1))}
+              ${escapeHtml(m.episode || ('Memory #' + (idx + 1)))}
             </span>
           </div>
 
           <!-- Title & Handwritten Caption -->
           <div class="mt-1 text-center">
-            <h4 class="font-bubbly font-bold text-deep-rose text-xs leading-tight">${m.subtitle || 'Sweet Moment'}</h4>
-            <p class="font-handwritten text-lg text-rose-500 font-bold leading-tight mt-0.5">"${m.caption || ''}"</p>
+            <h4 class="font-bubbly font-bold text-deep-rose text-xs leading-tight truncate px-1">${escapeHtml(m.subtitle || 'Sweet Moment')}</h4>
+            <p class="font-handwritten text-lg text-rose-500 font-bold leading-tight mt-0.5 line-clamp-2 px-1">"${escapeHtml(m.caption || '')}"</p>
             <span class="text-[9px] text-rose-300 font-semibold block mt-1">Memory #${idx + 1} of ${activeMemories.length} • Tap to view</span>
           </div>
         </div>
@@ -1903,7 +1966,7 @@
             ➕
           </div>
           <h4 class="font-bubbly font-bold text-deep-rose text-sm mb-1">Add Another Memory</h4>
-          <p class="font-body text-xs text-rose-400">Click to add a photo, date, & sweet caption 📸</p>
+          <p class="font-body text-xs text-rose-400">Click to upload photo, date, & sweet caption 📸</p>
         </div>
       `;
 
@@ -1913,14 +1976,29 @@
       if (totalEl) totalEl.textContent = activeMemories.length;
     }
 
+    function scrollPolaroid(direction) {
+      playPopSound();
+      const track = document.getElementById('polaroidTrack');
+      if (track) track.scrollBy({ left: direction * 256, behavior: 'smooth' });
+    }
+
     function openAddMemoryModal() {
       playPopSound();
       const modal = document.getElementById('addMemoryModal');
       if (!modal) return;
+      currentMemoryUploadedDataUrl = '';
       document.getElementById('newMemoryTitle').value = '';
       document.getElementById('newMemoryDate').value = '';
       document.getElementById('newMemoryCaption').value = '';
       document.getElementById('newMemoryCustomPhoto').value = '';
+      const statusEl = document.getElementById('memoryUploadStatus');
+      if (statusEl) statusEl.classList.add('hidden');
+      const uploadText = document.getElementById('memoryUploadBtnText');
+      if (uploadText) uploadText.textContent = 'Upload Photo From Your Device';
+      
+      const fileInput = document.getElementById('newMemoryFileInput');
+      if (fileInput) fileInput.value = '';
+
       document.getElementById('newMemoryPhotoSelect').selectedIndex = 0;
       previewNewMemoryPhoto('images/letters/letter_img_1.jpeg');
 
@@ -1943,11 +2021,58 @@
       if (img && src) img.src = src;
     }
 
+    function onMemoryPresetSelect(val) {
+      if (val) {
+        currentMemoryUploadedDataUrl = '';
+        const statusEl = document.getElementById('memoryUploadStatus');
+        if (statusEl) statusEl.classList.add('hidden');
+        previewNewMemoryPhoto(val);
+      }
+    }
+
+    function onMemoryCustomUrlInput(val) {
+      if (val) {
+        currentMemoryUploadedDataUrl = '';
+        const statusEl = document.getElementById('memoryUploadStatus');
+        if (statusEl) statusEl.classList.add('hidden');
+        previewNewMemoryPhoto(val);
+      }
+    }
+
+    async function handleMemoryFileSelect(event) {
+      const file = event.target.files && event.target.files[0];
+      if (!file) return;
+
+      playChime();
+      const uploadText = document.getElementById('memoryUploadBtnText');
+      if (uploadText) uploadText.textContent = '⏳ Compressing photo...';
+
+      try {
+        const dataUrl = await compressImageFile(file, 1200, 1200, 0.85);
+        currentMemoryUploadedDataUrl = dataUrl;
+        previewNewMemoryPhoto(dataUrl);
+
+        const statusEl = document.getElementById('memoryUploadStatus');
+        const statusText = document.getElementById('memoryUploadStatusText');
+        if (statusEl && statusText) {
+          statusText.textContent = `Photo ready: ${file.name.slice(0, 24)}`;
+          statusEl.classList.remove('hidden');
+        }
+
+        if (uploadText) uploadText.textContent = 'Change Device Photo 📁';
+        showCardActionToast('📸 Device photo loaded! Click Save Memory.');
+      } catch (err) {
+        console.error('Error reading memory image:', err);
+        alert('Could not process photo: ' + err.message);
+        if (uploadText) uploadText.textContent = 'Upload Photo From Your Device';
+      }
+    }
+
     function saveNewMemory() {
       playChime();
       const customPhoto = document.getElementById('newMemoryCustomPhoto').value.trim();
       const selectPhoto = document.getElementById('newMemoryPhotoSelect').value;
-      const photoSrc = customPhoto || selectPhoto || 'images/letters/letter_img_1.jpeg';
+      const photoSrc = currentMemoryUploadedDataUrl || customPhoto || selectPhoto || 'images/letters/letter_img_1.jpeg';
 
       const title = document.getElementById('newMemoryTitle').value.trim() || 'Sweet Memory';
       const date = document.getElementById('newMemoryDate').value.trim() || 'Special Day';
@@ -1957,13 +2082,15 @@
       const rotate = rotateVals[activeMemories.length % rotateVals.length];
 
       const newMem = {
+        id: Date.now(),
         src: photoSrc,
         episode: "Memory #" + (activeMemories.length + 1),
         subtitle: title,
         caption: caption,
         date: date,
         rotate: rotate,
-        washi: "rgba(255, 182, 193, 0.85)"
+        washi: "rgba(255, 182, 193, 0.85)",
+        custom: true
       };
 
       activeMemories.push(newMem);
@@ -1976,7 +2103,9 @@
           method: 'PUT',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(activeMemories)
-        }).catch(() => {});
+        }).then(res => {
+          console.log('Firebase memories synced status:', res.status);
+        }).catch(console.error);
       }
 
       renderPolaroidMemories();
@@ -1988,102 +2117,85 @@
         if (track) track.scrollTo({ left: track.scrollWidth, behavior: 'smooth' });
       }, 200);
 
-      showCardActionToast("📸 New sweet memory added!");
+      showCardActionToast("📸 Sweet memory saved & synced!");
     }
 
-    function scrollPolaroid(direction) {
+    function deleteMemoryCard(index) {
       playPopSound();
-      polaroidTrack.scrollBy({ left: direction * 250, behavior: 'smooth' });
-    }
+      const mem = activeMemories[index];
+      if (!mem) return;
 
-    function renderPolaroidMemories() {
-      const track = document.getElementById('polaroidTrack');
-      if (!track) return;
-      track.innerHTML = MEMORIES_DATA.map((m, idx) => `
-        <div class="snap-center shrink-0 w-[240px] bg-white rounded-2xl p-3 pb-5 shadow-kawaii-lg border-2 border-pink-100 relative transform hover:rotate-0 transition-transform duration-300 cursor-pointer" 
-             style="transform: rotate(${m.rotate}deg);" 
-             onclick="openPhotoModal(${idx})">
-          <!-- Washi Tape -->
-          <div class="washi-tape" style="background: ${m.washi};"></div>
-          
-          <!-- Photo Frame with Real Photo -->
-          <div class="w-full h-[220px] rounded-xl bg-pink-50 overflow-hidden relative flex items-center justify-center border border-pink-100 shadow-inner">
-            <img src="${m.src}" alt="${m.subtitle}" class="w-full h-full object-cover" loading="lazy">
-            <!-- Sanrio Bow in Corner -->
-            <div class="absolute bottom-2 right-2 w-7 h-7 drop-shadow-sm">
-              <svg viewBox="0 0 100 80" class="w-full h-full">
-                <ellipse cx="50" cy="40" rx="12" ry="12" fill="#FF1493"/>
-                <path d="M 38 40 C 5 15 5 65 38 45 Z" fill="#FF69B4"/>
-                <path d="M 62 40 C 95 15 95 65 62 45 Z" fill="#FF69B4"/>
-                <circle cx="50" cy="40" r="5" fill="#FFFFFF"/>
-              </svg>
-            </div>
-          </div>
+      const confirmed = confirm(`Are you sure you want to delete this memory photo?\n\n"${mem.subtitle || mem.caption || 'Memory'}"`);
+      if (!confirmed) return;
 
-          <!-- Date & Episode Tag -->
-          <div class="mt-2.5 flex items-center justify-between px-1">
-            <span class="text-[9px] uppercase font-bold text-bubblegum-pink px-2.5 py-0.5 rounded-full bg-pink-100 border border-pastel-pink/60">
-              ${m.date}
-            </span>
-            <span class="text-[9px] font-bold text-rose-300 tracking-wider">
-              ${m.episode}
-            </span>
-          </div>
+      activeMemories.splice(index, 1);
+      localStorage.setItem('forHer_memories', JSON.stringify(activeMemories));
 
-          <!-- Title & Handwritten Caption -->
-          <div class="mt-1 text-center">
-            <h4 class="font-bubbly font-bold text-deep-rose text-xs leading-tight">${m.subtitle}</h4>
-            <p class="font-handwritten text-lg text-rose-500 font-bold leading-tight mt-0.5">"${m.caption}"</p>
-            <span class="text-[9px] text-rose-300 font-semibold block mt-1">Memory #${idx + 1} of ${MEMORIES_DATA.length} • Tap to view</span>
-          </div>
-        </div>
-      `).join('');
+      if (cloudSyncUrl) {
+        const cleanUrl = cloudSyncUrl.replace(/\/+$/, '');
+        fetch(cleanUrl + '/memories.json', {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(activeMemories)
+        }).catch(console.error);
+      }
 
-      const totalEl = document.getElementById('totalMemoryNum');
-      if (totalEl) totalEl.textContent = MEMORIES_DATA.length;
-    }
-
-    function scrollPolaroid(direction) {
-      playPopSound();
-      polaroidTrack.scrollBy({ left: direction * 256, behavior: 'smooth' });
+      renderPolaroidMemories();
+      closePhotoModal();
+      showCardActionToast("🗑️ Memory removed!");
     }
 
     function openPhotoModal(index) {
       playPopSound();
-      const item = MEMORIES_DATA[index];
+      const item = activeMemories[index];
       if (!item) return;
 
       const modalContainer = document.getElementById('modalPhotoContainer');
       modalContainer.innerHTML = `
         <div class="relative w-full overflow-hidden rounded-2xl shadow-inner border border-pastel-pink bg-pink-50 max-h-[360px] flex items-center justify-center">
-          <img src="${item.src}" alt="${item.subtitle}" class="w-full h-auto max-h-[340px] object-contain rounded-xl">
+          <img src="${item.src}" alt="${escapeHtml(item.subtitle || 'Memory')}" class="w-full h-auto max-h-[340px] object-contain rounded-xl">
         </div>
         <div class="mt-3 flex items-center justify-center gap-2">
-          <span class="text-[10px] uppercase font-bold text-bubblegum-pink px-2.5 py-0.5 rounded-full bg-pink-100 border border-pastel-pink/60">${item.date}</span>
-          <span class="text-[10px] font-bold text-rose-400">${item.episode}</span>
+          <span class="text-[10px] uppercase font-bold text-bubblegum-pink px-2.5 py-0.5 rounded-full bg-pink-100 border border-pastel-pink/60">${escapeHtml(item.date || 'Sweet Day')}</span>
+          <span class="text-[10px] font-bold text-rose-400">${escapeHtml(item.episode || ('Memory #' + (index + 1)))}</span>
         </div>
-        <h4 class="font-bubbly font-bold text-deep-rose text-lg mt-1">${item.subtitle}</h4>
-        <p class="font-handwritten text-2xl text-rose-500 mt-1 px-2 leading-relaxed">"${item.caption}"</p>
+        <h4 class="font-bubbly font-bold text-deep-rose text-lg mt-1">${escapeHtml(item.subtitle || 'Sweet Moment')}</h4>
+        <p class="font-handwritten text-2xl text-rose-500 mt-1 px-2 leading-relaxed">"${escapeHtml(item.caption || '')}"</p>
+        <div class="mt-3 pt-2 border-t border-pink-100 flex items-center justify-center">
+          <button onclick="deleteMemoryCard(${index})" class="px-3 py-1.5 rounded-xl bg-rose-50 hover:bg-rose-100 text-rose-600 text-xs font-bubbly font-bold border border-rose-200 active:scale-95 transition flex items-center gap-1.5">
+            <span>🗑️</span><span>Delete Memory</span>
+          </button>
+        </div>
       `;
       
-      photoModal.classList.remove('opacity-0', 'pointer-events-none');
-      photoModal.children[0].classList.remove('scale-90');
-      photoModal.children[0].classList.add('scale-100');
+      const photoModal = document.getElementById('photoModal');
+      if (photoModal) {
+        photoModal.classList.remove('opacity-0', 'pointer-events-none');
+        photoModal.children[0].classList.remove('scale-90');
+        photoModal.children[0].classList.add('scale-100');
+      }
     }
 
     function closePhotoModal() {
-      photoModal.classList.add('opacity-0', 'pointer-events-none');
-      photoModal.children[0].classList.add('scale-90');
-      photoModal.children[0].classList.remove('scale-100');
+      const photoModal = document.getElementById('photoModal');
+      if (photoModal) {
+        photoModal.classList.add('opacity-0', 'pointer-events-none');
+        photoModal.children[0].classList.add('scale-90');
+        photoModal.children[0].classList.remove('scale-100');
+      }
     }
 
     // Carousel indicator update
-    polaroidTrack.addEventListener('scroll', () => {
-      const scrollLeft = polaroidTrack.scrollLeft;
-      const index = Math.min(MEMORIES_DATA.length - 1, Math.max(0, Math.round(scrollLeft / 256)));
-      const numEl = document.getElementById('currentMemoryNum');
-      if (numEl) numEl.textContent = (index + 1);
-    }, { passive: true });
+    const pTrack = document.getElementById('polaroidTrack');
+    if (pTrack) {
+      pTrack.addEventListener('scroll', () => {
+        const scrollLeft = pTrack.scrollLeft;
+        const total = activeMemories.length || 1;
+        const index = Math.min(total - 1, Math.max(0, Math.round(scrollLeft / 256)));
+        const numEl = document.getElementById('currentMemoryNum');
+        if (numEl) numEl.textContent = (index + 1);
+      }, { passive: true });
+    }
 
     /* =======================================================
      * 8. SECTION 4: GACHA LOVE NOTE DISPENSER
@@ -2575,13 +2687,25 @@
                 </div>
               </div>
 
-              <!-- Photo Selector Dropdown -->
-              <div class="p-2.5 rounded-2xl bg-white/80 border border-pastel-pink/60 flex items-center gap-2">
-                <span class="text-xs">🖼️</span>
-                <label class="text-[11px] font-bubbly font-bold text-deep-rose whitespace-nowrap">Choose Photo:</label>
-                <select onchange="updateLetterField(${index}, 'image', this.value); renderLoveLetters();" class="flex-1 px-2.5 py-1.5 rounded-xl bg-pink-50/60 border border-pastel-pink text-xs font-body text-deep-rose focus:outline-none focus:ring-2 focus:ring-bubblegum-pink/50">
-                  ${AVAILABLE_LETTER_IMAGES.map(img => `<option value="${img.path}" ${item.image === img.path ? 'selected' : ''}>${img.label}</option>`).join('')}
-                </select>
+              <!-- Photo Selector & Device Upload Bar -->
+              <div class="p-3 rounded-2xl bg-white/90 border border-pastel-pink flex flex-col gap-2">
+                <div class="flex items-center justify-between">
+                  <span class="text-[11px] font-bubbly font-bold text-deep-rose flex items-center gap-1">
+                    <span>🖼️</span> Card Picture:
+                  </span>
+                  <!-- Upload From Device Button -->
+                  <label class="cursor-pointer px-3 py-1.5 rounded-xl bg-gradient-to-r from-pink-500 to-rose-400 hover:from-pink-600 hover:to-rose-500 text-white font-bubbly font-bold text-[11px] shadow-sm hover:shadow active:scale-95 transition flex items-center gap-1 border border-pink-300">
+                    <span>📁</span>
+                    <span id="cardUploadText_${index}">Upload From Device</span>
+                    <input type="file" accept="image/*" class="hidden" onchange="handleLetterCardImageUpload(${index}, event)">
+                  </label>
+                </div>
+                <div class="flex items-center gap-2">
+                  <select onchange="updateLetterField(${index}, 'image', this.value); renderLoveLetters();" class="flex-1 px-2.5 py-1.5 rounded-xl bg-pink-50/60 border border-pastel-pink text-xs font-body text-deep-rose focus:outline-none focus:ring-2 focus:ring-bubblegum-pink/50">
+                    <option value="${item.image}">${item.image && item.image.startsWith('data:') ? '✨ Custom Device Photo (Uploaded)' : 'Current Picture'}</option>
+                    ${AVAILABLE_LETTER_IMAGES.map(img => `<option value="${img.path}" ${item.image === img.path ? 'selected' : ''}>${img.label}</option>`).join('')}
+                  </select>
+                </div>
               </div>
 
               <!-- Input: Badge / Tag -->
@@ -2691,6 +2815,26 @@
       localStorage.setItem('forHer_loveLetters', JSON.stringify(activeLoveLetters));
     }
 
+    async function handleLetterCardImageUpload(index, event) {
+      const file = event.target.files && event.target.files[0];
+      if (!file) return;
+
+      playChime();
+      const statusBtn = document.getElementById('cardUploadText_' + index);
+      if (statusBtn) statusBtn.textContent = '⏳ Loading...';
+
+      try {
+        const compressedDataUrl = await compressImageFile(file, 1200, 1200, 0.85);
+        updateLetterField(index, 'image', compressedDataUrl);
+        renderLoveLetters();
+        showCardActionToast(`📸 Card #${index + 1} photo updated from your device!`);
+      } catch (err) {
+        console.error('Image upload failed:', err);
+        alert('Could not process photo: ' + err.message);
+        if (statusBtn) statusBtn.textContent = 'Upload From Device';
+      }
+    }
+
     function moveLetterCard(index, direction) {
       const targetIndex = index + direction;
       if (targetIndex < 0 || targetIndex >= activeLoveLetters.length) return;
@@ -2706,6 +2850,8 @@
       // 1. Immediately save to localStorage (guarantees persistence across refresh)
       localStorage.setItem('forHer_loveLetters', JSON.stringify(activeLoveLetters));
 
+      let cloudSuccess = false;
+
       // 2. If Cloud Live Sync is connected, save directly to Cloud (updates girlfriend in real time!)
       if (cloudSyncUrl) {
         const cleanUrl = cloudSyncUrl.replace(/\/+$/, '');
@@ -2719,6 +2865,7 @@
             console.warn('Firebase rules need to be published with .read: true, .write: true');
             alert('⚠️ Note: Your Firebase Database rules are currently locked (Permission Denied).\n\nPlease go to the Rules tab in your Firebase Console, change the rules to:\n{\n  "rules": {\n    ".read": true,\n    ".write": true\n  }\n}\nand click "Publish" so your updates can sync to Aseh in real time!');
           } else {
+            cloudSuccess = true;
             console.log('Successfully saved to Cloud Realtime Database!');
           }
         })
@@ -2734,15 +2881,18 @@
       .then(res => res.json())
       .then(data => {
         if (data && data.success) {
-          showSaveSuccessModal(true);
+          showSaveSuccessModal(true, false);
         } else {
-          triggerFileDownloadSave();
+          // If on cloud or Vercel, don't force annoying file download
+          showSaveSuccessModal(false, Boolean(cloudSyncUrl));
         }
       })
       .catch(() => {
-        // Fallback for file:/// mode without local server
-        triggerFileDownloadSave();
+        // Fallback for Vercel / static mode without local server
+        showSaveSuccessModal(false, Boolean(cloudSyncUrl));
       });
+
+      renderLoveLetters();
     }
 
     function triggerFileDownloadSave() {
@@ -2757,15 +2907,13 @@
       a.click();
       document.body.removeChild(a);
       URL.revokeObjectURL(url);
-
-      showSaveSuccessModal(false);
     }
 
-    function showSaveSuccessModal(isDirectSaved) {
+    function showSaveSuccessModal(isDirectSaved, isCloudSaved) {
       const modal = document.getElementById('saveModal');
       const container = document.getElementById('saveModalContainer');
       if (!modal || !container) {
-        alert(isDirectSaved ? '🎉 Saved directly to love_letters.js!' : '📥 Downloaded love_letters.js! Place it in "d:\\for her\\" folder.');
+        alert(isDirectSaved ? '🎉 Saved directly to love_letters.js!' : '💖 All love letters saved!');
         return;
       }
 
@@ -2776,16 +2924,39 @@
           </div>
           <h3 class="font-bubbly font-bold text-deep-rose text-xl mb-2">Saved Permanently!</h3>
           <p class="font-body text-xs text-rose-700/90 leading-relaxed mb-3">
-            All <strong>${activeLoveLetters.length} love letters</strong> have been saved!
+            All <strong>${activeLoveLetters.length} love letters & photos</strong> have been saved!
           </p>
           <div class="p-3 rounded-2xl bg-emerald-50 border border-emerald-200 text-left text-[11px] text-emerald-800 font-medium mb-4 space-y-1">
             <p>✓ <strong>Refresh safe</strong>: Your edits stay permanently even if you reload.</p>
             <p>✓ <strong>Project updated</strong>: <code>love_letters.js</code> is updated on your computer.</p>
-            ${cloudSyncUrl ? '<p>✓ <strong>Cloud synced</strong>: Updated on Aseh\'s screen in real time!</p>' : '<p>✨ Ready to host on Netlify or GitHub for Aseh to see!</p>'}
+            ${cloudSyncUrl ? '<p>✓ <strong>Cloud synced</strong>: Updated on Aseh\'s screen in real time!</p>' : '<p>✨ Ready to host on Vercel or GitHub for Aseh to see!</p>'}
           </div>
           <button onclick="closeSaveModal()" class="w-full py-3 rounded-2xl bg-gradient-to-r from-pink-400 to-rose-400 text-white font-bubbly font-bold text-sm shadow-md active:scale-95">
             Yay, Perfect! 💖
           </button>
+        `;
+      } else if (isCloudSaved) {
+        container.innerHTML = `
+          <div class="w-16 h-16 mx-auto mb-3 rounded-full bg-emerald-100 flex items-center justify-center text-3xl">
+            💖
+          </div>
+          <h3 class="font-bubbly font-bold text-deep-rose text-xl mb-2">Saved & Synced Live!</h3>
+          <p class="font-body text-xs text-rose-700/90 leading-relaxed mb-3">
+            All <strong>${activeLoveLetters.length} love letters & photos</strong> are saved in your browser and synced live to Firebase!
+          </p>
+          <div class="p-3 rounded-2xl bg-emerald-50 border border-emerald-200 text-left text-[11px] text-emerald-800 font-medium mb-4 space-y-1">
+            <p>✓ <strong>Refresh safe</strong>: Your edits stay permanently even if you reload.</p>
+            <p>✓ <strong>Live Cloud Synced</strong>: Visible on Aseh's screen on Vercel at the same time!</p>
+            <p>✓ <strong>Device Photos Stored</strong>: Custom pictures you added from your device are securely saved.</p>
+          </div>
+          <div class="flex gap-2">
+            <button onclick="triggerFileDownloadSave()" class="px-3 py-2.5 rounded-xl bg-pink-100 text-deep-rose font-bubbly font-bold text-xs border border-pastel-pink hover:bg-pink-200" title="Download backup file">
+              📥 Backup File
+            </button>
+            <button onclick="closeSaveModal()" class="flex-1 py-2.5 rounded-xl bg-gradient-to-r from-pink-500 to-rose-400 text-white font-bubbly font-bold text-xs shadow-md active:scale-95">
+              Yay, Beautiful! 💖
+            </button>
+          </div>
         `;
       } else {
         container.innerHTML = `
@@ -2798,8 +2969,8 @@
           </p>
           <div class="p-3.5 rounded-2xl bg-pink-50 border border-pastel-pink text-left text-[11px] text-deep-rose font-medium mb-4 space-y-1.5">
             <p><strong>To make it live for your girlfriend when hosted:</strong></p>
-            <p>1. Move the downloaded <code>love_letters.js</code> into your <code>d:\\for her\\</code> project folder.</p>
-            <p>2. Drag the folder to Netlify Drop (or push to GitHub) and send her the link!</p>
+            <p>1. Move the downloaded <code>love_letters.js</code> into your project folder.</p>
+            <p>2. Commit & push to GitHub (or deploy to Vercel) and send her the link!</p>
           </div>
           <div class="flex gap-2">
             <button onclick="copyLettersCode()" class="flex-1 py-2.5 rounded-xl bg-pink-100 text-deep-rose font-bubbly font-bold text-xs border border-pastel-pink hover:bg-pink-200">
@@ -3058,7 +3229,7 @@
       initLoveLetters();
       updateGachaCounter();
       updateRelationshipCounter();
-      renderPolaroidMemories();
+      initMemories();
     });
   </script>
 
@@ -3118,7 +3289,7 @@
   <!-- MODAL: ADD A NEW SWEET MEMORY                           -->
   <!-- ======================================================= -->
   <div id="addMemoryModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-sm opacity-0 pointer-events-none transition-all duration-300">
-    <div class="relative w-full max-w-sm rounded-3xl p-6 frosted-glass border-2 border-pastel-pink shadow-2xl transform scale-90 transition-transform duration-300 text-left flex flex-col gap-3.5" onclick="event.stopPropagation()">
+    <div class="relative w-full max-w-sm rounded-3xl p-6 frosted-glass border-2 border-pastel-pink shadow-2xl transform scale-90 transition-transform duration-300 text-left flex flex-col gap-3.5 max-h-[92vh] overflow-y-auto" onclick="event.stopPropagation()">
       <div class="flex items-center justify-between border-b pb-2 border-pink-100">
         <div class="flex items-center gap-2">
           <span class="text-2xl">📸</span>
@@ -3127,10 +3298,30 @@
         <button onclick="closeAddMemoryModal()" class="w-8 h-8 rounded-full bg-pink-100 text-deep-rose font-bold text-sm hover:bg-pink-200 flex items-center justify-center">✕</button>
       </div>
 
-      <!-- Photo Picker -->
-      <div>
-        <label class="block text-xs font-bold text-deep-rose mb-1">Choose Photo:</label>
-        <select id="newMemoryPhotoSelect" onchange="previewNewMemoryPhoto(this.value)" class="w-full px-3 py-2 rounded-xl border border-pastel-pink bg-pink-50/50 text-deep-rose font-body text-xs focus:outline-none focus:ring-2 focus:ring-bubblegum-pink mb-1.5">
+      <!-- Photo Picker & Device Upload -->
+      <div class="flex flex-col gap-2">
+        <label class="block text-xs font-bold text-deep-rose">Memory Photo:</label>
+
+        <!-- Device Upload Button -->
+        <label class="w-full flex items-center justify-center gap-2 py-2.5 px-4 rounded-2xl bg-gradient-to-r from-pink-500 to-rose-400 hover:from-pink-600 hover:to-rose-500 text-white font-bubbly font-bold text-xs shadow-md cursor-pointer active:scale-95 transition-all border border-pink-300">
+          <span class="text-base">📁</span>
+          <span id="memoryUploadBtnText">Upload Photo From Your Device</span>
+          <input type="file" id="newMemoryFileInput" accept="image/*" class="hidden" onchange="handleMemoryFileSelect(event)">
+        </label>
+
+        <div id="memoryUploadStatus" class="hidden text-[11px] font-bold text-emerald-700 bg-emerald-50 border border-emerald-200 px-3 py-1.5 rounded-xl flex items-center gap-1.5">
+          <span>✅</span><span id="memoryUploadStatusText">Custom device photo loaded!</span>
+        </div>
+
+        <!-- Or Divider -->
+        <div class="flex items-center gap-2 my-0.5">
+          <div class="h-px bg-pink-200/80 flex-1"></div>
+          <span class="text-[10px] font-bold text-rose-300 uppercase tracking-wider">OR choose preset / URL</span>
+          <div class="h-px bg-pink-200/80 flex-1"></div>
+        </div>
+
+        <select id="newMemoryPhotoSelect" onchange="onMemoryPresetSelect(this.value)" class="w-full px-3 py-2 rounded-xl border border-pastel-pink bg-pink-50/50 text-deep-rose font-body text-xs focus:outline-none focus:ring-2 focus:ring-bubblegum-pink">
+          <option value="">-- Choose from preset gallery photos --</option>
           <option value="images/letters/letter_img_1.jpeg">Photo 1 (Anime Sunset Romance)</option>
           <option value="images/letters/letter_img_2.jpeg">Photo 2 (Tea & Quiet Comfort)</option>
           <option value="images/letters/letter_img_3.jpeg">Photo 3 (Blanket & Deep Care)</option>
@@ -3149,12 +3340,13 @@
           <option value="images/letters/letter_img_16.jpg">Photo 16 (Coffee Date Reassurance)</option>
           <option value="images/letters/letter_img_17.jpg">Photo 17 (Yellow Flower Field)</option>
         </select>
-        <input type="text" id="newMemoryCustomPhoto" placeholder="Or paste custom image path / URL" oninput="previewNewMemoryPhoto(this.value)" class="w-full px-3 py-1.5 rounded-xl border border-pastel-pink/70 bg-white text-deep-rose font-body text-[11px] focus:outline-none focus:ring-2 focus:ring-bubblegum-pink">
+        <input type="text" id="newMemoryCustomPhoto" placeholder="Or paste custom image path / URL" oninput="onMemoryCustomUrlInput(this.value)" class="w-full px-3 py-1.5 rounded-xl border border-pastel-pink/70 bg-white text-deep-rose font-body text-[11px] focus:outline-none focus:ring-2 focus:ring-bubblegum-pink">
       </div>
 
       <!-- Preview Thumbnail -->
-      <div class="w-full h-32 rounded-xl bg-pink-100/50 border border-pastel-pink overflow-hidden flex items-center justify-center">
+      <div class="relative w-full h-36 rounded-2xl bg-pink-100/50 border-2 border-dashed border-pastel-pink overflow-hidden flex items-center justify-center shadow-inner">
         <img id="newMemoryPreviewImg" src="images/letters/letter_img_1.jpeg" class="w-full h-full object-cover">
+        <div class="absolute bottom-1 right-2 text-[10px] bg-black/40 text-white px-2 py-0.5 rounded-full backdrop-blur-xs font-bold">Preview</div>
       </div>
 
       <!-- Memory Title -->
