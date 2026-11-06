@@ -869,11 +869,19 @@
           </div>
         </div>
 
-        <!-- Boyfriend Writer Mode Button -->
-        <button id="toggleEditorBtn" onclick="toggleLetterEditor()" class="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/90 hover:bg-white text-bubblegum-pink border border-pastel-pink text-xs font-bubbly font-bold shadow-sm transition active:scale-95" title="Write & customize our love letters">
-          <span id="editorBtnIcon">✏️</span>
-          <span id="editorBtnText">Our Love Notes</span>
-        </button>
+        <div class="flex items-center gap-2">
+          <!-- ➕ Add Letter Button -->
+          <button onclick="openAddLoveLetterModal()" class="px-3 py-1.5 rounded-full bg-gradient-to-r from-pink-500 to-rose-400 text-white border border-pastel-pink text-xs font-bubbly font-bold shadow-sm transition active:scale-95 flex items-center gap-1 hover:shadow-md">
+            <span>➕</span>
+            <span>Add Letter</span>
+          </button>
+
+          <!-- Boyfriend Writer Mode Button -->
+          <button id="toggleEditorBtn" onclick="toggleLetterEditor()" class="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/90 hover:bg-white text-bubblegum-pink border border-pastel-pink text-xs font-bubbly font-bold shadow-sm transition active:scale-95" title="Write & customize our love letters">
+            <span id="editorBtnIcon">✏️</span>
+            <span id="editorBtnText">Our Love Notes</span>
+          </button>
+        </div>
       </div>
 
       <!-- Editor Mode Notification / Action Toolbar (Shown in Boyfriend Mode) -->
@@ -2553,36 +2561,190 @@
     // CRUD OPERATIONS: ADD, DELETE, REVERT
     // =========================================================
 
-    // 1. ADD NEW LETTER CARD
-    function addNewLetterCard() {
+    // 1. ADD NEW LETTER CARD (Interactive Modal Controls)
+    let currentLetterUploadedDataUrl = '';
+
+    function openAddLoveLetterModal() {
+      playPopSound();
+      const modal = document.getElementById('addLoveLetterModal');
+      if (!modal) return;
+      currentLetterUploadedDataUrl = '';
+
+      const nextNum = activeLoveLetters.length + 1;
+      const defaultImg = AVAILABLE_LETTER_IMAGES[nextNum % AVAILABLE_LETTER_IMAGES.length] || AVAILABLE_LETTER_IMAGES[0];
+
+      const tagInput = document.getElementById('newLetterTag');
+      if (tagInput) tagInput.value = `🌸 Love Letter #${nextNum}`;
+
+      const titleInput = document.getElementById('newLetterTitle');
+      if (titleInput) titleInput.value = '';
+
+      const quoteInput = document.getElementById('newLetterQuote');
+      if (quoteInput) quoteInput.value = '';
+
+      const bodyInput = document.getElementById('newLetterBody');
+      if (bodyInput) bodyInput.value = '';
+
+      const customPhotoInput = document.getElementById('newLetterCustomPhoto');
+      if (customPhotoInput) customPhotoInput.value = '';
+
+      const fileInput = document.getElementById('newLetterFileInput');
+      if (fileInput) fileInput.value = '';
+
+      const statusEl = document.getElementById('letterUploadStatus');
+      if (statusEl) statusEl.classList.add('hidden');
+
+      const uploadText = document.getElementById('letterUploadBtnText');
+      if (uploadText) uploadText.textContent = 'Upload Photo From Your Device';
+
+      const selectEl = document.getElementById('newLetterPhotoSelect');
+      if (selectEl) selectEl.selectedIndex = 0;
+
+      previewNewLetterPhoto(defaultImg.path);
+      updateNewLetterTagPreview(`🌸 Love Letter #${nextNum}`);
+
+      modal.classList.remove('opacity-0', 'pointer-events-none');
+      if (modal.children[0]) {
+        modal.children[0].classList.remove('scale-90');
+        modal.children[0].classList.add('scale-100');
+      }
+    }
+
+    function closeAddLoveLetterModal() {
+      const modal = document.getElementById('addLoveLetterModal');
+      if (modal) {
+        modal.classList.add('opacity-0', 'pointer-events-none');
+        if (modal.children[0]) {
+          modal.children[0].classList.add('scale-90');
+          modal.children[0].classList.remove('scale-100');
+        }
+      }
+    }
+
+    function previewNewLetterPhoto(src) {
+      const img = document.getElementById('newLetterPreviewImg');
+      if (img && src) img.src = src;
+    }
+
+    function updateNewLetterTagPreview(text) {
+      const tagEl = document.getElementById('newLetterTagPreview');
+      if (tagEl) {
+        tagEl.textContent = text || '🌸 Love Letter';
+      }
+    }
+
+    function onNewLetterPresetSelect(val) {
+      if (val) {
+        currentLetterUploadedDataUrl = '';
+        const statusEl = document.getElementById('letterUploadStatus');
+        if (statusEl) statusEl.classList.add('hidden');
+        previewNewLetterPhoto(val);
+      }
+    }
+
+    function onNewLetterCustomUrlInput(val) {
+      if (val) {
+        currentLetterUploadedDataUrl = '';
+        const statusEl = document.getElementById('letterUploadStatus');
+        if (statusEl) statusEl.classList.add('hidden');
+        previewNewLetterPhoto(val);
+      }
+    }
+
+    async function handleNewLetterFileSelect(event) {
+      const file = event.target.files && event.target.files[0];
+      if (!file) return;
+
       playChime();
-      const nextIndex = activeLoveLetters.length;
-      const imgObj = AVAILABLE_LETTER_IMAGES[nextIndex % AVAILABLE_LETTER_IMAGES.length] || AVAILABLE_LETTER_IMAGES[0];
-      
+      const uploadText = document.getElementById('letterUploadBtnText');
+      if (uploadText) uploadText.textContent = '⏳ Compressing photo...';
+
+      try {
+        const dataUrl = await compressImageFile(file, 1200, 1200, 0.85);
+        currentLetterUploadedDataUrl = dataUrl;
+        previewNewLetterPhoto(dataUrl);
+
+        const statusEl = document.getElementById('letterUploadStatus');
+        const statusText = document.getElementById('letterUploadStatusText');
+        if (statusEl && statusText) {
+          statusText.textContent = `Photo ready: ${file.name.slice(0, 24)}`;
+          statusEl.classList.remove('hidden');
+        }
+
+        if (uploadText) uploadText.textContent = 'Change Device Photo 📁';
+        showCardActionToast('📸 Device photo loaded! Write your letter and save.');
+      } catch (err) {
+        console.error('Error reading letter image:', err);
+        alert('Could not process photo: ' + err.message);
+        if (uploadText) uploadText.textContent = 'Upload Photo From Your Device';
+      }
+    }
+
+    function saveNewLoveLetterFromModal() {
+      playChime();
+      const customPhoto = document.getElementById('newLetterCustomPhoto')?.value.trim();
+      const selectPhoto = document.getElementById('newLetterPhotoSelect')?.value;
+      const previewImg = document.getElementById('newLetterPreviewImg')?.src;
+      const nextNum = activeLoveLetters.length + 1;
+      const fallbackImg = AVAILABLE_LETTER_IMAGES[nextNum % AVAILABLE_LETTER_IMAGES.length]?.path || 'images/letters/letter_img_1.jpeg';
+      const photoSrc = currentLetterUploadedDataUrl || customPhoto || selectPhoto || previewImg || fallbackImg;
+
+      const tag = document.getElementById('newLetterTag')?.value.trim() || `🌸 Love Letter #${nextNum}`;
+      const title = document.getElementById('newLetterTitle')?.value.trim() || 'A Sweet Reason Why I Love You';
+      const quote = document.getElementById('newLetterQuote')?.value.trim() || 'Every single moment with you is my greatest gift.';
+      const body = document.getElementById('newLetterBody')?.value.trim() || 'My dearest Aseh,\n\nYou hold a special place in my heart that no one else could ever fill. You are my favorite person in the entire world 💖';
+
       const newCard = {
         id: Date.now(),
-        image: imgObj.path,
-        tag: "🌸 Love Letter #" + (nextIndex + 1),
-        title: "A Sweet Reason Why I Love You",
-        quote: "Every single moment with you is my greatest gift.",
-        letter: "My dearest Aseh,\n\nI wanted to add another special letter for you because loving you has no limits. You make every day more beautiful..."
+        image: photoSrc,
+        tag: tag,
+        title: title,
+        quote: quote,
+        letter: body
       };
 
       activeLoveLetters.push(newCard);
       localStorage.setItem('forHer_loveLetters', JSON.stringify(activeLoveLetters));
-      renderLoveLetters();
 
-      // Auto-scroll to the new card
+      // Immediate cloud sync
+      if (cloudSyncUrl) {
+        const cleanUrl = cloudSyncUrl.replace(/\/+$/, '');
+        const payload = JSON.stringify(activeLoveLetters);
+        fetch(cleanUrl + '/letters.json', {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: payload
+        }).catch(() => {});
+        fetch(cleanUrl + '/loveLetters.json', {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: payload
+        }).catch(() => {});
+      }
+
+      // Local server sync if running
+      fetch('/api/save-letters', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(activeLoveLetters)
+      }).catch(() => {});
+
+      renderLoveLetters();
+      closeAddLoveLetterModal();
+      showCardActionToast('✨ New sweet love letter added!');
+
+      // Smoothly scroll down to the newly created letter
       setTimeout(() => {
         const container = document.getElementById('loveLettersContainer');
         if (container && container.lastElementChild) {
           container.lastElementChild.scrollIntoView({ behavior: 'smooth', block: 'center' });
-          const titleInput = container.lastElementChild.querySelector('input[type="text"]');
-          if (titleInput) titleInput.focus();
         }
-      }, 150);
+      }, 200);
+    }
 
-      showCardActionToast("✨ New love letter card added!");
+    // Alias for buttons calling addNewLetterCard
+    function addNewLetterCard() {
+      openAddLoveLetterModal();
     }
 
     // 2. DELETE SPECIFIC LETTER CARD
@@ -2801,13 +2963,13 @@
         }
       }).join('');
 
-      // If in Boyfriend Mode, append the big "➕ Add Another Love Letter Card" button at the bottom!
-      const addCardButtonHtml = isLetterEditorActive ? `
-        <button onclick="addNewLetterCard()" class="w-full py-4 rounded-3xl border-2 border-dashed border-bubblegum-pink bg-white/80 hover:bg-white text-deep-rose font-bubbly font-bold text-sm flex items-center justify-center gap-2 shadow-sm transition active:scale-95 hover:border-deep-rose">
+      // Append the "+ Add Another Sweet Love Letter Card" button
+      const addCardButtonHtml = `
+        <button onclick="openAddLoveLetterModal()" class="w-full py-4 rounded-3xl border-2 border-dashed border-bubblegum-pink bg-white/80 hover:bg-white text-deep-rose font-bubbly font-bold text-sm flex items-center justify-center gap-2 shadow-sm transition active:scale-95 hover:border-deep-rose mt-2">
           <span class="text-lg">➕</span>
           <span>Add Another Sweet Love Letter Card</span>
         </button>
-      ` : '';
+      `;
 
       container.innerHTML = cardsHtml + addCardButtonHtml;
     }
@@ -3202,6 +3364,7 @@
         if (typeof closePhotoModal === 'function') closePhotoModal();
         if (typeof closeLoveNoteModal === 'function') closeLoveNoteModal();
         if (typeof closeAddMemoryModal === 'function') closeAddMemoryModal();
+        if (typeof closeAddLoveLetterModal === 'function') closeAddLoveLetterModal();
         if (typeof closeCloudSyncModal === 'function') closeCloudSyncModal();
         if (typeof closeSaveModal === 'function') closeSaveModal();
         if (typeof closeCustomizeModal === 'function') closeCustomizeModal();
@@ -3376,6 +3539,109 @@
           Save Memory 💖
         </button>
         <button onclick="closeAddMemoryModal()" class="px-4 min-h-[44px] rounded-2xl bg-pink-100 text-deep-rose font-bubbly font-bold text-xs active:scale-95 transition-all">
+          Cancel
+        </button>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ======================================================= -->
+  <!-- MODAL: ADD A NEW SWEET LOVE LETTER                      -->
+  <!-- ======================================================= -->
+  <div id="addLoveLetterModal" onclick="closeAddLoveLetterModal()" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-sm opacity-0 pointer-events-none transition-all duration-300">
+    <div class="relative w-full max-w-sm sm:max-w-md rounded-3xl p-6 frosted-glass border-2 border-pastel-pink shadow-2xl transform scale-90 transition-transform duration-300 text-left flex flex-col gap-3.5 max-h-[92vh] overflow-y-auto" onclick="event.stopPropagation()">
+      <div class="flex items-center justify-between border-b pb-2 border-pink-100">
+        <div class="flex items-center gap-2">
+          <span class="text-2xl">💌</span>
+          <h3 class="font-bubbly font-bold text-deep-rose text-lg">Add Sweet Love Letter</h3>
+        </div>
+        <button onclick="closeAddLoveLetterModal()" class="w-8 h-8 rounded-full bg-pink-100 text-deep-rose font-bold text-sm hover:bg-pink-200 flex items-center justify-center">✕</button>
+      </div>
+
+      <!-- Photo Picker & Device Upload -->
+      <div class="flex flex-col gap-2">
+        <label class="block text-xs font-bold text-deep-rose">Letter Photo / Picture:</label>
+
+        <!-- Device Upload Button -->
+        <label class="w-full flex items-center justify-center gap-2 py-2.5 px-4 rounded-2xl bg-gradient-to-r from-pink-500 to-rose-400 hover:from-pink-600 hover:to-rose-500 text-white font-bubbly font-bold text-xs shadow-md cursor-pointer active:scale-95 transition-all border border-pink-300">
+          <span class="text-base">📁</span>
+          <span id="letterUploadBtnText">Upload Photo From Your Device</span>
+          <input type="file" id="newLetterFileInput" accept="image/*" class="hidden" onchange="handleNewLetterFileSelect(event)">
+        </label>
+
+        <div id="letterUploadStatus" class="hidden text-[11px] font-bold text-emerald-700 bg-emerald-50 border border-emerald-200 px-3 py-1.5 rounded-xl flex items-center gap-1.5">
+          <span>✅</span><span id="letterUploadStatusText">Custom device photo loaded!</span>
+        </div>
+
+        <!-- Or Divider -->
+        <div class="flex items-center gap-2 my-0.5">
+          <div class="h-px bg-pink-200/80 flex-1"></div>
+          <span class="text-[10px] font-bold text-rose-300 uppercase tracking-wider">OR choose preset / URL</span>
+          <div class="h-px bg-pink-200/80 flex-1"></div>
+        </div>
+
+        <select id="newLetterPhotoSelect" onchange="onNewLetterPresetSelect(this.value)" class="w-full px-3 py-2 rounded-xl border border-pastel-pink bg-pink-50/50 text-deep-rose font-body text-xs focus:outline-none focus:ring-2 focus:ring-bubblegum-pink">
+          <option value="">-- Choose from preset gallery photos --</option>
+          <option value="images/letters/letter_img_1.jpeg">Photo 1 (Anime Sunset Romance)</option>
+          <option value="images/letters/letter_img_2.jpeg">Photo 2 (Tea & Quiet Comfort)</option>
+          <option value="images/letters/letter_img_3.jpeg">Photo 3 (Blanket & Deep Care)</option>
+          <option value="images/letters/letter_img_4.jpeg">Photo 4 (Sweet Smiles & Sunshine)</option>
+          <option value="images/letters/letter_img_5.jpeg">Photo 5 (Growing Old Together)</option>
+          <option value="images/letters/letter_img_6.jpeg">Photo 6 (My Beautiful Princess)</option>
+          <option value="images/letters/letter_img_7.jpeg">Photo 7 (Safe In My Arms)</option>
+          <option value="images/letters/letter_img_8.jpeg">Photo 8 (Finding Our Way Back)</option>
+          <option value="images/letters/letter_img_9.jpeg">Photo 9 (A Lifetime Promise)</option>
+          <option value="images/letters/letter_img_10.jpeg">Photo 10 (Heart Board Memory)</option>
+          <option value="images/letters/letter_img_11.jpeg">Photo 11 (Sweet Girl Portrait)</option>
+          <option value="images/letters/letter_img_12.jpeg">Photo 12 (Gentle Hair & Care)</option>
+          <option value="images/letters/letter_img_13.jpg">Photo 13 (Endless Gratitude)</option>
+          <option value="images/letters/letter_img_14.jpg">Photo 14 (Yellow Rose Couple)</option>
+          <option value="images/letters/letter_img_15.jpg">Photo 15 (Traditional Princess)</option>
+          <option value="images/letters/letter_img_16.jpg">Photo 16 (Coffee Date Reassurance)</option>
+          <option value="images/letters/letter_img_17.jpg">Photo 17 (Yellow Flower Field)</option>
+        </select>
+        <input type="text" id="newLetterCustomPhoto" placeholder="Or paste custom image path / URL" oninput="onNewLetterCustomUrlInput(this.value)" class="w-full px-3 py-1.5 rounded-xl border border-pastel-pink/70 bg-white text-deep-rose font-body text-[11px] focus:outline-none focus:ring-2 focus:ring-bubblegum-pink">
+      </div>
+
+      <!-- Preview Thumbnail with Tag Badge -->
+      <div class="relative w-full h-36 rounded-2xl bg-pink-100/50 border-2 border-dashed border-pastel-pink overflow-hidden flex items-center justify-center shadow-inner">
+        <img id="newLetterPreviewImg" src="images/letters/letter_img_1.jpeg" class="w-full h-full object-cover">
+        <div class="absolute top-2 left-2">
+          <span id="newLetterTagPreview" class="text-[10px] font-bold text-bubblegum-pink px-2.5 py-0.5 rounded-full bg-white/95 shadow-sm border border-pastel-pink/60">🌸 Forever Yours</span>
+        </div>
+        <div class="absolute bottom-1 right-2 text-[10px] bg-black/40 text-white px-2 py-0.5 rounded-full backdrop-blur-xs font-bold">Preview</div>
+      </div>
+
+      <!-- Badge / Tag Input -->
+      <div>
+        <label class="block text-xs font-bold text-deep-rose mb-1">🏷️ Tag / Badge:</label>
+        <input id="newLetterTag" type="text" placeholder="e.g. 🌸 Forever Yours or For My Biwi" oninput="updateNewLetterTagPreview(this.value)" class="w-full px-3 py-2 rounded-xl border border-pastel-pink bg-pink-50/50 text-deep-rose font-body text-xs focus:outline-none focus:ring-2 focus:ring-bubblegum-pink">
+      </div>
+
+      <!-- Letter Title / Name -->
+      <div>
+        <label class="block text-xs font-bold text-deep-rose mb-1">🌸 Letter Title / Name:</label>
+        <input id="newLetterTitle" type="text" placeholder="e.g. My Favorite Person in the Entire World" class="w-full px-3 py-2 rounded-xl border border-pastel-pink bg-pink-50/50 text-deep-rose font-bubbly text-xs focus:outline-none focus:ring-2 focus:ring-bubblegum-pink">
+      </div>
+
+      <!-- Short Romantic Quote -->
+      <div>
+        <label class="block text-xs font-bold text-deep-rose mb-1">💬 Sweet Romantic Quote:</label>
+        <input id="newLetterQuote" type="text" placeholder="e.g. Every single day with you is my new favorite day 💕" class="w-full px-3 py-2 rounded-xl border border-pastel-pink bg-pink-50/50 text-deep-rose font-body text-xs focus:outline-none focus:ring-2 focus:ring-bubblegum-pink">
+      </div>
+
+      <!-- Full Love Letter Body Text -->
+      <div>
+        <label class="block text-xs font-bold text-deep-rose mb-1">💌 Your Love Letter Under This Picture:</label>
+        <textarea id="newLetterBody" rows="5" placeholder="Pour your heart out here... Write why you love them, sweet promises, and memories 💕" class="w-full p-3 rounded-xl border border-pastel-pink bg-pink-50/50 text-deep-rose font-body text-xs leading-relaxed focus:outline-none focus:ring-2 focus:ring-bubblegum-pink resize-y"></textarea>
+      </div>
+
+      <div class="flex gap-2 pt-2">
+        <button onclick="saveNewLoveLetterFromModal()" class="flex-1 min-h-[44px] rounded-2xl bg-gradient-to-r from-pink-500 to-rose-400 text-white font-bubbly font-bold text-xs shadow-md active:scale-95 transition-all">
+          Save & Add Letter 💖
+        </button>
+        <button onclick="closeAddLoveLetterModal()" class="px-4 min-h-[44px] rounded-2xl bg-pink-100 text-deep-rose font-bubbly font-bold text-xs active:scale-95 transition-all">
           Cancel
         </button>
       </div>
