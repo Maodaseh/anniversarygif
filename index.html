@@ -2057,40 +2057,45 @@
       }
     }
 
-    async function handleMemoryFileSelect(event) {
+    function triggerMemoryFileInput() {
+      const fi = document.getElementById('newMemoryFileInput');
+      if (fi) { fi.value = ''; fi.click(); }
+    }
+
+    function handleMemoryFileSelect(event) {
       const file = event.target.files && event.target.files[0];
       if (!file) return;
 
       playChime();
       const uploadText = document.getElementById('memoryUploadBtnText');
-      if (uploadText) uploadText.textContent = '⏳ Loading photo...';
+      if (uploadText) uploadText.textContent = '⏳ Loading...';
 
-      try {
-        const dataUrl = await compressImageFile(file, 640, 640, 0.72);
-        currentMemoryUploadedDataUrl = dataUrl;
-        previewNewMemoryPhoto(dataUrl);
+      const reader = new FileReader();
+      reader.onerror = function() {
+        alert('Could not read the photo. Please try a JPG or PNG file.');
+        if (uploadText) uploadText.textContent = '📁 Upload Photo From Your Device';
+      };
+      reader.onload = function(e) {
+        currentMemoryUploadedDataUrl = e.target.result;
+        previewNewMemoryPhoto(e.target.result);
 
         const statusEl = document.getElementById('memoryUploadStatus');
         const statusText = document.getElementById('memoryUploadStatusText');
         if (statusEl && statusText) {
-          statusText.textContent = `✅ Photo loaded (${Math.round(dataUrl.length / 1024)} KB)!`;
+          statusText.textContent = '✅ Photo loaded: ' + (file.name || 'photo').slice(0, 24);
           statusEl.classList.remove('hidden');
         }
-
-        if (uploadText) uploadText.textContent = 'Change Photo 📁';
-        showCardActionToast('📸 Photo loaded! Click Save Memory.');
-      } catch (err) {
-        console.error('Error reading memory image:', err);
-        alert('Could not load photo: ' + err.message);
-        if (uploadText) uploadText.textContent = 'Upload Photo From Your Device';
-      }
+        if (uploadText) uploadText.textContent = '📁 Change Photo';
+        showCardActionToast('📸 Photo ready! Fill in the details and tap Save Memory.');
+      };
+      reader.readAsDataURL(file);
     }
 
     function saveNewMemory() {
       playChime();
       const selectPhoto = document.getElementById('newMemoryPhotoSelect')?.value;
-      const previewImg = document.getElementById('newMemoryPreviewImg')?.src;
-      const photoSrc = currentMemoryUploadedDataUrl || selectPhoto || previewImg || 'images/letters/letter_img_1.jpeg';
+      // Don't use previewImg.src as fallback — it can be a full page URL if default image failed
+      const photoSrc = currentMemoryUploadedDataUrl || (selectPhoto && selectPhoto !== '' ? selectPhoto : null) || 'images/letters/letter_img_1.jpeg';
 
       const title = document.getElementById('newMemoryTitle')?.value.trim() || 'Sweet Memory';
       const date = document.getElementById('newMemoryDate')?.value.trim() || 'Special Day';
@@ -2651,43 +2656,47 @@
       }
     }
 
-    async function handleNewLetterFileSelect(event) {
+    function triggerLetterFileInput() {
+      const fi = document.getElementById('newLetterFileInput');
+      if (fi) { fi.value = ''; fi.click(); }
+    }
+
+    function handleNewLetterFileSelect(event) {
       const file = event.target.files && event.target.files[0];
       if (!file) return;
 
       playChime();
       const uploadText = document.getElementById('letterUploadBtnText');
-      if (uploadText) uploadText.textContent = '⏳ Loading photo...';
+      if (uploadText) uploadText.textContent = '⏳ Loading...';
 
-      try {
-        const dataUrl = await compressImageFile(file, 640, 640, 0.72);
-        currentLetterUploadedDataUrl = dataUrl;
-        previewNewLetterPhoto(dataUrl);
+      const reader = new FileReader();
+      reader.onerror = function() {
+        alert('Could not read the photo. Please try a JPG or PNG file.');
+        if (uploadText) uploadText.textContent = '📁 Upload Photo From Your Device';
+      };
+      reader.onload = function(e) {
+        currentLetterUploadedDataUrl = e.target.result;
+        previewNewLetterPhoto(e.target.result);
 
         const statusEl = document.getElementById('letterUploadStatus');
         const statusText = document.getElementById('letterUploadStatusText');
         if (statusEl && statusText) {
-          statusText.textContent = `✅ Photo loaded (${Math.round(dataUrl.length / 1024)} KB)!`;
+          statusText.textContent = '✅ Photo loaded: ' + (file.name || 'photo').slice(0, 24);
           statusEl.classList.remove('hidden');
         }
-
-        if (uploadText) uploadText.textContent = 'Change Photo 📁';
-        showCardActionToast('📸 Photo loaded! Write your letter and save.');
-      } catch (err) {
-        console.error('Error reading letter image:', err);
-        alert('Could not load photo: ' + err.message);
-        if (uploadText) uploadText.textContent = 'Upload Photo From Your Device';
-      }
+        if (uploadText) uploadText.textContent = '📁 Change Photo';
+        showCardActionToast('📸 Photo ready! Write your letter and tap Save.');
+      };
+      reader.readAsDataURL(file);
     }
 
     function saveNewLoveLetterFromModal() {
       playChime();
       const selectPhoto = document.getElementById('newLetterPhotoSelect')?.value;
-      const previewImg = document.getElementById('newLetterPreviewImg')?.src;
       const nextNum = activeLoveLetters.length + 1;
       const fallbackImg = AVAILABLE_LETTER_IMAGES[nextNum % AVAILABLE_LETTER_IMAGES.length]?.path || 'images/letters/letter_img_1.jpeg';
       
-      const photoSrc = currentLetterUploadedDataUrl || selectPhoto || previewImg || fallbackImg;
+      const photoSrc = currentLetterUploadedDataUrl || (selectPhoto && selectPhoto !== '' ? selectPhoto : null) || fallbackImg;
 
       const tag = document.getElementById('newLetterTag')?.value.trim() || `🌸 Love Letter #${nextNum}`;
       const title = document.getElementById('newLetterTitle')?.value.trim() || 'A Sweet Reason Why I Love You';
@@ -3536,11 +3545,12 @@
 
       <!-- Device Upload Button & Presets -->
       <div class="flex flex-col gap-2">
-        <label class="w-full flex items-center justify-center gap-2 py-2.5 px-4 rounded-2xl bg-gradient-to-r from-pink-500 to-rose-400 hover:from-pink-600 hover:to-rose-500 text-white font-bubbly font-bold text-xs shadow-md cursor-pointer active:scale-95 transition-all border border-pink-300">
+        <!-- Hidden file input - outside the label for maximum browser compatibility -->
+        <input type="file" id="newMemoryFileInput" accept="image/*" style="position:absolute;width:1px;height:1px;opacity:0;overflow:hidden;z-index:-1;" onchange="handleMemoryFileSelect(event)">
+        <button type="button" onclick="triggerMemoryFileInput()" class="w-full flex items-center justify-center gap-2 py-2.5 px-4 rounded-2xl bg-gradient-to-r from-pink-500 to-rose-400 hover:from-pink-600 hover:to-rose-500 text-white font-bubbly font-bold text-xs shadow-md cursor-pointer active:scale-95 transition-all border border-pink-300">
           <span class="text-base">📁</span>
           <span id="memoryUploadBtnText">Upload Photo From Your Device</span>
-          <input type="file" id="newMemoryFileInput" accept="image/*" class="hidden" onchange="handleMemoryFileSelect(event)">
-        </label>
+        </button>
 
         <div id="memoryUploadStatus" class="hidden text-[11px] font-bold text-emerald-700 bg-emerald-50 border border-emerald-200 px-3 py-1.5 rounded-xl flex items-center gap-1.5">
           <span>✅</span><span id="memoryUploadStatusText">Custom device photo loaded!</span>
@@ -3625,11 +3635,12 @@
 
       <!-- Device Upload Button & Presets -->
       <div class="flex flex-col gap-2">
-        <label class="w-full flex items-center justify-center gap-2 py-2.5 px-4 rounded-2xl bg-gradient-to-r from-pink-500 to-rose-400 hover:from-pink-600 hover:to-rose-500 text-white font-bubbly font-bold text-xs shadow-md cursor-pointer active:scale-95 transition-all border border-pink-300">
+        <!-- Hidden file input - outside the label for maximum browser compatibility -->
+        <input type="file" id="newLetterFileInput" accept="image/*" style="position:absolute;width:1px;height:1px;opacity:0;overflow:hidden;z-index:-1;" onchange="handleNewLetterFileSelect(event)">
+        <button type="button" onclick="triggerLetterFileInput()" class="w-full flex items-center justify-center gap-2 py-2.5 px-4 rounded-2xl bg-gradient-to-r from-pink-500 to-rose-400 hover:from-pink-600 hover:to-rose-500 text-white font-bubbly font-bold text-xs shadow-md cursor-pointer active:scale-95 transition-all border border-pink-300">
           <span class="text-base">📁</span>
           <span id="letterUploadBtnText">Upload Photo From Your Device</span>
-          <input type="file" id="newLetterFileInput" accept="image/*" class="hidden" onchange="handleNewLetterFileSelect(event)">
-        </label>
+        </button>
 
         <div id="letterUploadStatus" class="hidden text-[11px] font-bold text-emerald-700 bg-emerald-50 border border-emerald-200 px-3 py-1.5 rounded-xl flex items-center gap-1.5">
           <span>✅</span><span id="letterUploadStatusText">Custom device photo loaded!</span>
