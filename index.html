@@ -1458,6 +1458,13 @@
       } catch(e) {}
     }
 
+    // Safe alias for playChimeSound
+    function playChime() {
+      try {
+        if (typeof playChimeSound === 'function') playChimeSound();
+      } catch(e) {}
+    }
+
     // Cute Bubble Pop Sound (For Gacha Dispense & Buttons)
     function playPopSound() {
       try {
@@ -1834,19 +1841,20 @@
       }
     }
 
-    function compressImageFile(file, maxWidth = 640, maxHeight = 640, quality = 0.72) {
-      return new Promise((resolve, reject) => {
-        if (!file) return reject(new Error('No file selected'));
+    function compressImageFile(file, maxWidth = 640, maxHeight = 640, quality = 0.75) {
+      return new Promise((resolve) => {
+        if (!file) return resolve('');
 
         const reader = new FileReader();
-        reader.onerror = () => reject(new Error('Could not read file from your device'));
+        reader.onerror = () => resolve('');
         reader.onload = (e) => {
+          const rawResult = e.target.result;
           const img = new Image();
-          img.onerror = () => reject(new Error('Could not decode photo. Please choose a JPG, PNG, or WebP photo.'));
+          img.onerror = () => resolve(rawResult); // fallback to raw base64 if decoding fails
           img.onload = () => {
             try {
-              let width = img.width || 400;
-              let height = img.height || 400;
+              let width = img.naturalWidth || img.width || 400;
+              let height = img.naturalHeight || img.height || 400;
 
               if (width > maxWidth || height > maxHeight) {
                 if (width / maxWidth > height / maxHeight) {
@@ -1869,10 +1877,10 @@
               const dataUrl = canvas.toDataURL('image/jpeg', quality);
               resolve(dataUrl);
             } catch (canvasErr) {
-              resolve(e.target.result);
+              resolve(rawResult);
             }
           };
-          img.src = e.target.result;
+          img.src = rawResult;
         };
         reader.readAsDataURL(file);
       });
@@ -1918,8 +1926,15 @@
           memSse.addEventListener('put', (e) => {
             try {
               const payload = JSON.parse(e.data);
-              if (payload && payload.data && Array.isArray(payload.data) && payload.data.length > 0) {
-                activeMemories = payload.data;
+              let list = null;
+              if (payload) {
+                if (Array.isArray(payload.data)) list = payload.data;
+                else if (payload.data && typeof payload.data === 'object') list = Object.values(payload.data);
+                else if (Array.isArray(payload)) list = payload;
+                else if (typeof payload === 'object' && !payload.path) list = Object.values(payload);
+              }
+              if (list && list.length > 0 && typeof list[0] === 'object') {
+                activeMemories = list;
                 localStorage.setItem('forHer_memories', JSON.stringify(activeMemories));
                 renderPolaroidMemories();
               }
@@ -2062,86 +2077,100 @@
       if (fi) { fi.value = ''; fi.click(); }
     }
 
-    function handleMemoryFileSelect(event) {
-      const file = event.target.files && event.target.files[0];
+    async function handleMemoryFileSelect(event) {
+      const file = (event && event.target && event.target.files) ? event.target.files[0] : null;
       if (!file) return;
 
-      playChime();
+      playPopSound();
       const uploadText = document.getElementById('memoryUploadBtnText');
-      if (uploadText) uploadText.textContent = '⏳ Loading...';
+      if (uploadText) uploadText.textContent = '⏳ Loading photo...';
 
-      const reader = new FileReader();
-      reader.onerror = function() {
-        alert('Could not read the photo. Please try a JPG or PNG file.');
-        if (uploadText) uploadText.textContent = '📁 Upload Photo From Your Device';
-      };
-      reader.onload = function(e) {
-        currentMemoryUploadedDataUrl = e.target.result;
-        previewNewMemoryPhoto(e.target.result);
+      try {
+        const dataUrl = await compressImageFile(file, 640, 640, 0.75);
+        if (dataUrl) {
+          currentMemoryUploadedDataUrl = dataUrl;
+          previewNewMemoryPhoto(dataUrl);
 
-        const statusEl = document.getElementById('memoryUploadStatus');
-        const statusText = document.getElementById('memoryUploadStatusText');
-        if (statusEl && statusText) {
-          statusText.textContent = '✅ Photo loaded: ' + (file.name || 'photo').slice(0, 24);
-          statusEl.classList.remove('hidden');
+          const statusEl = document.getElementById('memoryUploadStatus');
+          const statusText = document.getElementById('memoryUploadStatusText');
+          if (statusEl && statusText) {
+            statusText.textContent = '✅ Photo loaded: ' + (file.name || 'photo').slice(0, 20);
+            statusEl.classList.remove('hidden');
+          }
+          if (uploadText) uploadText.textContent = '📁 Change Photo';
+          showCardActionToast('📸 Photo loaded! Fill details and tap Save Memory.');
+        } else {
+          throw new Error('Could not read image file');
         }
-        if (uploadText) uploadText.textContent = '📁 Change Photo';
-        showCardActionToast('📸 Photo ready! Fill in the details and tap Save Memory.');
-      };
-      reader.readAsDataURL(file);
+      } catch (err) {
+        console.error('Error reading memory image:', err);
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          currentMemoryUploadedDataUrl = e.target.result;
+          previewNewMemoryPhoto(e.target.result);
+          if (uploadText) uploadText.textContent = '📁 Change Photo';
+          showCardActionToast('📸 Photo loaded!');
+        };
+        reader.readAsDataURL(file);
+      }
     }
 
     function saveNewMemory() {
-      playChime();
-      const selectPhoto = document.getElementById('newMemoryPhotoSelect')?.value;
-      // Don't use previewImg.src as fallback — it can be a full page URL if default image failed
-      const photoSrc = currentMemoryUploadedDataUrl || (selectPhoto && selectPhoto !== '' ? selectPhoto : null) || 'images/letters/letter_img_1.jpeg';
+      try {
+        playPopSound();
+        const selectPhoto = document.getElementById('newMemoryPhotoSelect')?.value;
+        // Don't use previewImg.src as fallback — it can be a full page URL if default image failed
+        const photoSrc = currentMemoryUploadedDataUrl || (selectPhoto && selectPhoto !== '' ? selectPhoto : null) || 'images/letters/letter_img_1.jpeg';
 
-      const title = document.getElementById('newMemoryTitle')?.value.trim() || 'Sweet Memory';
-      const date = document.getElementById('newMemoryDate')?.value.trim() || 'Special Day';
-      const caption = document.getElementById('newMemoryCaption')?.value.trim() || 'Forever in my heart 💕';
+        const title = document.getElementById('newMemoryTitle')?.value.trim() || 'Sweet Memory';
+        const date = document.getElementById('newMemoryDate')?.value.trim() || 'Special Day';
+        const caption = document.getElementById('newMemoryCaption')?.value.trim() || 'Forever in my heart 💕';
 
-      const rotateVals = [-2.5, 2.2, -1.8, 1.5, -2, 2];
-      const rotate = rotateVals[activeMemories.length % rotateVals.length];
+        const rotateVals = [-2.5, 2.2, -1.8, 1.5, -2, 2];
+        const rotate = rotateVals[activeMemories.length % rotateVals.length];
 
-      const newMem = {
-        id: Date.now(),
-        src: photoSrc,
-        episode: "Memory #" + (activeMemories.length + 1),
-        subtitle: title,
-        caption: caption,
-        date: date,
-        rotate: rotate,
-        washi: "rgba(255, 182, 193, 0.85)",
-        custom: true
-      };
+        const newMem = {
+          id: Date.now(),
+          src: photoSrc,
+          episode: "Memory #" + (activeMemories.length + 1),
+          subtitle: title,
+          caption: caption,
+          date: date,
+          rotate: rotate,
+          washi: "rgba(255, 182, 193, 0.85)",
+          custom: true
+        };
 
-      activeMemories.push(newMem);
-      safeSetLocalStorage('forHer_memories', JSON.stringify(activeMemories));
-      
-      // Sync to Firebase Realtime Database
-      if (cloudSyncUrl) {
-        const cleanUrl = cloudSyncUrl.replace(/\/+$/, '');
-        const payload = JSON.stringify(activeMemories);
-        fetch(cleanUrl + '/memories.json', {
-          method: 'PUT',
-          headers: { 'Content-Type': 'application/json' },
-          body: payload
-        }).then(res => {
-          console.log('Firebase memories synced status:', res.status);
-        }).catch(console.error);
+        activeMemories.push(newMem);
+        safeSetLocalStorage('forHer_memories', JSON.stringify(activeMemories));
+        
+        // Sync to Firebase Realtime Database
+        if (cloudSyncUrl) {
+          const cleanUrl = cloudSyncUrl.replace(/\/+$/, '');
+          const payload = JSON.stringify(activeMemories);
+          fetch(cleanUrl + '/memories.json', {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: payload
+          }).then(res => {
+            console.log('Firebase memories synced status:', res.status);
+          }).catch(console.error);
+        }
+
+        renderPolaroidMemories();
+        closeAddMemoryModal();
+
+        // Scroll to end of carousel
+        setTimeout(() => {
+          const track = document.getElementById('polaroidTrack');
+          if (track) track.scrollTo({ left: track.scrollWidth, behavior: 'smooth' });
+        }, 200);
+
+        showCardActionToast("📸 Sweet memory saved & synced live! 💖");
+      } catch(err) {
+        console.error('Save memory error:', err);
+        alert('Could not save memory: ' + err.message);
       }
-
-      renderPolaroidMemories();
-      closeAddMemoryModal();
-
-      // Scroll to end of carousel
-      setTimeout(() => {
-        const track = document.getElementById('polaroidTrack');
-        if (track) track.scrollTo({ left: track.scrollWidth, behavior: 'smooth' });
-      }, 200);
-
-      showCardActionToast("📸 Sweet memory saved & synced live!");
     }
 
     function deleteMemoryCard(index) {
@@ -2475,16 +2504,26 @@
 
       // Real-time EventSource listener
       try {
+        let isFirstSse = true;
         const sse = new EventSource(cleanUrl + '/letters.json');
         sse.addEventListener('put', function(e) {
           try {
             const parsed = JSON.parse(e.data);
-            const incoming = (parsed && Array.isArray(parsed.data)) ? parsed.data : (Array.isArray(parsed) ? parsed : null);
+            let incoming = null;
+            if (parsed) {
+              if (Array.isArray(parsed.data)) incoming = parsed.data;
+              else if (parsed.data && typeof parsed.data === 'object') incoming = Object.values(parsed.data);
+              else if (Array.isArray(parsed)) incoming = parsed;
+              else if (typeof parsed === 'object' && !parsed.path) incoming = Object.values(parsed);
+            }
             if (isValidLettersArray(incoming)) {
               activeLoveLetters = incoming;
               localStorage.setItem('forHer_loveLetters', JSON.stringify(incoming));
               renderLoveLetters();
-              showLiveUpdateToast();
+              if (!isFirstSse) {
+                showLiveUpdateToast();
+              }
+              isFirstSse = false;
             }
           } catch(err) {}
         });
@@ -2494,9 +2533,9 @@
     function showLiveUpdateToast() {
       const toast = document.createElement('div');
       toast.className = 'fixed bottom-6 left-1/2 -translate-x-1/2 z-50 px-4 py-2 rounded-full bg-gradient-to-r from-pink-500 to-rose-500 text-white font-bubbly font-bold text-xs shadow-2xl animate-bounce flex items-center gap-2';
-      toast.innerHTML = '<span>💌</span><span>New love letter received from Manoj!</span>';
+      toast.innerHTML = '<span>💌</span><span>New love letter updated live!</span>';
       document.body.appendChild(toast);
-      playChime();
+      playPopSound();
       setTimeout(() => toast.remove(), 4000);
     }
 
@@ -2661,97 +2700,111 @@
       if (fi) { fi.value = ''; fi.click(); }
     }
 
-    function handleNewLetterFileSelect(event) {
-      const file = event.target.files && event.target.files[0];
+    async function handleNewLetterFileSelect(event) {
+      const file = (event && event.target && event.target.files) ? event.target.files[0] : null;
       if (!file) return;
 
-      playChime();
+      playPopSound();
       const uploadText = document.getElementById('letterUploadBtnText');
-      if (uploadText) uploadText.textContent = '⏳ Loading...';
+      if (uploadText) uploadText.textContent = '⏳ Loading photo...';
 
-      const reader = new FileReader();
-      reader.onerror = function() {
-        alert('Could not read the photo. Please try a JPG or PNG file.');
-        if (uploadText) uploadText.textContent = '📁 Upload Photo From Your Device';
-      };
-      reader.onload = function(e) {
-        currentLetterUploadedDataUrl = e.target.result;
-        previewNewLetterPhoto(e.target.result);
+      try {
+        const dataUrl = await compressImageFile(file, 640, 640, 0.75);
+        if (dataUrl) {
+          currentLetterUploadedDataUrl = dataUrl;
+          previewNewLetterPhoto(dataUrl);
 
-        const statusEl = document.getElementById('letterUploadStatus');
-        const statusText = document.getElementById('letterUploadStatusText');
-        if (statusEl && statusText) {
-          statusText.textContent = '✅ Photo loaded: ' + (file.name || 'photo').slice(0, 24);
-          statusEl.classList.remove('hidden');
+          const statusEl = document.getElementById('letterUploadStatus');
+          const statusText = document.getElementById('letterUploadStatusText');
+          if (statusEl && statusText) {
+            statusText.textContent = '✅ Photo loaded: ' + (file.name || 'photo').slice(0, 20);
+            statusEl.classList.remove('hidden');
+          }
+          if (uploadText) uploadText.textContent = '📁 Change Photo';
+          showCardActionToast('📸 Photo loaded! Write your letter and tap Save.');
+        } else {
+          throw new Error('Could not read image file');
         }
-        if (uploadText) uploadText.textContent = '📁 Change Photo';
-        showCardActionToast('📸 Photo ready! Write your letter and tap Save.');
-      };
-      reader.readAsDataURL(file);
+      } catch (err) {
+        console.error('Error reading letter image:', err);
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          currentLetterUploadedDataUrl = e.target.result;
+          previewNewLetterPhoto(e.target.result);
+          if (uploadText) uploadText.textContent = '📁 Change Photo';
+          showCardActionToast('📸 Photo loaded!');
+        };
+        reader.readAsDataURL(file);
+      }
     }
 
     function saveNewLoveLetterFromModal() {
-      playChime();
-      const selectPhoto = document.getElementById('newLetterPhotoSelect')?.value;
-      const nextNum = activeLoveLetters.length + 1;
-      const fallbackImg = AVAILABLE_LETTER_IMAGES[nextNum % AVAILABLE_LETTER_IMAGES.length]?.path || 'images/letters/letter_img_1.jpeg';
-      
-      const photoSrc = currentLetterUploadedDataUrl || (selectPhoto && selectPhoto !== '' ? selectPhoto : null) || fallbackImg;
+      try {
+        playPopSound();
+        const selectPhoto = document.getElementById('newLetterPhotoSelect')?.value;
+        const nextNum = activeLoveLetters.length + 1;
+        const fallbackImg = AVAILABLE_LETTER_IMAGES[nextNum % AVAILABLE_LETTER_IMAGES.length]?.path || 'images/letters/letter_img_1.jpeg';
+        
+        const photoSrc = currentLetterUploadedDataUrl || (selectPhoto && selectPhoto !== '' ? selectPhoto : null) || fallbackImg;
 
-      const tag = document.getElementById('newLetterTag')?.value.trim() || `🌸 Love Letter #${nextNum}`;
-      const title = document.getElementById('newLetterTitle')?.value.trim() || 'A Sweet Reason Why I Love You';
-      const quote = document.getElementById('newLetterQuote')?.value.trim() || 'Every single moment with you is my greatest gift.';
-      const body = document.getElementById('newLetterBody')?.value.trim() || 'My dearest Aseh,\n\nYou hold a special place in my heart that no one else could ever fill. You are my favorite person in the entire world 💖';
+        const tag = document.getElementById('newLetterTag')?.value.trim() || `🌸 Love Letter #${nextNum}`;
+        const title = document.getElementById('newLetterTitle')?.value.trim() || 'A Sweet Reason Why I Love You';
+        const quote = document.getElementById('newLetterQuote')?.value.trim() || 'Every single moment with you is my greatest gift.';
+        const body = document.getElementById('newLetterBody')?.value.trim() || 'My dearest Aseh,\n\nYou hold a special place in my heart that no one else could ever fill. You are my favorite person in the entire world 💖';
 
-      const newCard = {
-        id: Date.now(),
-        image: photoSrc,
-        tag: tag,
-        title: title,
-        quote: quote,
-        letter: body
-      };
+        const newCard = {
+          id: Date.now(),
+          image: photoSrc,
+          tag: tag,
+          title: title,
+          quote: quote,
+          letter: body
+        };
 
-      activeLoveLetters.push(newCard);
-      safeSetLocalStorage('forHer_loveLetters', JSON.stringify(activeLoveLetters));
+        activeLoveLetters.push(newCard);
+        safeSetLocalStorage('forHer_loveLetters', JSON.stringify(activeLoveLetters));
 
-      // Immediate cloud sync to Firebase
-      if (cloudSyncUrl) {
-        const cleanUrl = cloudSyncUrl.replace(/\/+$/, '');
-        const payload = JSON.stringify(activeLoveLetters);
-        fetch(cleanUrl + '/letters.json', {
-          method: 'PUT',
-          headers: { 'Content-Type': 'application/json' },
-          body: payload
-        }).then(res => {
-          console.log('Firebase letters synced status:', res.status);
-        }).catch(err => console.error('Cloud letters save error:', err));
+        // Immediate cloud sync to Firebase
+        if (cloudSyncUrl) {
+          const cleanUrl = cloudSyncUrl.replace(/\/+$/, '');
+          const payload = JSON.stringify(activeLoveLetters);
+          fetch(cleanUrl + '/letters.json', {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: payload
+          }).then(res => {
+            console.log('Firebase letters synced status:', res.status);
+          }).catch(err => console.error('Cloud letters save error:', err));
 
-        fetch(cleanUrl + '/loveLetters.json', {
-          method: 'PUT',
-          headers: { 'Content-Type': 'application/json' },
-          body: payload
-        }).catch(() => {});
-      }
-
-      // Local server sync if running
-      fetch('/api/save-letters', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(activeLoveLetters)
-      }).catch(() => {});
-
-      renderLoveLetters();
-      closeAddLoveLetterModal();
-      showCardActionToast('✨ New sweet love letter saved & synced live!');
-
-      // Smoothly scroll down to the newly created letter
-      setTimeout(() => {
-        const container = document.getElementById('loveLettersContainer');
-        if (container && container.lastElementChild) {
-          container.lastElementChild.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          fetch(cleanUrl + '/loveLetters.json', {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: payload
+          }).catch(() => {});
         }
-      }, 200);
+
+        // Local server sync if running
+        fetch('/api/save-letters', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(activeLoveLetters)
+        }).catch(() => {});
+
+        renderLoveLetters();
+        closeAddLoveLetterModal();
+        showCardActionToast('✨ New sweet love letter saved & synced live! 💖');
+
+        // Smoothly scroll down to the newly created letter
+        setTimeout(() => {
+          const container = document.getElementById('loveLettersContainer');
+          if (container && container.lastElementChild) {
+            container.lastElementChild.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          }
+        }, 200);
+      } catch (err) {
+        console.error('Save letter error:', err);
+        alert('Could not save letter: ' + err.message);
+      }
     }
 
     // Alias for buttons calling addNewLetterCard
@@ -2864,15 +2917,25 @@
     }
 
     function showCardActionToast(message) {
-      const existing = document.getElementById('cardActionToast');
-      if (existing) existing.remove();
+      try {
+        const existing = document.getElementById('cardActionToast');
+        if (existing) {
+          if (typeof existing.remove === 'function') existing.remove();
+          else if (existing.parentNode) existing.parentNode.removeChild(existing);
+        }
 
-      const toast = document.createElement('div');
-      toast.id = 'cardActionToast';
-      toast.className = 'fixed bottom-6 left-1/2 -translate-x-1/2 z-50 px-4 py-2.5 rounded-full bg-slate-900/90 text-white font-bubbly font-bold text-xs shadow-2xl flex items-center gap-2 backdrop-blur-sm animate-fade-in border border-white/20';
-      toast.innerHTML = `<span>💖</span><span>${message}</span>`;
-      document.body.appendChild(toast);
-      setTimeout(() => { if (toast) toast.remove(); }, 3500);
+        const toast = document.createElement('div');
+        toast.id = 'cardActionToast';
+        toast.className = 'fixed bottom-6 left-1/2 -translate-x-1/2 z-50 px-4 py-2.5 rounded-full bg-slate-900/90 text-white font-bubbly font-bold text-xs shadow-2xl flex items-center gap-2 backdrop-blur-sm animate-fade-in border border-white/20';
+        toast.innerHTML = `<span>💖</span><span>${message}</span>`;
+        if (document.body) document.body.appendChild(toast);
+        setTimeout(() => {
+          try {
+            if (typeof toast.remove === 'function') toast.remove();
+            else if (toast.parentNode) toast.parentNode.removeChild(toast);
+          } catch(e) {}
+        }, 3500);
+      } catch(e) {}
     }
 
     function renderLoveLetters() {

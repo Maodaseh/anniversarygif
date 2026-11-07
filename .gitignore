@@ -2,4 +2,8 @@
 foryou-main/
 *.log
 .vscode/
+node_modules/
+*.mp4
+WhatsApp*
+
 
