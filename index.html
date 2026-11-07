@@ -1606,41 +1606,85 @@
       } catch(e) {}
     }
 
-    function toggleMusic() {
+    let wasMusicPlayingBeforeLeave = false;
+
+    function startMusic() {
       const musicBtn = document.getElementById('musicToggleBtn');
       const musicIcon = document.getElementById('musicIcon');
       const bgmAudio = document.getElementById('bgmAudio');
 
       getAudioContext();
+      isMusicPlaying = true;
+      if (musicIcon) musicIcon.textContent = '🎶';
+      if (musicBtn) {
+        musicBtn.classList.add('animate-spin');
+        musicBtn.style.animationDuration = '8s';
+      }
 
-      if (!isMusicPlaying) {
-        isMusicPlaying = true;
-        if (musicIcon) musicIcon.textContent = '🎶';
-        if (musicBtn) {
-          musicBtn.classList.add('animate-spin');
-          musicBtn.style.animationDuration = '8s';
-        }
-        
-        if (bgmAudio) {
-          bgmAudio.loop = true;
-          bgmAudio.play().then(() => {
-            console.log('Background song playing');
-          }).catch(() => {
-            if (bgmInterval) clearInterval(bgmInterval);
-            bgmInterval = setInterval(playBgmNote, 320);
-          });
-        } else {
+      if (bgmAudio) {
+        bgmAudio.loop = true;
+        bgmAudio.play().then(() => {
+          console.log('Background song playing');
+        }).catch(() => {
           if (bgmInterval) clearInterval(bgmInterval);
           bgmInterval = setInterval(playBgmNote, 320);
-        }
+        });
       } else {
-        isMusicPlaying = false;
-        if (musicIcon) musicIcon.textContent = '🎵';
-        if (musicBtn) musicBtn.classList.remove('animate-spin');
         if (bgmInterval) clearInterval(bgmInterval);
-        if (bgmAudio) bgmAudio.pause();
+        bgmInterval = setInterval(playBgmNote, 320);
       }
     }
+
+    function pauseMusic() {
+      const musicBtn = document.getElementById('musicToggleBtn');
+      const musicIcon = document.getElementById('musicIcon');
+      const bgmAudio = document.getElementById('bgmAudio');
+
+      isMusicPlaying = false;
+      if (musicIcon) musicIcon.textContent = '🎵';
+      if (musicBtn) musicBtn.classList.remove('animate-spin');
+      if (bgmInterval) clearInterval(bgmInterval);
+      if (bgmAudio) bgmAudio.pause();
+    }
+
+    function toggleMusic() {
+      if (!isMusicPlaying) {
+        startMusic();
+      } else {
+        wasMusicPlayingBeforeLeave = false;
+        pauseMusic();
+      }
+    }
+
+    // Automatically stop music when leaving the website / switching tabs in Chrome,
+    // and resume playing when returning to the website in Chrome
+    document.addEventListener('visibilitychange', () => {
+      if (document.hidden) {
+        if (isMusicPlaying) {
+          wasMusicPlayingBeforeLeave = true;
+          pauseMusic();
+        }
+      } else {
+        if (wasMusicPlayingBeforeLeave) {
+          wasMusicPlayingBeforeLeave = false;
+          startMusic();
+        }
+      }
+    });
+
+    window.addEventListener('pagehide', () => {
+      if (isMusicPlaying) {
+        wasMusicPlayingBeforeLeave = true;
+        pauseMusic();
+      }
+    });
+
+    window.addEventListener('pageshow', () => {
+      if (wasMusicPlayingBeforeLeave && !document.hidden) {
+        wasMusicPlayingBeforeLeave = false;
+        startMusic();
+      }
+    });
 
     // =======================================================
     // 2B. CUSTOM BACKGROUND SONG (INDEXEDDB PERSISTENCE)
