@@ -3,7 +3,7 @@ foryou-main/
 *.log
 .vscode/
 node_modules/
-*.mp4
 WhatsApp*
+!audio/bg_song.mp4
 
 

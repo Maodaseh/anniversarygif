@@ -294,17 +294,20 @@
 
     <!-- Actions (Audio Toggle & Settings Modal) -->
     <div class="pointer-events-auto flex items-center gap-2">
-      <!-- Music Toggle Button (Web Audio API Synthesizer + Optional MP3) -->
+      <!-- Hidden file input for custom song upload from gallery/files -->
+      <input type="file" id="customAudioFileInput" accept="audio/*,video/mp4,video/*,.mp3,.m4a,.wav,.ogg,.mp4" class="sr-only" style="position:fixed;top:-9999px;left:-9999px;opacity:0;" onchange="handleCustomAudioFileSelect(event)">
+
+      <!-- Music Toggle Button (Web Audio API Synthesizer + Custom Audio) -->
       <button id="musicToggleBtn" 
               class="w-10 h-10 rounded-full bg-white/90 backdrop-blur-md border border-pastel-pink shadow-kawaii flex items-center justify-center text-bubblegum-pink transition-all active:scale-90 hover:scale-105"
-              title="Toggle Music Box Melody" aria-label="Toggle Music">
+              title="Toggle Music (Plays When App Opens)" aria-label="Toggle Music">
         <span id="musicIcon" class="text-lg">🎵</span>
       </button>
 
       <!-- Personalize / Edit Button -->
       <button id="customizeBtn" 
               class="w-10 h-10 rounded-full bg-white/90 backdrop-blur-md border border-pastel-pink shadow-kawaii flex items-center justify-center text-bubblegum-pink transition-all active:scale-90 hover:scale-105"
-              title="Personalize Names & Anniversary Date" aria-label="Settings">
+              title="Personalize Names, Date & Song" aria-label="Settings">
         <span class="text-lg">⚙️</span>
       </button>
     </div>
@@ -504,12 +507,17 @@
       </div>
     </div>
 
-    <div class="glass-card p-4 pointer-events-auto flex items-center gap-3 shadow-sm text-left">
-      <span class="text-2xl animate-pulse">🎵</span>
-      <div>
-        <h4 class="font-bubbly font-bold text-deep-rose text-xs">Kawaii Music Box</h4>
-        <p class="text-[10px] text-rose-400">Click the 🎵 top button to hear our dreamy lullaby</p>
+    <div onclick="triggerCustomAudioInput()" class="glass-card p-4 pointer-events-auto flex items-center justify-between gap-2 shadow-sm text-left cursor-pointer hover:bg-white/90 transition group">
+      <div class="flex items-center gap-3 overflow-hidden">
+        <span class="text-2xl animate-pulse shrink-0">🎵</span>
+        <div class="truncate">
+          <h4 class="font-bubbly font-bold text-deep-rose text-xs">Kawaii Music Box</h4>
+          <p id="currentSongTitle" class="text-[10px] text-rose-400 truncate">Song: Default Romantic Song 🎶</p>
+        </div>
       </div>
+      <button type="button" class="shrink-0 text-[10px] font-bold px-2.5 py-1 rounded-xl bg-pink-100 text-deep-rose border border-pink-200 group-hover:bg-pink-200">
+        Change 📁
+      </button>
     </div>
   </aside>
 
@@ -1217,6 +1225,21 @@
                class="w-full px-3 py-2 rounded-xl border border-pastel-pink bg-pink-50/50 text-deep-rose font-bubbly text-sm focus:outline-none focus:ring-2 focus:ring-bubblegum-pink">
       </div>
 
+      <!-- Background Song Option -->
+      <div class="border-t border-pink-100 pt-3">
+        <label class="block text-xs font-bold text-deep-rose mb-1.5">🎵 Background Song (Plays When App Opens):</label>
+        <div class="flex items-center gap-2">
+          <button type="button" onclick="triggerCustomAudioInput()" class="flex-1 min-h-[42px] py-2 px-3 rounded-2xl bg-gradient-to-r from-pink-500 to-rose-400 text-white font-bubbly font-bold text-xs shadow-md flex items-center justify-center gap-1.5 active:scale-95 transition-all">
+            <span>📁</span>
+            <span id="customSongBtnText">Pick Song From Device</span>
+          </button>
+          <button type="button" onclick="resetToDefaultSong()" title="Reset to default song" class="px-3 min-h-[42px] rounded-2xl bg-pink-100 text-deep-rose font-bubbly font-bold text-xs hover:bg-pink-200 active:scale-95 transition-all">
+            ↺ Default
+          </button>
+        </div>
+        <p id="customSongStatus" class="text-[11px] font-semibold text-rose-500 mt-2 truncate">Playing: Default Romantic Song 🎶</p>
+      </div>
+
       <div class="flex gap-2 pt-2">
         <button onclick="savePersonalization()" class="flex-1 min-h-[46px] py-2.5 rounded-2xl bg-gradient-to-r from-bubblegum-pink to-rose-400 text-white font-bubbly font-bold text-xs shadow-md active:scale-95 transition-all">
           Save With Love 💖
@@ -1228,10 +1251,9 @@
     </div>
   </div>
 
-  <!-- Audio Element (Optional fallback or user mp3) -->
-  <audio id="bgmAudio" loop preload="none">
-    <!-- Replace the src with your own romantic MP3 URL if desired: -->
-    <!-- <source src="your-song.mp3" type="audio/mp3"> -->
+  <!-- Audio Element (Background Song) -->
+  <audio id="bgmAudio" loop preload="auto">
+    <source id="bgmAudioSource" src="audio/bg_song.mp4" type="audio/mp4">
   </audio>
 
   <!-- ======================================================= -->
@@ -1593,24 +1615,194 @@
 
       if (!isMusicPlaying) {
         isMusicPlaying = true;
-        musicIcon.textContent = '🎶';
-        musicBtn.classList.add('animate-spin');
-        musicBtn.style.animationDuration = '8s';
+        if (musicIcon) musicIcon.textContent = '🎶';
+        if (musicBtn) {
+          musicBtn.classList.add('animate-spin');
+          musicBtn.style.animationDuration = '8s';
+        }
         
-        // If an audio source file is provided, try playing it, otherwise use synth
-        if (bgmAudio && bgmAudio.currentSrc) {
-          bgmAudio.play().catch(() => {});
+        if (bgmAudio) {
+          bgmAudio.loop = true;
+          bgmAudio.play().then(() => {
+            console.log('Background song playing');
+          }).catch(() => {
+            if (bgmInterval) clearInterval(bgmInterval);
+            bgmInterval = setInterval(playBgmNote, 320);
+          });
         } else {
           if (bgmInterval) clearInterval(bgmInterval);
           bgmInterval = setInterval(playBgmNote, 320);
         }
       } else {
         isMusicPlaying = false;
-        musicIcon.textContent = '🎵';
-        musicBtn.classList.remove('animate-spin');
+        if (musicIcon) musicIcon.textContent = '🎵';
+        if (musicBtn) musicBtn.classList.remove('animate-spin');
         if (bgmInterval) clearInterval(bgmInterval);
         if (bgmAudio) bgmAudio.pause();
       }
+    }
+
+    // =======================================================
+    // 2B. CUSTOM BACKGROUND SONG (INDEXEDDB PERSISTENCE)
+    // =======================================================
+    const DB_NAME = 'ForHer_MediaDB';
+    const AUDIO_STORE = 'audioStore';
+    const DEFAULT_SONG_URL = 'audio/bg_song.mp4';
+    let currentCustomAudioUrl = null;
+
+    function openMediaDB() {
+      return new Promise((resolve) => {
+        if (!window.indexedDB) return resolve(null);
+        try {
+          const req = indexedDB.open(DB_NAME, 1);
+          req.onupgradeneeded = (e) => {
+            const db = e.target.result;
+            if (!db.objectStoreNames.contains(AUDIO_STORE)) {
+              db.createObjectStore(AUDIO_STORE);
+            }
+          };
+          req.onsuccess = () => resolve(req.result);
+          req.onerror = () => resolve(null);
+        } catch (e) {
+          resolve(null);
+        }
+      });
+    }
+
+    async function loadSavedBackgroundSong() {
+      const bgmAudio = document.getElementById('bgmAudio');
+      if (!bgmAudio) return;
+
+      try {
+        const db = await openMediaDB();
+        if (db) {
+          const tx = db.transaction(AUDIO_STORE, 'readonly');
+          const store = tx.objectStore(AUDIO_STORE);
+          const req = store.get('custom_bgm');
+          req.onsuccess = () => {
+            const result = req.result;
+            if (result && result.blob) {
+              if (currentCustomAudioUrl) {
+                try { URL.revokeObjectURL(currentCustomAudioUrl); } catch(e) {}
+              }
+              currentCustomAudioUrl = URL.createObjectURL(result.blob);
+              bgmAudio.src = currentCustomAudioUrl;
+              bgmAudio.load();
+              updateSongDisplayStatus(result.name || 'Custom Song From Gallery');
+              return;
+            }
+            useDefaultSong();
+          };
+          req.onerror = () => useDefaultSong();
+        } else {
+          useDefaultSong();
+        }
+      } catch (e) {
+        useDefaultSong();
+      }
+    }
+
+    function useDefaultSong() {
+      const bgmAudio = document.getElementById('bgmAudio');
+      if (!bgmAudio) return;
+      if (currentCustomAudioUrl) {
+        try { URL.revokeObjectURL(currentCustomAudioUrl); } catch(e) {}
+        currentCustomAudioUrl = null;
+      }
+      bgmAudio.src = DEFAULT_SONG_URL;
+      bgmAudio.load();
+      updateSongDisplayStatus('Default: Romantic Melody 🎶');
+    }
+
+    function updateSongDisplayStatus(name) {
+      const statusEl = document.getElementById('customSongStatus');
+      const boxStatus = document.getElementById('currentSongTitle');
+      if (statusEl) statusEl.textContent = '🎵 Current Song: ' + name;
+      if (boxStatus) boxStatus.textContent = 'Song: ' + name;
+    }
+
+    function triggerCustomAudioInput() {
+      playPopSound();
+      const input = document.getElementById('customAudioFileInput');
+      if (input) {
+        input.value = '';
+        input.click();
+      }
+    }
+
+    async function handleCustomAudioFileSelect(event) {
+      const file = (event && event.target && event.target.files) ? event.target.files[0] : null;
+      if (!file) return;
+
+      playPopSound();
+      showCardActionToast('⏳ Loading your song from device...');
+
+      try {
+        const db = await openMediaDB();
+        if (db) {
+          const tx = db.transaction(AUDIO_STORE, 'readwrite');
+          const store = tx.objectStore(AUDIO_STORE);
+          store.put({ blob: file, name: file.name, type: file.type, updated: Date.now() }, 'custom_bgm');
+          tx.oncomplete = () => {
+            if (currentCustomAudioUrl) {
+              try { URL.revokeObjectURL(currentCustomAudioUrl); } catch(e) {}
+            }
+            currentCustomAudioUrl = URL.createObjectURL(file);
+            const bgmAudio = document.getElementById('bgmAudio');
+            if (bgmAudio) {
+              bgmAudio.src = currentCustomAudioUrl;
+              bgmAudio.load();
+              bgmAudio.play().then(() => {
+                isMusicPlaying = true;
+                const musicBtn = document.getElementById('musicToggleBtn');
+                const musicIcon = document.getElementById('musicIcon');
+                if (musicIcon) musicIcon.textContent = '🎶';
+                if (musicBtn) {
+                  musicBtn.classList.add('animate-spin');
+                  musicBtn.style.animationDuration = '8s';
+                }
+              }).catch(() => {});
+            }
+            updateSongDisplayStatus(file.name);
+            showCardActionToast('🎶 Song set! Will play whenever you open the app 💖');
+          };
+        } else {
+          // Fallback if IndexedDB unavailable
+          if (currentCustomAudioUrl) {
+            try { URL.revokeObjectURL(currentCustomAudioUrl); } catch(e) {}
+          }
+          currentCustomAudioUrl = URL.createObjectURL(file);
+          const bgmAudio = document.getElementById('bgmAudio');
+          if (bgmAudio) {
+            bgmAudio.src = currentCustomAudioUrl;
+            bgmAudio.load();
+            if (isMusicPlaying) bgmAudio.play().catch(() => {});
+          }
+          updateSongDisplayStatus(file.name);
+          showCardActionToast('🎶 Custom song loaded!');
+        }
+      } catch (err) {
+        console.error('Audio load error:', err);
+        alert('Could not set custom song: ' + err.message);
+      }
+    }
+
+    async function resetToDefaultSong() {
+      playPopSound();
+      try {
+        const db = await openMediaDB();
+        if (db) {
+          const tx = db.transaction(AUDIO_STORE, 'readwrite');
+          tx.objectStore(AUDIO_STORE).delete('custom_bgm');
+        }
+      } catch(e) {}
+
+      useDefaultSong();
+      const bgmAudio = document.getElementById('bgmAudio');
+      if (bgmAudio && isMusicPlaying) {
+        bgmAudio.play().catch(() => {});
+      }
+      showCardActionToast('↺ Reset to default romantic song 💖');
     }
 
     /* =======================================================
@@ -3539,7 +3731,11 @@
       updateGachaCounter();
       updateRelationshipCounter();
       initMemories();
+      loadSavedBackgroundSong();
     });
+
+    // Also run immediately
+    loadSavedBackgroundSong();
   </script>
 
   <!-- ======================================================= -->
