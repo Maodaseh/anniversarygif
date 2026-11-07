@@ -60,12 +60,25 @@
     }
 
     body {
-      background: linear-gradient(180deg, #FFF0F5 0%, #FFE4E1 50%, #FFF0F5 100%);
+      background-color: #FFF0F5;
+      background-image: 
+        linear-gradient(rgba(255, 240, 245, 0.32), rgba(255, 228, 225, 0.32)),
+        url('images/pusheen_bg.jpg');
+      background-repeat: repeat;
+      background-position: center top;
+      background-size: 430px auto;
+      background-attachment: fixed;
       color: #C71585;
       font-family: 'Nunito', sans-serif;
       overflow-x: hidden;
       min-height: 100vh;
       touch-action: manipulation;
+    }
+
+    @media (max-width: 480px) {
+      body {
+        background-size: 100% auto;
+      }
     }
 
     /* Custom Scrollbar for Carousel */
@@ -79,18 +92,18 @@
 
     /* Frosted Glassmorphism Card Style */
     .glass-card {
-      background: rgba(255, 255, 255, 0.78);
-      backdrop-filter: blur(14px);
-      -webkit-backdrop-filter: blur(14px);
+      background: rgba(255, 255, 255, 0.84);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
       border: 2px dashed #FFB6C1;
       border-radius: 28px;
       box-shadow: 0 8px 24px rgba(255, 182, 193, 0.35);
     }
 
     .glass-card-solid {
-      background: rgba(255, 255, 255, 0.85);
-      backdrop-filter: blur(14px);
-      -webkit-backdrop-filter: blur(14px);
+      background: rgba(255, 255, 255, 0.90);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
       border: 2px solid #FFB6C1;
       border-radius: 28px;
       box-shadow: 0 8px 24px rgba(255, 182, 193, 0.35);
